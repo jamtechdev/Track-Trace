@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UserServicesService } from '../service/user-services.service';
+import { UserServicesService } from '../../../service/user-services.service';
 
 @Component({
   selector: 'app-login',
@@ -32,4 +32,5 @@ export class LoginComponent {
       this.router.navigate(['/reset-password']);
     }
   }
+
 }
