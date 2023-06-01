@@ -17,6 +17,7 @@ import { RestService } from 'src/app/common-resources/servieces/rest.service';
   styleUrls: ['./sign-up.component.css'],
 })
 export class SignUpComponent implements OnInit {
+  error: string = '';
   constructor(
     private rest: RestService,
     private router: Router,
@@ -105,7 +106,12 @@ export class SignUpComponent implements OnInit {
         (res) => {
           console.log(res);
         },
-        (err) => console.log(err)
+        (err) => {
+          this.error = err?.error?.message;
+          setTimeout(() => {
+            this.error = '';
+          }, 3000);
+        }
       );
     }
   }
