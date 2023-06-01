@@ -35,8 +35,9 @@
             <div class="row"></div>
           </div> -->
 
+          <div *ngIf="!isDevice" class="alert alert-danger">  No device found !!</div>
           <fieldset *ngIf="formStep === 1">
-            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
+            <app-scanner (devicealert)="getDevice($event)" (newItemEvent)="addItem($event)"></app-scanner>
             <div class="scanData">
               <p>
                 Chasiss Number : <span>{{ scannedValue }}</span>
