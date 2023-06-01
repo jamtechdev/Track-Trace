@@ -7,10 +7,12 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './layout/Auth/auth.module';
 // import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [AppComponent,  ResetPasswordComponent],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule , AuthModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule , AuthModule , HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
