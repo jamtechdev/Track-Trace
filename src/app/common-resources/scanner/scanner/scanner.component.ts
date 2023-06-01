@@ -17,6 +17,9 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class ScannerComponent implements OnInit {
   @Output() newItemEvent = new EventEmitter<string>();
+  
+    @Output() devicealert = new EventEmitter<boolean>();
+
   @ViewChild('action') action: NgxScannerQrcodeComponent | undefined;
 
   constructor(private qrcode: NgxScannerQrcodeService) {}
@@ -81,12 +84,14 @@ export class ScannerComponent implements OnInit {
     if (fn === 'start') {
 
       action[fn](playDeviceFacingBack).subscribe(
-        (r: any) => console.log(fn, r),
-        alert , 
+        (r: any) => {
+          r.length > 0 &&  this.devicealert.emit(true) 
+        },
+      
 
       );
     } else {
-      action[fn]().subscribe((r: any) => console.log(fn, r), alert);
+      action[fn]().subscribe((r: any) => console.log(fn, r),   );
     }
   }
 
