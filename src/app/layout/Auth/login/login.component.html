@@ -16,6 +16,14 @@
               aria-describedby="emailHelp"
               formControlName="email"
             />
+            <div *ngIf="submitted && login['email'].errors">
+              <div *ngIf="submitted && login['email'].errors['required']">
+                Email is required
+              </div>
+              <div *ngIf="submitted && login['email'].errors['pattern']">
+                Invalid Pttern
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label"
@@ -27,6 +35,14 @@
               id="exampleInputPassword1"
               formControlName="password"
             />
+            <div *ngIf="submitted && login['password'].errors">
+              <div *ngIf="submitted && login['password'].errors['required']">
+                Password is required
+              </div>
+              <div *ngIf="submitted && login['password'].errors['pattern']">
+                Invalid Pttern
+              </div>
+            </div>
           </div>
           <div class="mb-3 form-check p-0">
             <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
