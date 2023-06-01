@@ -9,6 +9,7 @@ import {
 import { UserServicesService } from '../../../service/user-services.service';
 import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
 import { RestService } from 'src/app/common-resources/servieces/rest.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -61,8 +62,13 @@ export class LoginComponent implements OnInit {
       formData.append('email', this.loginForm.value.email);
       formData.append('password', this.loginForm.value.password);
       this.restService.post(formData, 'signIn').subscribe(
-        (res) => console.log(res),
-        (err) => console.log(err)
+        (res) => {
+          console.log(res);
+          this.router.navigate(['/home']);
+        },
+        (err) => {
+          console.log(err?.error?.message);
+        }
       );
     }
     // this.router.navigate(['/home']);

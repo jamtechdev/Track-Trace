@@ -18,11 +18,11 @@ import { RestService } from 'src/app/common-resources/servieces/rest.service';
 })
 export class SignUpComponent implements OnInit {
   constructor(
-    private rest : RestService,
+    private rest: RestService,
     private router: Router,
     public service: UserServicesService,
     private formBuilder: FormBuilder
-  ) { }
+  ) {}
 
   databsdismiss = '';
   submitted = false;
@@ -90,15 +90,23 @@ export class SignUpComponent implements OnInit {
 
     console.log(this.signUpForm, this.signUpForm.valid);
     let formData = new FormData();
-if(this.signUpForm.valid){
-  formData.append('password_confirmation',this.signUpForm.value.password_confirmation);
-  formData.append('first_name', this.signUpForm.value.first_name);
-  formData.append('last_name', this.signUpForm.value.last_name);
-  formData.append('password', this.signUpForm.value.password);
-  formData.append('email', this.signUpForm.value.email);
+    if (this.signUpForm.valid) {
+      formData.append(
+        'password_confirmation',
+        this.signUpForm.value.password_confirmation
+      );
+      formData.append('first_name', this.signUpForm.value.first_name);
+      formData.append('last_name', this.signUpForm.value.last_name);
+      formData.append('password', this.signUpForm.value.password);
+      formData.append('email', this.signUpForm.value.email);
 
-
-    // API CALL WILL GO HERE 
+      // API CALL WILL GO HERE
+      this.rest.post(formData, 'signUp').subscribe(
+        (res) => {
+          console.log(res);
+        },
+        (err) => console.log(err)
+      );
     }
   }
 

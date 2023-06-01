@@ -5,120 +5,138 @@
       <div class="inner-form">
         <h1 class="mb-5">Sign Up</h1>
         <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-          <div class="mb-3">
-            <label for="first_name" class="form-label">First Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="first_name"
-              name="first_name"
-              aria-describedby="emailHelp"
-              formControlName="first_name"
-            />
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="first_name"
+                  name="first_name"
+                  aria-describedby="emailHelp"
+                  formControlName="first_name"
+                />
 
-            <div *ngIf="submitted && f['first_name'].errors">
-              <div *ngIf="submitted && f['first_name'].errors['required']">
-                First name is required
+                <div *ngIf="submitted && f['first_name'].errors">
+                  <div *ngIf="submitted && f['first_name'].errors['required']">
+                    First name is required
+                  </div>
+                  <div *ngIf="submitted && f['first_name'].errors['pattern']">
+                    Invalid Pttern
+                  </div>
+                </div>
               </div>
-              <div *ngIf="submitted && f['first_name'].errors['pattern']">
-                Invalid Pttern
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="last_name"
+                  aria-describedby="emailHelp"
+                  formControlName="last_name"
+                />
+                <div *ngIf="submitted && f['last_name'].errors">
+                  <!-- <div *ngIf="submitted && f['last_name'].errors['required']"> Last name is required </div> -->
+                  <div *ngIf="submitted && f['last_name'].errors['pattern']">
+                    Invalid Pttern
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="mb-3">
-            <label for="last_name" class="form-label">Last Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="last_name"
-              aria-describedby="emailHelp"
-              formControlName="last_name"
-            />
-            <div *ngIf="submitted && f['last_name'].errors">
-              <!-- <div *ngIf="submitted && f['last_name'].errors['required']"> Last name is required </div> -->
-              <div *ngIf="submitted && f['last_name'].errors['pattern']">
-                Invalid Pttern
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  aria-describedby="emailHelp"
+                  formControlName="email"
+                />
+
+                <div *ngIf="submitted && f['email'].errors">
+                  <div *ngIf="submitted && f['email'].errors['required']">
+                    Email is required
+                  </div>
+                  <div *ngIf="submitted && f['email'].errors['pattern']">
+                    Invalid Pttern
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              aria-describedby="emailHelp"
-              formControlName="email"
-            />
-
-            <div *ngIf="submitted && f['email'].errors">
-              <div *ngIf="submitted && f['email'].errors['required']">
-                Email is required
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label for="password_confirmation" class="form-label"
+                  >Confirm Password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password_confirmation"
+                  formControlName="password_confirmation"
+                  (change)="confirmPas($event)"
+                />
+                <div *ngIf="submitted && f['password_confirmation'].errors">
+                  <div
+                    *ngIf="
+                      submitted && f['password_confirmation'].errors['required']
+                    "
+                  >
+                    Confirm password is required
+                  </div>
+                  <div
+                    *ngIf="
+                      submitted && f['password_confirmation'].errors['pattern']
+                    "
+                  >
+                    Invalid Pttern
+                  </div>
+                  <div
+                    *ngIf="
+                      submitted && f['password_confirmation'].errors['match']
+                    "
+                  >
+                    Confirm Password must match with password
+                  </div>
+                </div>
               </div>
-              <div *ngIf="submitted && f['email'].errors['pattern']">
-                Invalid Pttern
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="exampleInputPassword1"
+                  formControlName="password"
+                />
+
+                <div *ngIf="submitted && f['password'].errors">
+                  <div *ngIf="submitted && f['password'].errors['required']">
+                    Password is required
+                  </div>
+                  <div *ngIf="submitted && f['password'].errors['pattern']">
+                    Invalid Pttern
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label"
-              >Password</label
-            >
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
-              formControlName="password"
-            />
-
-            <div *ngIf="submitted && f['password'].errors">
-              <div *ngIf="submitted && f['password'].errors['required']">
-                Password is required
-              </div>
-              <div *ngIf="submitted && f['password'].errors['pattern']">
-                Invalid Pttern
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label for="password_confirmation" class="form-label"
-              >Confirm Password</label
-            >
-            <input
-              type="password"
-              class="form-control"
-              id="password_confirmation"
-              formControlName="password_confirmation"
-              (change)="confirmPas($event)"
-            />
-            <div *ngIf="submitted && f['password_confirmation'].errors">
-              <div
-                *ngIf="
-                  submitted && f['password_confirmation'].errors['required']
-                "
-              >
-                Confirm password is required
-              </div>
-              <div
-                *ngIf="
-                  submitted && f['password_confirmation'].errors['pattern']
-                "
-              >
-                Invalid Pttern
-              </div>
-              <div
-                *ngIf="submitted && f['password_confirmation'].errors['match']"
-              >
-                Confirm Password must match with password
-              </div>
-            </div>
-          </div>
-          <div class="mb-3 form-check p-0" (click)="Login()">Log In</div>
           <button type="submit" class="btn btn-primary submit-btn">
             Submit
           </button>
+          <div class="mt-3 form-check p-0 text-center login-btn">
+            Already have an accout?<span (click)="Login()">Log In</span>
+          </div>
         </form>
       </div>
     </div>

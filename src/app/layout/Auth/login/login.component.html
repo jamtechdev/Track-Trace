@@ -25,7 +25,7 @@
               </div>
             </div>
           </div>
-          <div class="mb-3">
+          <div class="mb-3 position-relative">
             <label for="exampleInputPassword1" class="form-label"
               >Password</label
             >
@@ -35,7 +35,9 @@
               id="exampleInputPassword1"
               formControlName="password"
             />
-            <span (click)="showPass()">eye</span>
+            <span class="eye-icon" (click)="showPass()"
+              ><i class="ri-eye-line"></i
+            ></span>
             <div *ngIf="submitted && login['password'].errors">
               <div *ngIf="submitted && login['password'].errors['required']">
                 Password is required

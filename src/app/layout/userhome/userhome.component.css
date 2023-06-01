@@ -139,23 +139,23 @@
 }
 
 #progressbar #account:before {
-    font-family: FontAwesome;
-    content: "\f00c";
+    content: "\eb57";
+    font-family: remixicon !important;
 }
 
 #progressbar #personal:before {
-    font-family: FontAwesome;
-    content: "\f00c";
+    content: "\eb57";
+    font-family: remixicon !important;
 }
 
 #progressbar #payment:before {
-    font-family: FontAwesome;
-    content: "\f00c";
+    content: "\eb57";
+    font-family: remixicon !important;
 }
 
 #progressbar #confirm:before {
-    font-family: FontAwesome;
-    content: "\f00c";
+    content: "\eb57";
+    font-family: remixicon !important;
 }
 
 #progressbar li:before {
@@ -203,4 +203,9 @@
 .scanner {
     height: 25%;
     width: 25%;
+}
+
+.bottom-btn-next {
+    display: flex;
+    justify-content: space-between;
 }
