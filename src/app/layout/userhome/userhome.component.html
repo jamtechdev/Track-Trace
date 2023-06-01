@@ -36,10 +36,10 @@
           </div> -->
 
           <fieldset *ngIf="formStep === 1">
-          <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
+            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
             <div class="scanData">
               <p>
-                Chasiss Number : <span>{{scannedValue }}</span>
+                Chasiss Number : <span>{{ scannedValue }}</span>
               </p>
               <p>Status : Valid/Invalid</p>
             </div>
@@ -49,7 +49,7 @@
             <input
               type="button"
               name="next"
-              class="next action-button"
+              class="btn btn-primary w-auto"
               value="Next"
               (click)="formStepper()"
             />
@@ -64,27 +64,28 @@
                 </div>
               </div>
               <div class="scanData">
-              
                 <p>
-                  Motor Number : <span>{{scannedValue }}</span>
+                  Motor Number : <span>{{ scannedValue }}</span>
                 </p>
                 <p>Status : Valid/Invalid</p>
               </div>
             </div>
-            <input
-              type="button"
-              name="next"
-              class="next action-button"
-              value="Next"
-              (click)="formStepper()"
-            />
-            <input
-              type="button"
-              name="previous"
-              class="previous action-button-previous"
-              value="Previous"
-              (click)="formStepperDown()"
-            />
+            <div class="bottom-btn-next">
+              <input
+                type="button"
+                name="previous"
+                class="btn btn-primary w-auto"
+                value="Previous"
+                (click)="formStepperDown()"
+              />
+              <input
+                type="button"
+                name="next"
+                class="btn btn-primary w-auto"
+                value="Next"
+                (click)="formStepper()"
+              />
+            </div>
           </fieldset>
           <fieldset *ngIf="formStep === 3">
             <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
@@ -97,7 +98,7 @@
               </div>
               <div class="scanData">
                 <p>
-                  PCB Number : <span>{{scannedValue }}</span>
+                  PCB Number : <span>{{ scannedValue }}</span>
                 </p>
                 <p>Status : Valid/Invalid</p>
               </div>
@@ -128,7 +129,7 @@
                 <div class="scanData">
                   <p>
                     Evaprorator Number :
-                    <span>{{scannedValue }}</span>
+                    <span>{{ scannedValue }}</span>
                   </p>
                   <p>Status : Valid/Invalid</p>
                 </div>
@@ -160,7 +161,7 @@
                 <div class="scanData">
                   <p>
                     Accessories Number :
-                    <span>  {{scannedValue }} </span>
+                    <span> {{ scannedValue }} </span>
                   </p>
                   <p>Status : Valid/Invalid</p>
                 </div>
@@ -191,8 +192,8 @@
                 </div>
                 <div class="scanData">
                   <p>
-                    Box Number : 
-                    <span>{{scannedValue }}</span>
+                    Box Number :
+                    <span>{{ scannedValue }}</span>
                   </p>
                   {{ valuearr }}
                   <p>Status : Valid/Invalid</p>

@@ -6,3 +6,13 @@ body {
     box-sizing: border-box;
     font-family: "Poppins", sans-serif !important;
 }
+
+.btn.btn-primary {
+    border-radius: 0;
+    margin: 10px 0 0;
+    font-weight: 600;
+    background-color: #ffd63f;
+    border-color: #ffd63f;
+    height: 50px;
+    color: #000;
+}
