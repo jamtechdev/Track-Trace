@@ -31,73 +31,15 @@
 
           <br />
           <!-- fieldsets -->
-          <div class="form-card">
+          <!-- <div class="form-card">
             <div class="row"></div>
-          </div>
+          </div> -->
 
           <fieldset *ngIf="formStep === 1">
-            <div class="scanner">
-              <ngx-scanner-qrcode #action="scanner"></ngx-scanner-qrcode>
-            </div>
-
-            <select
-              #select1
-              (change)="action.playDevice(select1.value)"
-              class="form-select form-select-sm d-none"
-            >
-              <option [value]="null" selected>Select device</option>
-              <option
-                *ngFor="let c of action.devices.value; let i = index"
-                [value]="c.deviceId"
-                [selected]="i == action.deviceIndexActive"
-              >
-                {{ c.label }}
-              </option>
-            </select>
-            <select
-              #select2
-              (change)="action.decode = select2.value"
-              class="form-select form-select-sm d-none"
-            >
-              <option value="utf-8" [selected]="action.decode == 'utf-8'">
-                UTF-8
-              </option>
-              <option
-                value="iso-8859-15"
-                [selected]="action.decode == 'iso-8859-15'"
-              >
-                ISO-8859-15
-              </option>
-              <option
-                value="windows-1252"
-                [selected]="action.decode == 'windows-1252'"
-              >
-                Windows-1252
-              </option>
-              <option
-                value="macintosh"
-                [selected]="action.decode == 'macintosh'"
-              >
-                Macintosh
-              </option>
-            </select>
-
-            <!-- data  -->
-            <!-- value -->
-
-            <!-- Loading -->
-
-            <!-- start -->
-            <button
-              type="button"
-              class="next action-button"
-              (click)="handle(action, action.isStart ? 'stop' : 'start')"
-            >
-              {{ action.isStart ? "Stop" : "Start" }}
-            </button>
+          <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
             <div class="scanData">
               <p>
-                Chasiss Number : <span>{{ action.data.value[0]?.value }}</span>
+                Chasiss Number : <span>{{scannedValue }}</span>
               </p>
               <p>Status : Valid/Invalid</p>
             </div>
@@ -113,6 +55,8 @@
             />
           </fieldset>
           <fieldset *ngIf="formStep === 2">
+            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
+
             <div class="form-card">
               <div class="row">
                 <div class="col-7">
@@ -120,68 +64,9 @@
                 </div>
               </div>
               <div class="scanData">
-                <div class="scanner">
-                  <ngx-scanner-qrcode #action="scanner"></ngx-scanner-qrcode>
-                </div>
-
-                <select
-                  #select1
-                  (change)="action.playDevice(select1.value)"
-                  class="form-select form-select-sm d-none"
-                >
-                  <option [value]="null" selected>Select device</option>
-                  <option
-                    *ngFor="let c of action.devices.value; let i = index"
-                    [value]="c.deviceId"
-                    [selected]="i == action.deviceIndexActive"
-                  >
-                    {{ c.label }}
-                  </option>
-                </select>
-                <select
-                  #select2
-                  (change)="action.decode = select2.value"
-                  class="form-select form-select-sm d-none"
-                >
-                  <option value="utf-8" [selected]="action.decode == 'utf-8'">
-                    UTF-8
-                  </option>
-                  <option
-                    value="iso-8859-15"
-                    [selected]="action.decode == 'iso-8859-15'"
-                  >
-                    ISO-8859-15
-                  </option>
-                  <option
-                    value="windows-1252"
-                    [selected]="action.decode == 'windows-1252'"
-                  >
-                    Windows-1252
-                  </option>
-                  <option
-                    value="macintosh"
-                    [selected]="action.decode == 'macintosh'"
-                  >
-                    Macintosh
-                  </option>
-                </select>
-
-                <!-- data  -->
-                <!-- value -->
-                <span>{{ action.data.value[0]?.value }}</span>
-                <!-- Loading -->
-                <p *ngIf="action.isLoading">⌛ Loading...</p>
-
-                <!-- start -->
-                <button
-                  class="next action-button"
-                  type="button"
-                  (click)="handle(action, action.isStart ? 'stop' : 'start')"
-                >
-                  {{ action.isStart ? "Stop" : "Start" }}
-                </button>
+              
                 <p>
-                  Motor Number : <span>{{ action.data.value[0]?.value }}</span>
+                  Motor Number : <span>{{scannedValue }}</span>
                 </p>
                 <p>Status : Valid/Invalid</p>
               </div>
@@ -202,66 +87,8 @@
             />
           </fieldset>
           <fieldset *ngIf="formStep === 3">
-            <div class="scanner">
-              <ngx-scanner-qrcode #action="scanner"></ngx-scanner-qrcode>
-            </div>
+            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
 
-            <select
-              #select1
-              (change)="action.playDevice(select1.value)"
-              class="form-select form-select-sm d-none"
-            >
-              <option [value]="null" selected>Select device</option>
-              <option
-                *ngFor="let c of action.devices.value; let i = index"
-                [value]="c.deviceId"
-                [selected]="i == action.deviceIndexActive"
-              >
-                {{ c.label }}
-              </option>
-            </select>
-            <select
-              #select2
-              (change)="action.decode = select2.value"
-              class="form-select form-select-sm d-none"
-            >
-              <option value="utf-8" [selected]="action.decode == 'utf-8'">
-                UTF-8
-              </option>
-              <option
-                value="iso-8859-15"
-                [selected]="action.decode == 'iso-8859-15'"
-              >
-                ISO-8859-15
-              </option>
-              <option
-                value="windows-1252"
-                [selected]="action.decode == 'windows-1252'"
-              >
-                Windows-1252
-              </option>
-              <option
-                value="macintosh"
-                [selected]="action.decode == 'macintosh'"
-              >
-                Macintosh
-              </option>
-            </select>
-
-            <!-- data  -->
-            <!-- value -->
-
-            <!-- Loading -->
-            <p *ngIf="action.isLoading">⌛ Loading...</p>
-
-            <!-- start -->
-            <button
-              type="button"
-              class="next action-button"
-              (click)="handle(action, action.isStart ? 'stop' : 'start')"
-            >
-              {{ action.isStart ? "Stop" : "Start" }}
-            </button>
             <div class="form-card">
               <div class="row">
                 <div class="col-7">
@@ -270,7 +97,7 @@
               </div>
               <div class="scanData">
                 <p>
-                  PCB Number : <span>{{ action.data.value[0]?.value }}</span>
+                  PCB Number : <span>{{scannedValue }}</span>
                 </p>
                 <p>Status : Valid/Invalid</p>
               </div>
@@ -291,66 +118,8 @@
             />
           </fieldset>
           <fieldset *ngIf="formStep === 4">
-            <div class="scanner">
-              <ngx-scanner-qrcode #action="scanner"></ngx-scanner-qrcode>
-            </div>
+            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
 
-            <select
-              #select1
-              (change)="action.playDevice(select1.value)"
-              class="form-select form-select-sm d-none"
-            >
-              <option [value]="null" selected>Select device</option>
-              <option
-                *ngFor="let c of action.devices.value; let i = index"
-                [value]="c.deviceId"
-                [selected]="i == action.deviceIndexActive"
-              >
-                {{ c.label }}
-              </option>
-            </select>
-            <select
-              #select2
-              (change)="action.decode = select2.value"
-              class="form-select form-select-sm d-none"
-            >
-              <option value="utf-8" [selected]="action.decode == 'utf-8'">
-                UTF-8
-              </option>
-              <option
-                value="iso-8859-15"
-                [selected]="action.decode == 'iso-8859-15'"
-              >
-                ISO-8859-15
-              </option>
-              <option
-                value="windows-1252"
-                [selected]="action.decode == 'windows-1252'"
-              >
-                Windows-1252
-              </option>
-              <option
-                value="macintosh"
-                [selected]="action.decode == 'macintosh'"
-              >
-                Macintosh
-              </option>
-            </select>
-
-            <!-- data  -->
-            <!-- value -->
-
-            <!-- Loading -->
-            <p *ngIf="action.isLoading">⌛ Loading...</p>
-
-            <!-- start -->
-            <button
-              type="button"
-              class="next action-button"
-              (click)="handle(action, action.isStart ? 'stop' : 'start')"
-            >
-              {{ action.isStart ? "Stop" : "Start" }}
-            </button>
             <div class="form-card">
               <div class="row">
                 <div class="col-7">
@@ -359,7 +128,7 @@
                 <div class="scanData">
                   <p>
                     Evaprorator Number :
-                    <span>{{ action.data.value[0]?.value }}</span>
+                    <span>{{scannedValue }}</span>
                   </p>
                   <p>Status : Valid/Invalid</p>
                 </div>
@@ -381,66 +150,8 @@
             />
           </fieldset>
           <fieldset *ngIf="formStep === 5">
-            <div class="scanner">
-              <ngx-scanner-qrcode #action="scanner"></ngx-scanner-qrcode>
-            </div>
+            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
 
-            <select
-              #select1
-              (change)="action.playDevice(select1.value)"
-              class="form-select form-select-sm d-none"
-            >
-              <option [value]="null" selected>Select device</option>
-              <option
-                *ngFor="let c of action.devices.value; let i = index"
-                [value]="c.deviceId"
-                [selected]="i == action.deviceIndexActive"
-              >
-                {{ c.label }}
-              </option>
-            </select>
-            <select
-              #select2
-              (change)="action.decode = select2.value"
-              class="form-select form-select-sm d-none"
-            >
-              <option value="utf-8" [selected]="action.decode == 'utf-8'">
-                UTF-8
-              </option>
-              <option
-                value="iso-8859-15"
-                [selected]="action.decode == 'iso-8859-15'"
-              >
-                ISO-8859-15
-              </option>
-              <option
-                value="windows-1252"
-                [selected]="action.decode == 'windows-1252'"
-              >
-                Windows-1252
-              </option>
-              <option
-                value="macintosh"
-                [selected]="action.decode == 'macintosh'"
-              >
-                Macintosh
-              </option>
-            </select>
-
-            <!-- data  -->
-            <!-- value -->
-
-            <!-- Loading -->
-            <p *ngIf="action.isLoading">⌛ Loading...</p>
-
-            <!-- start -->
-            <button
-              type="button"
-              class="next action-button"
-              (click)="handle(action, action.isStart ? 'stop' : 'start')"
-            >
-              {{ action.isStart ? "Stop" : "Start" }}
-            </button>
             <div class="form-card">
               <div class="row">
                 <div class="col-7">
@@ -449,7 +160,7 @@
                 <div class="scanData">
                   <p>
                     Accessories Number :
-                    <span>{{ action.data.value[0]?.value }}</span>
+                    <span>  {{scannedValue }} </span>
                   </p>
                   <p>Status : Valid/Invalid</p>
                 </div>
@@ -471,66 +182,8 @@
             />
           </fieldset>
           <fieldset *ngIf="formStep === 6">
-            <div class="scanner">
-              <ngx-scanner-qrcode #action="scanner"></ngx-scanner-qrcode>
-            </div>
+            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
 
-            <select
-              #select1
-              (change)="action.playDevice(select1.value)"
-              class="form-select form-select-sm d-none"
-            >
-              <option [value]="null" selected>Select device</option>
-              <option
-                *ngFor="let c of action.devices.value; let i = index"
-                [value]="c.deviceId"
-                [selected]="i == action.deviceIndexActive"
-              >
-                {{ c.label }}
-              </option>
-            </select>
-            <select
-              #select2
-              (change)="action.decode = select2.value"
-              class="form-select form-select-sm d-none"
-            >
-              <option value="utf-8" [selected]="action.decode == 'utf-8'">
-                UTF-8
-              </option>
-              <option
-                value="iso-8859-15"
-                [selected]="action.decode == 'iso-8859-15'"
-              >
-                ISO-8859-15
-              </option>
-              <option
-                value="windows-1252"
-                [selected]="action.decode == 'windows-1252'"
-              >
-                Windows-1252
-              </option>
-              <option
-                value="macintosh"
-                [selected]="action.decode == 'macintosh'"
-              >
-                Macintosh
-              </option>
-            </select>
-
-            <!-- data  -->
-            <!-- value -->
-
-            <!-- Loading -->
-            <p *ngIf="action.isLoading">⌛ Loading...</p>
-
-            <!-- start -->
-            <button
-              type="button"
-              class="next action-button"
-              (click)="handle(action, action.isStart ? 'stop' : 'start')"
-            >
-              {{ action.isStart ? "Stop" : "Start" }}
-            </button>
             <div class="form-card">
               <div class="row">
                 <div class="col-7">
@@ -538,7 +191,8 @@
                 </div>
                 <div class="scanData">
                   <p>
-                    Box Number : <span>{{ action.data.value[0]?.value }}</span>
+                    Box Number : 
+                    <span>{{scannedValue }}</span>
                   </p>
                   {{ valuearr }}
                   <p>Status : Valid/Invalid</p>
