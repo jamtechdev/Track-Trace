@@ -104,9 +104,7 @@ if(this.signUpForm.valid){
     }
   }
 
-  gotoResetPassword(values: any) {
-    if (values) {
-      this.router.navigate(['/reset-password']);
-    }
+  Login() {
+    this.router.navigate(['/login']);
   }
 }

@@ -1,16 +1,17 @@
+// import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { envoirnment } from 'src/envoirnment/env';
+import { environment } from 'src/envoirnment/env';
 import { Observable } from 'rxjs';
 import { LocalstoreService } from './localstore.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RestService {
+  constructor(private http: HttpClient, public localStore: LocalstoreService) {}
 
-  constructor(private http: HttpClient  , private local : LocalstoreService) { }
-apiurl = envoirnment?.Base_URL
+apiurl = environment?.Base_URL
   //  public get<T>(url: string): Observable<T> {
   //   return this.http.get<T>(`${this.apiurl}${url}`, this.Header1());
   // }
@@ -46,7 +47,7 @@ apiurl = envoirnment?.Base_URL
     let header = new HttpHeaders();
     header = header.append(
       'Authorization',
-      'Token ' + this.local.getItem('token')
+      'Token ' + this.localStore.getItem('token')
     );
     return { headers: header };
   }
