@@ -9,15 +9,10 @@ import { AuthModule } from './layout/Auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
 // import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
+
 @NgModule({
-  declarations: [AppComponent, ResetPasswordComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    AuthModule,
-    HttpClientModule,
-  ],
+  declarations: [AppComponent,  ResetPasswordComponent],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule , AuthModule , HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
