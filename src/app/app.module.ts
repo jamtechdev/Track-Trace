@@ -5,12 +5,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ScannerComponent } from './common-resources/scanner/scanner/scanner.component';
 // import { ZXingScannerModule } from '@zxing/ngx-scanner';
 // import { NgxScannerQrcodeModule } from 'ngx-qrcode-updated';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, ResetPasswordComponent, ScannerComponent],
+  declarations: [AppComponent, LoginComponent, ResetPasswordComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],
