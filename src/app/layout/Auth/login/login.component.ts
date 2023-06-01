@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { UserServicesService } from '../../../service/user-services.service';
 import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
+import { RestService } from 'src/app/common-resources/servieces/rest.service';
 
 @Component({
   selector: 'app-login',
@@ -22,9 +23,9 @@ export class LoginComponent implements OnInit {
   });
   constructor(
     private router: Router,
-    public service: UserServicesService,
     private formBuilder: FormBuilder,
-    public localStore: LocalstoreService
+    public localStore: LocalstoreService,
+    private restService: RestService
   ) {}
   databsdismiss = '';
 
@@ -55,11 +56,15 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     console.log(this.login);
-    if (this.loginForm.status == 'VALID') {
-      this.localStore.setItem('user', this.loginForm.value.email);
+    if (this.loginForm.valid) {
+      let formData = new FormData();
+      formData.append('email', this.loginForm.value.email);
+      formData.append('password', this.loginForm.value.password);
+      this.restService.post(formData, 'signIn').subscribe(
+        (res) => console.log(res),
+        (err) => console.log(err)
+      );
     }
-    // this.service.setUser(this.loginForm.value).subscribe(res=>console.log(res)
-    // );
     // this.router.navigate(['/home']);
   }
 
@@ -67,5 +72,10 @@ export class LoginComponent implements OnInit {
     if (values) {
       this.router.navigate(['/reset-password']);
     }
+  }
+
+  type: string = 'password';
+  showPass() {
+    this.type == 'password' ? (this.type = 'text') : (this.type = 'password');
   }
 }

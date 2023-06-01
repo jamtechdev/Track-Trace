@@ -69,3 +69,7 @@
     height: 50px;
     color: #000;
 }
+
+.mb-3.form-check.p-0 {
+    cursor: pointer;
+}

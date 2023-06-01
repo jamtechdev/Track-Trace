@@ -30,11 +30,12 @@
               >Password</label
             >
             <input
-              type="password"
+              type="{{ type }}"
               class="form-control"
               id="exampleInputPassword1"
               formControlName="password"
             />
+            <span (click)="showPass()">eye</span>
             <div *ngIf="submitted && login['password'].errors">
               <div *ngIf="submitted && login['password'].errors['required']">
                 Password is required
