@@ -9,8 +9,14 @@ export class UserhomeComponent {
   
   valuearr: Array<any> = [];
   scannedValue: string = ''
-  formStep: number = 1;
+  formStep: number = 1; isDevice : boolean = false
   public output!: any;
+
+  getDevice(e:boolean){
+this.isDevice = e
+console.log(e , 'ghu');
+
+  }
 
   formStepper() {
     this.formStep = this.formStep + 1;
