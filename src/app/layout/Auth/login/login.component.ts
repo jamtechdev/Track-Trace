@@ -18,6 +18,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LoginComponent implements OnInit {
   submitted: boolean = false;
+  error: string = '';
+  databsdismiss = '';
   loginForm: FormGroup = new FormGroup({
     email: new FormControl(''),
     password: new FormControl(''),
@@ -28,7 +30,6 @@ export class LoginComponent implements OnInit {
     public localStore: LocalstoreService,
     private restService: RestService
   ) {}
-  databsdismiss = '';
 
   get login() {
     return this.loginForm.controls;
@@ -67,7 +68,10 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         (err) => {
-          console.log(err?.error?.message);
+          this.error = err?.error?.message;
+          setTimeout(() => {
+            this.error = '';
+          }, 3000);
         }
       );
     }

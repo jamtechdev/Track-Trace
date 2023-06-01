@@ -4,6 +4,9 @@
     <div class="right-side">
       <div class="inner-form">
         <h1 class="mb-5">Login</h1>
+        <div *ngIf="error" class="alert alert-danger">
+          {{ error }}
+        </div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label"
@@ -16,7 +19,7 @@
               aria-describedby="emailHelp"
               formControlName="email"
             />
-            <div *ngIf="submitted && login['email'].errors">
+            <div class="text-danger" *ngIf="submitted && login['email'].errors">
               <div *ngIf="submitted && login['email'].errors['required']">
                 Email is required
               </div>
@@ -38,7 +41,10 @@
             <span class="eye-icon" (click)="showPass()"
               ><i class="ri-eye-line"></i
             ></span>
-            <div *ngIf="submitted && login['password'].errors">
+            <div
+              class="text-danger"
+              *ngIf="submitted && login['password'].errors"
+            >
               <div *ngIf="submitted && login['password'].errors['required']">
                 Password is required
               </div>
