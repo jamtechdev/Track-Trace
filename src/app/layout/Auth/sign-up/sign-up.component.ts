@@ -56,8 +56,11 @@ export class SignUpComponent implements OnInit {
           ),
         ],
       ],
-      first_name: ['', [Validators.required , Validators.pattern('^[a-zA-Z \-\']+')]],
-      last_name: ['' , [ Validators.pattern('^[a-zA-Z \-\']+')]],
+      first_name: [
+        '',
+        [Validators.required, Validators.pattern("^[a-zA-Z -']+")],
+      ],
+      last_name: ['', [Validators.pattern("^[a-zA-Z -']+")]],
       password_confirmation: [
         '',
         [
@@ -67,37 +70,31 @@ export class SignUpComponent implements OnInit {
           ),
         ],
       ],
-    }
-    );
+    });
   }
 
   get f() {
     return this.signUpForm.controls;
   }
 
-  confirmPas(e:any){
-if(e.target.value !== this.signUpForm?.value?.password){
-  this.f['password_confirmation'].setErrors({match: true})
-}else{
-   this.f['password_confirmation'].setErrors({match: false})
- 
-}
- 
-
+  confirmPas(e: any) {
+    if (e.target.value !== this.signUpForm?.value?.password) {
+      this.f['password_confirmation'].setErrors({ match: true });
+    } else {
+      this.f['password_confirmation'].setErrors({ match: false });
+    }
   }
 
   onSubmit() {
     this.submitted = true;
 
-    console.log(this.f , this.signUpForm);
+    console.log(this.f, this.signUpForm);
     // this.service.setUser(this.signUpForm.value).subscribe(res=>console.log(res)
     // );
     // this.router.navigate(['/home']);
   }
 
-  gotoResetPassword(values: any) {
-    if (values) {
-      this.router.navigate(['/reset-password']);
-    }
+  Login() {
+    this.router.navigate(['/login']);
   }
 }
