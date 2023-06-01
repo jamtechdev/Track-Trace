@@ -17,7 +17,7 @@ apiurl = environment?.Base_URL
   // }
 
 
-    public post<T>(url: string, data: any): Observable<T> {
+    public post<T>(data: any , url: string, ): Observable<T> {
     return this.http.post<T>(`${this.apiurl}${url}`, data, this.Header());
   }
 

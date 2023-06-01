@@ -97,9 +97,7 @@ if(this.signUpForm.valid){
   formData.append('password', this.signUpForm.value.password);
   formData.append('email', this.signUpForm.value.email);
 
-  this.rest.post('signIn' , formData).subscribe(() => {
 
-  })
     // API CALL WILL GO HERE 
     }
   }
