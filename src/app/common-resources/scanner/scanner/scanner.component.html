@@ -43,8 +43,8 @@
   <input
     type="button"
     name="previous"
-    class="btn btn-primary w-auto"
-    value="{{ action.isStart ? 'Stop' : 'Start' }}"
+    class="btn btn-primary scan_btn"
+    value="{{ action.isStart ? 'Stop' : 'scan' }}"
     (click)="handle(action, action.isStart ? 'Stop' : 'Start')"
   />
 </div>

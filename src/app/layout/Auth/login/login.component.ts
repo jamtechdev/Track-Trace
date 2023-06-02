@@ -9,7 +9,6 @@ import {
 import { UserServicesService } from '../../../service/user-services.service';
 import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
 import { RestService } from 'src/app/common-resources/servieces/rest.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -68,7 +67,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         (err) => {
-          this.error = err?.error?.message;
+         if(err?.error?.code == 401 && err?.error?.code == 403 ){
+          this.error = err?.error?.message;}
           setTimeout(() => {
             this.error = '';
           }, 3000);

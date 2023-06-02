@@ -209,3 +209,34 @@
     display: flex;
     justify-content: space-between;
 }
+
+.error-message {
+    position: absolute;
+    top: 32%;
+    width: 96%;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.scanData {
+    height: 83%;
+    background: #262626;
+    color: #fff;
+}
+
+.scanData h3{
+    background: #ffd63f;
+    color: #262626;
+    padding: 10px;
+}
+
+.scanData p{
+    padding: 12px 20px;
+    border-bottom: 1px solid #fff;
+    margin: 0;
+}
+
+.scanData p:hover{
+    box-shadow: 0px 0px 9px 2px #ffd63f;
+}
