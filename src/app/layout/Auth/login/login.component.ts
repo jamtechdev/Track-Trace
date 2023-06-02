@@ -9,7 +9,6 @@ import {
 import { UserServicesService } from '../../../service/user-services.service';
 import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
 import { RestService } from 'src/app/common-resources/servieces/rest.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
