@@ -11,12 +11,12 @@ import { LoginComponent } from 'src/app/layout/Auth/login/login.component';
 const routes: Routes = [
   {
     path: '',
-    component: SignUpComponent,
+    component: LoginComponent,
   },
 
   {
-    path: 'login',
-    component: LoginComponent,
+    path: 'signup',
+    component: SignUpComponent,
   },
 ];
 
