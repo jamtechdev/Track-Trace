@@ -1,3 +1,4 @@
+import { RestService } from 'src/app/common-resources/servieces/rest.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -10,7 +11,11 @@ export class UserhomeComponent {
   scannedValue: string = '';
   formStep: number = 1;
   isDevice: boolean = false;
+  chechisStatus: number = 0;
+  status: string = '';
   public output!: any;
+
+  constructor(private RestService: RestService) {}
 
   getDevice(e: boolean) {
     this.isDevice = e;
@@ -29,8 +34,30 @@ export class UserhomeComponent {
   addItem(e: string) {
     if (e !== '') {
       this.scannedValue = e;
+
+      if (
+        this.formStep == 1 &&
+        this.valuearr.length == 0 &&
+        this.chechisStatus !== 200
+      ) {
+        this.RestService.postToken('scanner/product', {
+          chassis_number: e,
+        }).subscribe(
+          (res: any) => {
+            this.chechisStatus = res?.code;
+            if (this.chechisStatus === 200) {
+              this.status = 'valid';
+            }
+          },
+          (err) => {
+            console.log(err, 'error');
+            // this.chechisStatus =;
+            if (err?.error?.code === 404) {
+              this.status = 'invalid';
+            }
+          }
+        );
+      }
     }
   }
-
-  constructor() {}
 }

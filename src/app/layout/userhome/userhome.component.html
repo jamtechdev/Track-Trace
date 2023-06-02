@@ -55,7 +55,15 @@
                     <p>
                       Chasiss Number : <span>{{ scannedValue }}</span>
                     </p>
-                    <p>Status : Valid/Invalid</p>
+                    <p>
+                      Status : Valid/Invalid
+                      <span *ngIf="status == 'valid'" class="text-success">
+                        Verified
+                      </span>
+                      <span *ngIf="status == 'invalid'" class="text-danger">
+                        unVerified
+                      </span>
+                    </p>
                   </div>
                   <input
                     type="button"
