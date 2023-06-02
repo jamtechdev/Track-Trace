@@ -1,14 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { UserhomeComponent } from './userhome.component';
-import { UserhomeRoutingModule } from './userhome.routing';
-import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../footer/footer.component';
-import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 import { CommonResourcesModule } from 'src/app/common-resources/common-resources.module';
-import { ScannerComponent } from 'src/app/common-resources/scanner/scanner/scanner.component';
+import { FooterComponent } from '../footer/footer.component';
+import { HeaderComponent } from '../header/header.component';
+import { UserhomeRoutingModule } from './userhome.routing';
+import { UserhomeComponent } from './userhome.component';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 @NgModule({
-  declarations: [UserhomeComponent, HeaderComponent, FooterComponent ],
-  imports: [CommonModule, UserhomeRoutingModule , CommonResourcesModule],
+  declarations: [UserhomeComponent, HeaderComponent, FooterComponent],
+  imports: [CommonModule, UserhomeRoutingModule, CommonResourcesModule],
 })
 export class UserhomeModule {}

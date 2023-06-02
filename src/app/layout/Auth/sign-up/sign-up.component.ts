@@ -1,16 +1,14 @@
+import { RestService } from 'src/app/common-resources/servieces/rest.service';
+import { apiUrls } from 'src/app/common-resources/api';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { UserServicesService } from 'src/app/service/user-services.service';
-// import { UserServicesService } from '../service/user-services.service';
-import { OnChanges, OnInit } from '@angular/core';
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { RestService } from 'src/app/common-resources/servieces/rest.service';
-import { apiUrls } from 'src/app/common-resources/api';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,22 +16,20 @@ import { apiUrls } from 'src/app/common-resources/api';
   styleUrls: ['./sign-up.component.css'],
 })
 export class SignUpComponent implements OnInit {
-  error: string = '';
   success: boolean = false;
   loading: boolean = false;
-  constructor(
-    private rest: RestService,
-    private router: Router,
-    public service: UserServicesService,
-    private formBuilder: FormBuilder
-  ) {}
-
   databsdismiss = '';
+  error: string = '';
   submitted = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private rest: RestService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.setValue();
-    console.log(this.f);
   }
 
   signUpForm: FormGroup = new FormGroup({
@@ -85,11 +81,6 @@ export class SignUpComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.loading = true;
-
-    console.log(
-      this.signUpForm.value.first_name?.replace(/\s+/g, ' ').trim(),
-      this.signUpForm.value.first_name
-    );
     let formData = new FormData();
     if (this.signUpForm.valid) {
       formData.append(
@@ -116,11 +107,9 @@ export class SignUpComponent implements OnInit {
             this.success = false;
             this.router.navigate(['/login']);
           }, 3000);
-          console.log(res);
         },
         (err) => {
           this.loading = true;
-          console.log(err, 'error');
 
           if (err?.error?.code === 401 || err?.error?.code === 401) {
             this.error = err?.error?.message;

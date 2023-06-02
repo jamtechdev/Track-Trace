@@ -1,21 +1,21 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AuthModule } from './layout/Auth/auth.module';
+import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+import { AuthModule } from './layout/Auth/auth.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+import { NgModule } from '@angular/core';
 // import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [AppComponent, ResetPasswordComponent],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
     ReactiveFormsModule,
-    AuthModule,
+    AppRoutingModule,
     HttpClientModule,
+    BrowserModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

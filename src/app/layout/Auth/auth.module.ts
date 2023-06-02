@@ -1,12 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from 'src/app/layout/Auth/login/login.component';
-
-
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { RouterModule, Routes } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {
@@ -20,13 +17,10 @@ const routes: Routes = [
   },
 ];
 
-
-
 @NgModule({
   declarations: [SignUpComponent, LoginComponent],
-  imports: [
-    CommonModule,  ReactiveFormsModule, RouterModule.forChild(routes)
-  ], providers: [],
-  bootstrap: [SignUpComponent, LoginComponent]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule.forChild(routes)],
+  providers: [],
+  bootstrap: [SignUpComponent, LoginComponent],
 })
-export class AuthModule { }
+export class AuthModule {}

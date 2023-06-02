@@ -1,3 +1,6 @@
+import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
+import { RestService } from 'src/app/common-resources/servieces/rest.service';
+import { apiUrls } from 'src/app/common-resources/api';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -6,10 +9,6 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { UserServicesService } from '../../../service/user-services.service';
-import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
-import { RestService } from 'src/app/common-resources/servieces/rest.service';
-import { apiUrls } from 'src/app/common-resources/api';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +19,12 @@ export class LoginComponent implements OnInit {
   submitted: boolean = false;
   error: string = '';
   databsdismiss = '';
+
   loginForm: FormGroup = new FormGroup({
     email: new FormControl(''),
     password: new FormControl(''),
   });
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit {
   get login() {
     return this.loginForm.controls;
   }
+
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       email: [
@@ -59,9 +61,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-   setTimeout(() => {
+    setTimeout(() => {
       this.submitted = false;
-   }, 2000);
+    }, 2000);
     if (this.loginForm.valid) {
       let formData = new FormData();
       formData.append('email', this.loginForm.value.email);
@@ -74,7 +76,7 @@ export class LoginComponent implements OnInit {
           this.localStore.setItem('uid', res?.data?.uid);
           this.submitted = false;
           if (res?.data?.token) {
-          this.submitted = false
+            this.submitted = false;
             this.router.navigate(['/home']);
           } else {
             this.error = 'Something went wrong !!';
@@ -90,7 +92,6 @@ export class LoginComponent implements OnInit {
         }
       );
     }
-    // this.router.navigate(['/home']);
   }
 
   gotoResetPassword(values: any) {
