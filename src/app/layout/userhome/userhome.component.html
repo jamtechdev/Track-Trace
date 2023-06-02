@@ -34,195 +34,208 @@
           <!-- <div class="form-card">
             <div class="row"></div>
           </div> -->
-
-          <div *ngIf="!isDevice" class="alert alert-danger">
-            No device found !!
-          </div>
           <fieldset *ngIf="formStep === 1">
-            <app-scanner
-              (devicealert)="getDevice($event)"
-              (newItemEvent)="addItem($event)"
-            ></app-scanner>
-            <div class="scanData">
-              <p>
-                Chasiss Number : <span>{{ scannedValue }}</span>
-              </p>
-              <p>Status : Valid/Invalid</p>
-            </div>
-            <input
-              type="button"
-              name="next"
-              class="btn btn-primary w-auto"
-              value="Next"
-              (click)="formStepper()"
-            />
-          </fieldset>
-          <fieldset *ngIf="formStep === 2">
-            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
-
-            <div class="form-card">
+            <div class="container p-0">
               <div class="row">
-                <div class="col-7">
-                  <h2 class="fs-title">Scan Motar Label</h2>
+                <div class="col-md-6 position-relative">
+                  <app-scanner
+                    (devicealert)="getDevice($event)"
+                    (newItemEvent)="addItem($event)"
+                  ></app-scanner>
+                  <div
+                    *ngIf="!isDevice"
+                    class="alert alert-danger error-message"
+                  >
+                    No device found !!
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="scanData text-start">
+                    <h3 class="m-0 text-center">Scan Results</h3>
+                    <p>
+                      Chasiss Number : <span>{{ scannedValue }}</span>
+                    </p>
+                    <p>Status : Valid/Invalid</p>
+                  </div>
+                  <input
+                    type="button"
+                    name="Proceed"
+                    class="btn btn-primary min-width mt-3"
+                    value="Proceed"
+                    (click)="formStepper()"
+                  />
                 </div>
               </div>
-              <div class="scanData">
-                <p>
-                  Motor Number : <span>{{ scannedValue }}</span>
-                </p>
-                <p>Status : Valid/Invalid</p>
-              </div>
             </div>
-            <div class="bottom-btn-next">
-              <input
-                type="button"
-                name="previous"
-                class="btn btn-primary w-auto"
-                value="Previous"
-                (click)="formStepperDown()"
-              />
-              <input
-                type="button"
-                name="next"
-                class="btn btn-primary w-auto"
-                value="Next"
-                (click)="formStepper()"
-              />
+          </fieldset>
+          <fieldset *ngIf="formStep === 2">
+            <div class="container p-0">
+              <div class="row">
+                <div class="col-md-6 position-relative">
+                  <app-scanner
+                    (devicealert)="getDevice($event)"
+                    (newItemEvent)="addItem($event)"
+                  ></app-scanner>
+                  <div
+                    *ngIf="!isDevice"
+                    class="alert alert-danger error-message"
+                  >
+                    No device found !!
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="scanData text-start">
+                    <h3 class="m-0 text-center">Scan Results</h3>
+                    <p>
+                      Chasiss Number : <span>{{ scannedValue }}</span>
+                    </p>
+                    <p>Status : Valid/Invalid</p>
+                  </div>
+                  <input
+                    type="button"
+                    name="Proceed"
+                    class="btn btn-primary min-width mt-3"
+                    value="Proceed"
+                    (click)="formStepper()"
+                  />
+                </div>
+              </div>
             </div>
           </fieldset>
           <fieldset *ngIf="formStep === 3">
-            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
-
-            <div class="form-card">
+            <div class="container p-0">
               <div class="row">
-                <div class="col-7">
-                  <h2 class="fs-title">PCB Scan</h2>
+                <div class="col-md-6 position-relative">
+                  <app-scanner
+                    (devicealert)="getDevice($event)"
+                    (newItemEvent)="addItem($event)"
+                  ></app-scanner>
+                  <div
+                    *ngIf="!isDevice"
+                    class="alert alert-danger error-message"
+                  >
+                    No device found !!
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="scanData text-start">
+                    <h3 class="m-0 text-center">Scan Results</h3>
+                    <p>
+                      Chasiss Number : <span>{{ scannedValue }}</span>
+                    </p>
+                    <p>Status : Valid/Invalid</p>
+                  </div>
+                  <input
+                    type="button"
+                    name="Proceed"
+                    class="btn btn-primary min-width mt-3"
+                    value="Proceed"
+                    (click)="formStepper()"
+                  />
                 </div>
               </div>
-              <div class="scanData">
-                <p>
-                  PCB Number : <span>{{ scannedValue }}</span>
-                </p>
-                <p>Status : Valid/Invalid</p>
-              </div>
-            </div>
-            <div class="bottom-btn-next">
-              <input
-                type="button"
-                name="previous"
-                class="btn btn-primary w-auto"
-                value="Previous"
-                (click)="formStepperDown()"
-              />
-              <input
-                type="button"
-                name="next"
-                class="btn btn-primary w-auto"
-                value="Next"
-                (click)="formStepper()"
-              />
             </div>
           </fieldset>
           <fieldset *ngIf="formStep === 4">
-            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
-
-            <div class="form-card">
+            <div class="container p-0">
               <div class="row">
-                <div class="col-7">
-                  <h2 class="fs-title">Evaprorator Scan</h2>
+                <div class="col-md-6 position-relative">
+                  <app-scanner
+                    (devicealert)="getDevice($event)"
+                    (newItemEvent)="addItem($event)"
+                  ></app-scanner>
+                  <div
+                    *ngIf="!isDevice"
+                    class="alert alert-danger error-message"
+                  >
+                    No device found !!
+                  </div>
                 </div>
-                <div class="scanData">
-                  <p>
-                    Evaprorator Number :
-                    <span>{{ scannedValue }}</span>
-                  </p>
-                  <p>Status : Valid/Invalid</p>
+                <div class="col-md-6">
+                  <div class="scanData text-start">
+                    <h3 class="m-0 text-center">Scan Results</h3>
+                    <p>
+                      Chasiss Number : <span>{{ scannedValue }}</span>
+                    </p>
+                    <p>Status : Valid/Invalid</p>
+                  </div>
+                  <input
+                    type="button"
+                    name="Proceed"
+                    class="btn btn-primary min-width mt-3"
+                    value="Proceed"
+                    (click)="formStepper()"
+                  />
                 </div>
               </div>
-            </div>
-            <div class="bottom-btn-next">
-              <input
-                type="button"
-                name="previous"
-                class="btn btn-primary w-auto"
-                value="Previous"
-                (click)="formStepperDown()"
-              />
-              <input
-                type="button"
-                name="next"
-                class="btn btn-primary w-auto"
-                value="Next"
-                (click)="formStepper()"
-              />
             </div>
           </fieldset>
           <fieldset *ngIf="formStep === 5">
-            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
-
-            <div class="form-card">
+            <div class="container p-0">
               <div class="row">
-                <div class="col-7">
-                  <h2 class="fs-title">Accessories Print/Scan</h2>
+                <div class="col-md-6 position-relative">
+                  <app-scanner
+                    (devicealert)="getDevice($event)"
+                    (newItemEvent)="addItem($event)"
+                  ></app-scanner>
+                  <div
+                    *ngIf="!isDevice"
+                    class="alert alert-danger error-message"
+                  >
+                    No device found !!
+                  </div>
                 </div>
-                <div class="scanData">
-                  <p>
-                    Accessories Number :
-                    <span> {{ scannedValue }} </span>
-                  </p>
-                  <p>Status : Valid/Invalid</p>
+                <div class="col-md-6">
+                  <div class="scanData text-start">
+                    <h3 class="m-0 text-center">Scan Results</h3>
+                    <p>
+                      Chasiss Number : <span>{{ scannedValue }}</span>
+                    </p>
+                    <p>Status : Valid/Invalid</p>
+                  </div>
+                  <input
+                    type="button"
+                    name="Proceed"
+                    class="btn btn-primary min-width mt-3"
+                    value="Proceed"
+                    (click)="formStepper()"
+                  />
                 </div>
               </div>
-            </div>
-            <div class="bottom-btn-next">
-              <input
-                type="button"
-                name="previous"
-                class="btn btn-primary w-auto"
-                value="Previous"
-                (click)="formStepperDown()"
-              />
-              <input
-                type="button"
-                name="next"
-                class="btn btn-primary w-auto"
-                value="Next"
-                (click)="formStepper()"
-              />
             </div>
           </fieldset>
           <fieldset *ngIf="formStep === 6">
-            <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
-
-            <div class="form-card">
+            <div class="container p-0">
               <div class="row">
-                <div class="col-7">
-                  <h2 class="fs-title">Box Packaging</h2>
+                <div class="col-md-6 position-relative">
+                  <app-scanner
+                    (devicealert)="getDevice($event)"
+                    (newItemEvent)="addItem($event)"
+                  ></app-scanner>
+                  <div
+                    *ngIf="!isDevice"
+                    class="alert alert-danger error-message"
+                  >
+                    No device found !!
+                  </div>
                 </div>
-                <div class="scanData">
-                  <p>
-                    Box Number :
-                    <span>{{ scannedValue }}</span>
-                  </p>
-                  {{ valuearr }}
-                  <p>Status : Valid/Invalid</p>
+                <div class="col-md-6">
+                  <div class="scanData text-start">
+                    <h3 class="m-0 text-center">Scan Results</h3>
+                    <p>
+                      Chasiss Number : <span>{{ scannedValue }}</span>
+                    </p>
+                    <p>Status : Valid/Invalid</p>
+                  </div>
+                  <input
+                    type="button"
+                    name="Proceed"
+                    class="btn btn-primary min-width mt-3"
+                    value="Proceed"
+                    (click)="formStepper()"
+                  />
                 </div>
               </div>
-            </div>
-            <div class="bottom-btn-next">
-              <input
-                type="button"
-                name="previous"
-                class="btn btn-primary w-auto"
-                value="Previous"
-                (click)="formStepperDown()"
-              />
-              <input
-                type="button"
-                name="next"
-                class="btn btn-primary w-auto"
-                value="Submit"
-              />
             </div>
           </fieldset>
         </form>

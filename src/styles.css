@@ -16,3 +16,8 @@ body {
     height: 50px;
     color: #000;
 }
+
+.min-width{
+    min-width: 200px;
+    width: fit-content !important;
+}
