@@ -1,5 +1,6 @@
 import { RestService } from 'src/app/common-resources/servieces/rest.service';
 import { Component } from '@angular/core';
+import { apiUrls } from 'src/app/common-resources/api';
 
 @Component({
   selector: 'app-userhome',
@@ -43,7 +44,7 @@ export class UserhomeComponent {
         this.valuearr.length == 0 &&
         this.chechisStatus !== 200
       ) {
-        this.RestService.postToken('scanner/product', {
+        this.RestService.postToken(apiUrls?.scanningApi?.chechisScan, {
           chassis_number: e,
         }).subscribe(
           (res: any) => {
