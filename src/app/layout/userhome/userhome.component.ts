@@ -6,7 +6,7 @@ import {  Component } from '@angular/core';
   styleUrls: ['./userhome.component.css'],
 })
 export class UserhomeComponent {
-  
+  //
   valuearr: Array<any> = [];
   scannedValue: string = ''
   formStep: number = 1; isDevice : boolean = false
