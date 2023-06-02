@@ -1,6 +1,6 @@
 import { RestService } from 'src/app/common-resources/servieces/rest.service';
-import { Component } from '@angular/core';
 import { apiUrls } from 'src/app/common-resources/api';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-userhome',
@@ -10,9 +10,9 @@ import { apiUrls } from 'src/app/common-resources/api';
 export class UserhomeComponent {
   valuearr: Array<any> = [];
   scannedValue: string = '';
-  formStep: number = 1;
   isDevice: boolean = false;
   chechisStatus: number = 0;
+  formStep: number = 1;
   status: string = '';
   public output!: any;
 
@@ -20,7 +20,6 @@ export class UserhomeComponent {
 
   getDevice(e: boolean) {
     this.isDevice = e;
-    console.log(e, 'ghu');
   }
 
   formStepper() {
@@ -55,7 +54,6 @@ export class UserhomeComponent {
             }
           },
           (err) => {
-            console.log(err, 'error');
             // this.chechisStatus =;
             if (err?.error?.code === 404) {
               this.scannedValue = e;
