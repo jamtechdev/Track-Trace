@@ -62,13 +62,23 @@ export class LoginComponent implements OnInit {
       formData.append('email', this.loginForm.value.email);
       formData.append('password', this.loginForm.value.password);
       this.restService.post(formData, 'signIn').subscribe(
-        (res) => {
-          console.log(res);
-          this.router.navigate(['/home']);
+        (res:any) => {      
+         this.localStore.setItem('token' , res?.data?.token)
+         this.localStore.setItem('name' , res?.data?.fullName)
+         this.localStore.setItem('email' , res?.data?.email)
+         this.localStore.setItem('uid' , res?.data?.uid)
+ this.submitted = false;
+ if(res?.data?.token){
+this.router.navigate(['/home']); 
+ }else{
+  this.error = 'Something went wrong !!'
+ }
+          // 
         },
         (err) => {
-         if(err?.error?.code == 401 && err?.error?.code == 403 ){
-          this.error = err?.error?.message;}
+        
+          this.error = err?.error?.message;
+           this.submitted = false;
           setTimeout(() => {
             this.error = '';
           }, 3000);
