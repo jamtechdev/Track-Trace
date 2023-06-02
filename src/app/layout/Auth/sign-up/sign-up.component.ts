@@ -119,7 +119,13 @@ export class SignUpComponent implements OnInit {
         },
         (err) => {
           this.loading = true;
-          this.error = err?.error?.validation_error.password;
+          console.log(err, 'error');
+
+          if (err?.error?.code === 401 || err?.error?.code === 401) {
+            this.error = err?.error?.message;
+          } else {
+            this.error = err?.error?.message;
+          }
           setTimeout(() => {
             this.error = '';
           }, 5000);
