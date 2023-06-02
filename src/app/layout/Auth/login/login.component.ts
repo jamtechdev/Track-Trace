@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
       let formData = new FormData();
       formData.append('email', this.loginForm.value.email);
       formData.append('password', this.loginForm.value.password);
-      this.restService.post(formData, 'signIn').subscribe(
+      this.restService.post(formData, 'auth/signIn').subscribe(
         (res: any) => {
           this.localStore.setItem('token', res?.data?.token);
           this.localStore.setItem('name', res?.data?.fullName);

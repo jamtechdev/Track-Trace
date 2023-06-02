@@ -17,7 +17,7 @@ export class RestService {
   // }
 
   public post<T>(data: any, url: string): Observable<T> {
-    return this.http.post<T>(`${this.apiurl}auth/${url}`, data, this.Header());
+    return this.http.post<T>(`${this.apiurl}${url}`, data, this.Header());
   }
 
   public postToken<T>(url: string, data: any): Observable<T> {
