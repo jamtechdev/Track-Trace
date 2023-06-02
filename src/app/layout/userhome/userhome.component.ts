@@ -25,6 +25,8 @@ export class UserhomeComponent {
   formStepper() {
     this.formStep = this.formStep + 1;
     this.scannedValue != '' && this.valuearr.push(this.scannedValue);
+    this.status = '';
+    this.scannedValue = '';
   }
   formStepperDown() {
     this.formStep = this.formStep - 1;

@@ -28,7 +28,9 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     public localStore: LocalstoreService,
     private restService: RestService
-  ) {}
+  ) {
+    localStorage.clear();
+  }
 
   get login() {
     return this.loginForm.controls;
