@@ -18,6 +18,8 @@ import { RestService } from 'src/app/common-resources/servieces/rest.service';
 })
 export class SignUpComponent implements OnInit {
   error: string = '';
+  success: boolean = false;
+  loading: boolean = false;
   constructor(
     private rest: RestService,
     private router: Router,
@@ -30,6 +32,7 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.setValue();
+    console.log(this.f);
   }
 
   signUpForm: FormGroup = new FormGroup({
@@ -64,15 +67,7 @@ export class SignUpComponent implements OnInit {
         [Validators.required, Validators.pattern("^[a-zA-Z -']+")],
       ],
       last_name: ['', [Validators.pattern("^[a-zA-Z -']+")]],
-      password_confirmation: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}$'
-          ),
-        ],
-      ],
+      password_confirmation: ['', [Validators.required]],
     });
   }
 
@@ -88,29 +83,46 @@ export class SignUpComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    this.loading = true;
 
-    console.log(this.signUpForm, this.signUpForm.valid);
+    console.log(
+      this.signUpForm.value.first_name?.replace(/\s+/g, ' ').trim(),
+      this.signUpForm.value.first_name
+    );
     let formData = new FormData();
     if (this.signUpForm.valid) {
       formData.append(
         'password_confirmation',
         this.signUpForm.value.password_confirmation
       );
-      formData.append('first_name', this.signUpForm.value.first_name);
-      formData.append('last_name', this.signUpForm.value.last_name);
+      formData.append(
+        'first_name',
+        this.signUpForm.value.first_name?.replace(/\s+/g, ' ').trim()
+      );
+      formData.append(
+        'last_name',
+        this.signUpForm.value.last_name?.replace(/\s+/g, ' ').trim()
+      );
       formData.append('password', this.signUpForm.value.password);
       formData.append('email', this.signUpForm.value.email);
 
       // API CALL WILL GO HERE
       this.rest.post(formData, 'signUp').subscribe(
         (res) => {
+          this.loading = true;
+          this.success = true;
+          setTimeout(() => {
+            this.success = false;
+            this.router.navigate(['/login']);
+          }, 3000);
           console.log(res);
         },
         (err) => {
-          this.error = err?.error?.message;
+          this.loading = true;
+          this.error = err?.error?.validation_error.password;
           setTimeout(() => {
             this.error = '';
-          }, 3000);
+          }, 5000);
         }
       );
     }
