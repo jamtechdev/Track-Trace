@@ -35,8 +35,9 @@ export class UserhomeComponent {
 
   addItem(e: string) {
     if (e !== '') {
-      this.scannedValue = e;
-
+      if (this.scannedValue !== e) {
+        this.chechisStatus = 0;
+      }
       if (
         this.formStep == 1 &&
         this.valuearr.length == 0 &&
@@ -49,12 +50,14 @@ export class UserhomeComponent {
             this.chechisStatus = res?.code;
             if (this.chechisStatus === 200) {
               this.status = 'valid';
+              this.scannedValue = e;
             }
           },
           (err) => {
             console.log(err, 'error');
             // this.chechisStatus =;
             if (err?.error?.code === 404) {
+              this.scannedValue = e;
               this.status = 'invalid';
             }
           }
