@@ -9,6 +9,7 @@ import {
 import { UserServicesService } from '../../../service/user-services.service';
 import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
 import { RestService } from 'src/app/common-resources/servieces/rest.service';
+import { apiUrls } from 'src/app/common-resources/api';
 
 @Component({
   selector: 'app-login',
@@ -58,12 +59,14 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.login);
+   setTimeout(() => {
+      this.submitted = false;
+   }, 2000);
     if (this.loginForm.valid) {
       let formData = new FormData();
       formData.append('email', this.loginForm.value.email);
       formData.append('password', this.loginForm.value.password);
-      this.restService.post(formData, 'auth/signIn').subscribe(
+      this.restService.post(formData, apiUrls?.authApi?.login).subscribe(
         (res: any) => {
           this.localStore.setItem('token', res?.data?.token);
           this.localStore.setItem('name', res?.data?.fullName);
@@ -71,8 +74,7 @@ export class LoginComponent implements OnInit {
           this.localStore.setItem('uid', res?.data?.uid);
           this.submitted = false;
           if (res?.data?.token) {
-            console.log(res?.data?.token);
-
+          this.submitted = false
             this.router.navigate(['/home']);
           } else {
             this.error = 'Something went wrong !!';

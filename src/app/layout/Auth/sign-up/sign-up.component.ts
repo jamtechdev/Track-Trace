@@ -10,6 +10,7 @@ import { OnChanges, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RestService } from 'src/app/common-resources/servieces/rest.service';
+import { apiUrls } from 'src/app/common-resources/api';
 
 @Component({
   selector: 'app-sign-up',
@@ -107,7 +108,7 @@ export class SignUpComponent implements OnInit {
       formData.append('email', this.signUpForm.value.email);
 
       // API CALL WILL GO HERE
-      this.rest.post(formData, 'signUp').subscribe(
+      this.rest.post(formData, apiUrls?.authApi?.signUp).subscribe(
         (res) => {
           this.loading = true;
           this.success = true;
