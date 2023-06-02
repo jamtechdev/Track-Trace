@@ -1,4 +1,4 @@
-import {  Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-userhome',
@@ -6,16 +6,15 @@ import {  Component } from '@angular/core';
   styleUrls: ['./userhome.component.css'],
 })
 export class UserhomeComponent {
-  
   valuearr: Array<any> = [];
-  scannedValue: string = ''
-  formStep: number = 1; isDevice : boolean = false
+  scannedValue: string = '';
+  formStep: number = 1;
+  isDevice: boolean = false;
   public output!: any;
 
-  getDevice(e:boolean){
-this.isDevice = e
-console.log(e , 'ghu');
-
+  getDevice(e: boolean) {
+    this.isDevice = e;
+    console.log(e, 'ghu');
   }
 
   formStepper() {
@@ -29,11 +28,9 @@ console.log(e , 'ghu');
 
   addItem(e: string) {
     if (e !== '') {
-      this.scannedValue = e
+      this.scannedValue = e;
     }
   }
 
-  constructor() { }
-
-  
+  constructor() {}
 }
