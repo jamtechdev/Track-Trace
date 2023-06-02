@@ -235,6 +235,16 @@
     padding: 12px 20px;
     border-bottom: 1px solid #fff;
     margin: 0;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.scanData p span.status {
+    position: relative;
+    top: 2px;
+    font-size: 23px;
+    line-height: 0;
 }
 
 .scanData p:hover {
