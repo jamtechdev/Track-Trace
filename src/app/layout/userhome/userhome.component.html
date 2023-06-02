@@ -44,9 +44,6 @@
               </p>
               <p>Status : Valid/Invalid</p>
             </div>
-            <div class="form-card">
-              <div class="row"></div>
-            </div>
             <input
               type="button"
               name="next"
@@ -104,20 +101,22 @@
                 <p>Status : Valid/Invalid</p>
               </div>
             </div>
-            <input
-              type="button"
-              name="next"
-              class="next action-button"
-              value="Submit"
-              (click)="formStepper()"
-            />
-            <input
-              type="button"
-              name="previous"
-              class="previous action-button-previous"
-              value="Previous"
-              (click)="formStepperDown()"
-            />
+            <div class="bottom-btn-next">
+              <input
+                type="button"
+                name="previous"
+                class="btn btn-primary w-auto"
+                value="Previous"
+                (click)="formStepperDown()"
+              />
+              <input
+                type="button"
+                name="next"
+                class="btn btn-primary w-auto"
+                value="Next"
+                (click)="formStepper()"
+              />
+            </div>
           </fieldset>
           <fieldset *ngIf="formStep === 4">
             <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
@@ -136,20 +135,22 @@
                 </div>
               </div>
             </div>
-            <input
-              type="button"
-              name="next"
-              class="next action-button"
-              value="Submit"
-              (click)="formStepper()"
-            />
-            <input
-              type="button"
-              name="previous"
-              class="previous action-button-previous"
-              value="Previous"
-              (click)="formStepperDown()"
-            />
+            <div class="bottom-btn-next">
+              <input
+                type="button"
+                name="previous"
+                class="btn btn-primary w-auto"
+                value="Previous"
+                (click)="formStepperDown()"
+              />
+              <input
+                type="button"
+                name="next"
+                class="btn btn-primary w-auto"
+                value="Next"
+                (click)="formStepper()"
+              />
+            </div>
           </fieldset>
           <fieldset *ngIf="formStep === 5">
             <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
@@ -168,20 +169,22 @@
                 </div>
               </div>
             </div>
-            <input
-              type="button"
-              name="next"
-              class="next action-button"
-              value="Submit"
-              (click)="formStepper()"
-            />
-            <input
-              type="button"
-              name="previous"
-              class="previous action-button-previous"
-              value="Previous"
-              (click)="formStepperDown()"
-            />
+            <div class="bottom-btn-next">
+              <input
+                type="button"
+                name="previous"
+                class="btn btn-primary w-auto"
+                value="Previous"
+                (click)="formStepperDown()"
+              />
+              <input
+                type="button"
+                name="next"
+                class="btn btn-primary w-auto"
+                value="Next"
+                (click)="formStepper()"
+              />
+            </div>
           </fieldset>
           <fieldset *ngIf="formStep === 6">
             <app-scanner (newItemEvent)="addItem($event)"></app-scanner>
@@ -201,19 +204,21 @@
                 </div>
               </div>
             </div>
-            <input
-              type="button"
-              name="next"
-              class="next action-button"
-              value="Submit"
-            />
-            <input
-              type="button"
-              name="previous"
-              class="previous action-button-previous"
-              value="Previous"
-              (click)="formStepperDown()"
-            />
+            <div class="bottom-btn-next">
+              <input
+                type="button"
+                name="previous"
+                class="btn btn-primary w-auto"
+                value="Previous"
+                (click)="formStepperDown()"
+              />
+              <input
+                type="button"
+                name="next"
+                class="btn btn-primary w-auto"
+                value="Submit"
+              />
+            </div>
           </fieldset>
         </form>
       </div>
