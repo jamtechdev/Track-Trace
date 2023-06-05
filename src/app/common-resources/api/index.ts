@@ -5,6 +5,7 @@ export const apiUrls = {
     },
 
     scanningApi : {
-        chechisScan : 'scanner/product'
+        chechisScan : 'scanner/product',
+        RAW : 'scanner/raw-material'
     }
 }

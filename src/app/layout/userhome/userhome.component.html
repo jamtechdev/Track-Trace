@@ -104,7 +104,21 @@
                     <p>
                       Chasiss Number : <span>{{ scannedValue }}</span>
                     </p>
-                    <p>Status : Valid/Invalid</p>
+                    <p>
+                      Status :
+                      <span
+                        *ngIf="status == 'valid'"
+                        class="text-success status"
+                      >
+                        <i class="ri-check-fill"></i>
+                      </span>
+                      <span
+                        *ngIf="status == 'invalid'"
+                        class="text-danger status"
+                      >
+                        <i class="ri-close-fill"></i>
+                      </span>
+                    </p>
                   </div>
                   <input
                     [disabled]="status == 'invalid' || status == ''"
@@ -139,7 +153,21 @@
                     <p>
                       Chasiss Number : <span>{{ scannedValue }}</span>
                     </p>
-                    <p>Status : Valid/Invalid</p>
+                    <p>
+                      Status :
+                      <span
+                        *ngIf="status == 'valid'"
+                        class="text-success status"
+                      >
+                        <i class="ri-check-fill"></i>
+                      </span>
+                      <span
+                        *ngIf="status == 'invalid'"
+                        class="text-danger status"
+                      >
+                        <i class="ri-close-fill"></i>
+                      </span>
+                    </p>
                   </div>
                   <input
                     [disabled]="status == 'invalid' || status == ''"
@@ -174,7 +202,21 @@
                     <p>
                       Chasiss Number : <span>{{ scannedValue }}</span>
                     </p>
-                    <p>Status : Valid/Invalid</p>
+                    <p>
+                      Status :
+                      <span
+                        *ngIf="status == 'valid'"
+                        class="text-success status"
+                      >
+                        <i class="ri-check-fill"></i>
+                      </span>
+                      <span
+                        *ngIf="status == 'invalid'"
+                        class="text-danger status"
+                      >
+                        <i class="ri-close-fill"></i>
+                      </span>
+                    </p>
                   </div>
                   <input
                     [disabled]="status == 'invalid' || status == ''"
@@ -209,7 +251,21 @@
                     <p>
                       Chasiss Number : <span>{{ scannedValue }}</span>
                     </p>
-                    <p>Status : Valid/Invalid</p>
+                    <p>
+                      Status :
+                      <span
+                        *ngIf="status == 'valid'"
+                        class="text-success status"
+                      >
+                        <i class="ri-check-fill"></i>
+                      </span>
+                      <span
+                        *ngIf="status == 'invalid'"
+                        class="text-danger status"
+                      >
+                        <i class="ri-close-fill"></i>
+                      </span>
+                    </p>
                   </div>
                   <input
                     [disabled]="status == 'invalid' || status == ''"

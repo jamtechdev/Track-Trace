@@ -27,10 +27,12 @@ export class UserhomeComponent {
     this.scannedValue != '' && this.valuearr.push(this.scannedValue);
     this.status = '';
     this.scannedValue = '';
+    this.chechisStatus = 0;
   }
   formStepperDown() {
     this.formStep = this.formStep - 1;
     this.formStep !== 1 && this.valuearr.pop();
+    this.chechisStatus = 0;
   }
 
   addItem(e: string) {
@@ -38,14 +40,16 @@ export class UserhomeComponent {
       if (this.scannedValue !== e) {
         this.chechisStatus = 0;
       }
-      if (
-        this.formStep == 1 &&
-        this.valuearr.length == 0 &&
-        this.chechisStatus !== 200
-      ) {
-        this.RestService.postToken(apiUrls?.scanningApi?.chechisScan, {
-          chassis_number: e,
-        }).subscribe(
+      if (this.chechisStatus !== 200) {
+        let url =
+          this.formStep === 1
+            ? apiUrls?.scanningApi?.chechisScan + '?chassis_number=' + e
+            : apiUrls?.scanningApi?.RAW +
+              '?chassis_number=' +
+              this.valuearr[0] +
+              '&raw_material_id=' +
+              e;
+        this.RestService.get(url).subscribe(
           (res: any) => {
             this.chechisStatus = res?.code;
             if (this.chechisStatus === 200) {

@@ -41,10 +41,11 @@
 <!-- start -->
 <div class="bottom-btn-next">
   <input
+    *ngIf="action.isStart"
     type="button"
     name="previous"
     class="btn btn-primary scan_btn"
-    value="{{ action.isStart ? 'Stop' : 'Scan' }}"
+    value="Scan"
     (click)="handle(action, action.isStart ? 'Stop' : 'Start')"
   />
 </div>
