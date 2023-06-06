@@ -1,20 +1,25 @@
 import { RestService } from 'src/app/common-resources/servieces/rest.service';
 import { apiUrls } from 'src/app/common-resources/api';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-userhome',
   templateUrl: './userhome.component.html',
   styleUrls: ['./userhome.component.css'],
 })
-export class UserhomeComponent {
+export class UserhomeComponent implements OnInit {
   valuearr: Array<any> = [];
   scannedValue: string = '';
   isDevice: boolean = false;
   chechisStatus: number = 0;
   formStep: number = 1;
   status: string = '';
+  qrValue: string = '';
   public output!: any;
+  success: string = '';
+  error: string = '';
+  issubmitted = false;
 
   constructor(private RestService: RestService) {}
 
@@ -22,12 +27,42 @@ export class UserhomeComponent {
     this.isDevice = e;
   }
 
+  ngOnInit(): void {}
+
+  submitPackage() {
+    let url = apiUrls?.scanningApi.boxScanner;
+    let data = {
+      chassis_number: this.valuearr[0],
+      packing_id: this.qrValue,
+    };
+    this.RestService.postToken(url, data).subscribe(
+      (response) => {
+        this.success = 'Submitted succesfully';
+        this.issubmitted = true;
+        setTimeout(() => {
+          this.success = '';
+        }, 5000);
+      },
+      (err) => {
+        this.error = 'Something went wrong , please try again !!';
+        setTimeout(() => {
+          this.error = '';
+        }, 3000);
+      }
+    );
+  }
+
+
   formStepper() {
     this.formStep = this.formStep + 1;
     this.scannedValue != '' && this.valuearr.push(this.scannedValue);
     this.status = '';
     this.scannedValue = '';
     this.chechisStatus = 0;
+    if (this.formStep > 6) {
+      let uuid = UUID.UUID();
+      this.qrValue = uuid;
+    }
   }
   formStepperDown() {
     this.formStep = this.formStep - 1;

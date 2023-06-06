@@ -250,3 +250,19 @@
 .scanData p:hover {
     box-shadow: 0px 0px 9px 2px #ffd63f;
 }
+
+
+/* /for :picture-in-picture */
+
+@media print {
+    body {
+        visibility: hidden;
+    }
+
+    #section-to-print {
+        visibility: visible;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
