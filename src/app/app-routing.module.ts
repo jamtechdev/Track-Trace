@@ -15,10 +15,20 @@ const routes: Routes = [
   ,  {
     path: 'home',
     canActivate:[authGuard],
-
     loadChildren: () =>
       import('./layout/layout.module').then((m) => m.LayoutModule),
   },
+
+
+ {
+    path: 'admin',
+    canActivate:[authGuard],
+    loadChildren: () =>
+      import('./Admin/admin/admin.module').then((m) => m.AdminModule),
+  },
+
+
+
 ];
 
 @NgModule({
