@@ -13,7 +13,7 @@ export class UserhomeComponent implements OnInit {
   scannedValue: string = '';
   isDevice: boolean = false;
   chechisStatus: number = 0;
-  formStep: number = 1;
+  formStep: number = 58;
   status: string = '';
   qrValue: string = '';
   public output!: any;
@@ -27,7 +27,10 @@ export class UserhomeComponent implements OnInit {
     this.isDevice = e;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+      let uuid = UUID.UUID();
+      this.qrValue = uuid;
+  }
 
   submitPackage() {
     let url = apiUrls?.scanningApi.boxScanner;
@@ -52,6 +55,21 @@ export class UserhomeComponent implements OnInit {
     );
   }
 
+
+  print(){
+    // alert('p')
+var canvas :any= document.querySelector("canvas");
+
+    var img = canvas.toDataURL("image/png");
+
+     const a: any = document.createElement('a');
+      a.href = img;
+      a.download = 'test';
+      document.body.appendChild(a);
+      a.style = 'display: none';
+      a.click();
+      a.remove();
+  }
 
   formStepper() {
     this.formStep = this.formStep + 1;
