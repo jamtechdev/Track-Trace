@@ -13,7 +13,7 @@ export class UserhomeComponent implements OnInit {
   scannedValue: string = '';
   isDevice: boolean = false;
   chechisStatus: number = 0;
-  formStep: number = 58;
+  formStep: number = 1;
   status: string = '';
   qrValue: string = '';
   public output!: any;
@@ -28,8 +28,8 @@ export class UserhomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      let uuid = UUID.UUID();
-      this.qrValue = uuid;
+    let uuid = UUID.UUID();
+    this.qrValue = uuid;
   }
 
   submitPackage() {
@@ -55,20 +55,16 @@ export class UserhomeComponent implements OnInit {
     );
   }
 
-
-  print(){
-    // alert('p')
-var canvas :any= document.querySelector("canvas");
-
-    var img = canvas.toDataURL("image/png");
-
-     const a: any = document.createElement('a');
-      a.href = img;
-      a.download = 'test';
-      document.body.appendChild(a);
-      a.style = 'display: none';
-      a.click();
-      a.remove();
+  print() {
+    var canvas: any = document.querySelector('canvas');
+    var img = canvas.toDataURL('image/png');
+    const a: any = document.createElement('a');
+    a.href = img;
+    a.download = 'test';
+    document.body.appendChild(a);
+    a.style = 'display: none';
+    a.click();
+    a.remove();
   }
 
   formStepper() {
@@ -108,6 +104,9 @@ var canvas :any= document.querySelector("canvas");
             if (this.chechisStatus === 200) {
               this.status = 'valid';
               this.scannedValue = e;
+              this.formStep = res?.data && res?.data+2
+              this.scannedValue = '';
+              this.status = ''
             }
           },
           (err) => {
