@@ -22,6 +22,8 @@ export class ScannerComponent implements OnInit {
 
   @ViewChild('action') action: NgxScannerQrcodeComponent | undefined;
 
+  height!:number
+  width!:number
   constructor(private qrcode: NgxScannerQrcodeService) {}
 
   ngOnInit(): void {

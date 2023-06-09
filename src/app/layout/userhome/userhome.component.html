@@ -1,5 +1,10 @@
 <app-header></app-header>
 <div class="container">
+  <!-- <div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3 mb-2 p-0">
+      <button class="btn-prev">Previos</button>
+    </div>
+  </div> -->
   <div class="row justify-content-center">
     <div
       class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center p-0 mt-3 mb-2"
@@ -8,26 +13,68 @@
         <h2 id="heading">Track and Trace</h2>
         <form id="msform">
           <!-- progressbar -->
+
           <ul id="progressbar">
+            <span *ngFor="let item of compArr; index as i">
+              <li class="active" id="account">
+                <strong>{{ item }}</strong>
+              </li>
+              <li
+                id="personal"
+                [ngClass]="
+                  formStep == 2 ? 'nextScan' : formStep > 2 ? 'active' : ''
+                "
+              >
+                <strong>{{ item }} Scan</strong>
+              </li>
+            </span>
+          </ul>
+
+          <!-- <ul id="progressbar">
             <li class="active" id="account">
               <strong>Chasis Scan</strong>
             </li>
-            <li id="personal" [ngClass]="formStep >= 2 ? 'active' : ''">
+            <li
+              id="personal"
+              [ngClass]="
+                formStep == 2 ? 'nextScan' : formStep > 2 ? 'active' : ''
+              "
+            >
               <strong>Motar Label Scan</strong>
             </li>
-            <li id="payment" [ngClass]="formStep >= 3 ? 'active' : ''">
+            <li
+              id="payment"
+              [ngClass]="
+                formStep == 3 ? 'nextScan' : formStep > 3 ? 'active' : ''
+              "
+            >
               <strong>PCB Scan</strong>
             </li>
-            <li id="confirm" [ngClass]="formStep >= 4 ? 'active' : ''">
+            <li
+              id="confirm"
+              [ngClass]="
+                formStep == 4 ? 'nextScan' : formStep > 4 ? 'active' : ''
+              "
+            >
               <strong>Evaprorator Scan</strong>
             </li>
-            <li id="confirm" [ngClass]="formStep >= 5 ? 'active' : ''">
+            <li
+              id="confirm"
+              [ngClass]="
+                formStep == 5 ? 'nextScan' : formStep > 5 ? 'active' : ''
+              "
+            >
               <strong>Accessories Print/Scan</strong>
             </li>
-            <li id="confirm" [ngClass]="formStep >= 6 ? 'active' : ''">
+            <li
+              id="confirm"
+              [ngClass]="
+                formStep == 6 ? 'nextScan' : formStep > 6 ? 'active' : ''
+              "
+            >
               <strong>Box Packaging</strong>
             </li>
-          </ul>
+          </ul> -->
 
           <br />
           <!-- fieldsets -->
@@ -102,7 +149,7 @@
                   <div class="scanData text-start">
                     <h3 class="m-0 text-center">Scan Results</h3>
                     <p>
-                      Chasiss Number : <span>{{ scannedValue }}</span>
+                      mOTOR Number : <span>{{ scannedValue }}</span>
                     </p>
                     <p>
                       Status :
@@ -151,7 +198,7 @@
                   <div class="scanData text-start">
                     <h3 class="m-0 text-center">Scan Results</h3>
                     <p>
-                      Chasiss Number : <span>{{ scannedValue }}</span>
+                      PCB Number : <span>{{ scannedValue }}</span>
                     </p>
                     <p>
                       Status :
@@ -200,7 +247,7 @@
                   <div class="scanData text-start">
                     <h3 class="m-0 text-center">Scan Results</h3>
                     <p>
-                      Chasiss Number : <span>{{ scannedValue }}</span>
+                      Evaprorator Number : <span>{{ scannedValue }}</span>
                     </p>
                     <p>
                       Status :
@@ -249,7 +296,7 @@
                   <div class="scanData text-start">
                     <h3 class="m-0 text-center">Scan Results</h3>
                     <p>
-                      Chasiss Number : <span>{{ scannedValue }}</span>
+                      Accesories Number : <span>{{ scannedValue }}</span>
                     </p>
                     <p>
                       Status :
@@ -279,6 +326,7 @@
               </div>
             </div>
           </fieldset>
+
           <fieldset *ngIf="formStep === 6">
             <div class="container p-0">
               <div class="row">
@@ -298,7 +346,22 @@
                   <div class="scanData text-start">
                     <h3 class="m-0 text-center">Scan Results</h3>
                     <p>
-                      Chasiss Number : <span>{{ scannedValue }}</span>
+                      Box Package Number : <span>{{ scannedValue }}</span>
+                    </p>
+                    <p>
+                      Status :
+                      <span
+                        *ngIf="status == 'valid'"
+                        class="text-success status"
+                      >
+                        <i class="ri-check-fill"></i>
+                      </span>
+                      <span
+                        *ngIf="status == 'invalid'"
+                        class="text-danger status"
+                      >
+                        <i class="ri-close-fill"></i>
+                      </span>
                     </p>
                   </div>
                   <input
@@ -313,8 +376,11 @@
               </div>
             </div>
           </fieldset>
+
           <fieldset *ngIf="formStep > 6">
-            <div class="alert alert-success" *ngIf="success">{{ success }}</div>
+            <div class="alert alert-success" *ngIf="success">
+              {{ success }}
+            </div>
             <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
             <p>Packaging QR code</p>
             <qr-code (click)="print()" [value]="qrValue" size="300"></qr-code>

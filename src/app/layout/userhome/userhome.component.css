@@ -50,7 +50,21 @@
     border: 1px solid #0070c9;
     outline-width: 0;
 }
-
+#msform input[type="button"]{
+    background: #ffd63f;
+    border: 1px solid #ffd63f;;
+        color: #262626;
+        font-weight: 600;
+    
+}
+.btn-prev{
+    background: #ffd63f;
+    border: 1px solid #ffd63f;
+    min-width: 150px;
+    height: 50px;
+    color: #262626;
+    font-weight: 600;
+}
 #msform .action-button {
     width: 100px;
     background: #0070c9;
@@ -187,6 +201,13 @@
     background: #4caf50;
 }
 
+
+
+#progressbar li.nextScan:before,
+#progressbar li.nextScan:after
+{
+        background: rgb(247 183 106);
+}
 .progress {
     height: 20px;
 }
@@ -224,6 +245,7 @@
     background: #262626;
     color: #fff;
 }
+
 
 .scanData h3 {
     background: #ffd63f;

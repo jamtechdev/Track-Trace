@@ -21,6 +21,8 @@ export class UserhomeComponent implements OnInit {
   error: string = '';
   issubmitted = false;
 
+  compArr = ['chasis' , 'motor' , 'pcb' , 'Evaporater' , 'Accecorries' , 'Box Package' ]
+
   constructor(private RestService: RestService) {}
 
   getDevice(e: boolean) {
@@ -69,7 +71,9 @@ export class UserhomeComponent implements OnInit {
 
   formStepper() {
     this.formStep = this.formStep + 1;
-    this.scannedValue != '' && this.valuearr.push(this.scannedValue);
+    this.scannedValue != '' &&
+      this.valuearr[0] !== this.scannedValue &&
+      this.valuearr.push(this.scannedValue);
     this.status = '';
     this.scannedValue = '';
     this.chechisStatus = 0;
@@ -86,7 +90,7 @@ export class UserhomeComponent implements OnInit {
 
   addItem(e: string) {
     if (e !== '') {
-      if (this.scannedValue !== e) {
+      if (this.scannedValue !== e && this.formStep != 1) {
         this.chechisStatus = 0;
       }
       if (this.chechisStatus !== 200) {
@@ -103,11 +107,18 @@ export class UserhomeComponent implements OnInit {
             this.chechisStatus = res?.code;
             if (this.chechisStatus === 200) {
               this.status = 'valid';
+              this.valuearr.push(e);
               this.scannedValue = e;
-              this.formStep = res?.data && res?.data+2
-              this.scannedValue = '';
-              this.status = ''
+              if (this.formStep === 1) {
+                this.formStep = res?.data !== null &&   res?.data !=1 ? res?.data +1 : 1
+                if (res?.data !== 1) {
+                  this.scannedValue = '';
+                  this.status = '';
+                }
+              }
             }
+
+            
           },
           (err) => {
             // this.chechisStatus =;
