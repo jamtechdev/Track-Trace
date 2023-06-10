@@ -21,7 +21,7 @@ export class UserhomeComponent implements OnInit {
   error: string = '';
   issubmitted = false;
 
-  compArr = ['chasis' , 'motor' , 'pcb' , 'Evaporater' , 'Accecorries' , 'Box Package' ]
+  compArr: any = [];
 
   constructor(private RestService: RestService) {}
 
@@ -30,8 +30,20 @@ export class UserhomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.steps();
     let uuid = UUID.UUID();
     this.qrValue = uuid;
+  }
+
+  steps() {
+    let url = apiUrls?.scanningApi.steps;
+    this.RestService.get(url).subscribe((res: any) => {
+      // this.compArr.push();
+      this.compArr = res?.data?.components;
+      this.compArr.unshift(res?.data?.product);
+
+      console.log(res, this.compArr, 'products');
+    });
   }
 
   submitPackage() {
@@ -76,7 +88,7 @@ export class UserhomeComponent implements OnInit {
       this.valuearr.push(this.scannedValue);
     this.status = '';
     this.scannedValue = '';
-    this.chechisStatus = 0;
+    this.chechisStatus = 1;
     if (this.formStep > 6) {
       let uuid = UUID.UUID();
       this.qrValue = uuid;
@@ -89,11 +101,17 @@ export class UserhomeComponent implements OnInit {
   }
 
   addItem(e: string) {
+    // this.scannedValue = '';
+    // this.status = '';
+    console.log(e, 'ee');
+
     if (e !== '') {
-      if (this.scannedValue !== e && this.formStep != 1) {
+      console.log(this.scannedValue, e, 'value', this.formStep);
+      if (this.scannedValue !== e) {
         this.chechisStatus = 0;
       }
-      if (this.chechisStatus !== 200) {
+
+      if (this.chechisStatus !== 200 && this.chechisStatus !== 1) {
         let url =
           this.formStep === 1
             ? apiUrls?.scanningApi?.chechisScan + '?chassis_number=' + e
@@ -101,7 +119,10 @@ export class UserhomeComponent implements OnInit {
               '?chassis_number=' +
               this.valuearr[0] +
               '&raw_material_id=' +
-              e;
+              e +
+              '&order_id=' +
+              (this.formStep - 1);
+        1;
         this.RestService.get(url).subscribe(
           (res: any) => {
             this.chechisStatus = res?.code;
@@ -109,19 +130,20 @@ export class UserhomeComponent implements OnInit {
               this.status = 'valid';
               this.valuearr.push(e);
               this.scannedValue = e;
+
               if (this.formStep === 1) {
-                this.formStep = res?.data !== null &&   res?.data !=1 ? res?.data +1 : 1
-                if (res?.data !== 1) {
-                  this.scannedValue = '';
-                  this.status = '';
-                }
+                this.formStep =
+                  res?.data !== null && res?.data != 1 ? res?.data + 1 : 1;
+                // this.status = '';
+                // this.scannedValue = '';
               }
             }
-
-            
           },
           (err) => {
             // this.chechisStatus =;
+
+            // (this.scannedValue = ''), (this.status = '');
+
             if (err?.error?.code === 404) {
               this.scannedValue = e;
               this.status = 'invalid';
