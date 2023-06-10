@@ -1,12 +1,13 @@
 export const apiUrls = {
-    authApi : {
-        login: 'auth/signIn',
-        signUp : 'auth/signUp'
-    },
+  authApi: {
+    login: 'auth/signIn',
+    signUp: 'auth/signUp',
+  },
 
-    scanningApi : {
-        chechisScan : 'scanner/product',
-        RAW : 'scanner/raw-material',
-        boxScanner : 'scanner/scan-packing'
-    }
-}
+  scanningApi: {
+    chechisScan: 'scanner/product',
+    RAW: 'scanner/raw-material',
+    boxScanner: 'scanner/scan-packing',
+    steps: 'scanner/product-component-details',
+  },
+};
