@@ -41,22 +41,15 @@ export class ScannerComponent implements OnInit {
   public config: ScannerQRCodeConfig = {
     constraints: {
       video: {
-        width: window.innerWidth, // https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+        width: window.innerWidth, 
       },
     },
-    // canvasStyles: {
-    //   font: '17px serif',
-    //   lineWidth: 1,
-    //   fillStyle: '#ff001854',
-    //   strokeStyle: '#ff0018c7',
-    // } as any // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
   };
 
   public qrCodeResult: ScannerQRCodeSelectedFiles[] = [];
   public qrCodeResult2: ScannerQRCodeSelectedFiles[] = [];
 
   ngAfterViewInit(): void {
-    // this.action?.isPause?.valueOf()
     this.action?.isReady.pipe(delay(1000)).subscribe(() => {
       this.handle(this.action, 'start');
     });

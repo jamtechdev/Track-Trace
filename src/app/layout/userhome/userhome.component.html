@@ -139,6 +139,13 @@
               </div>
             </div>
           </fieldset>
+          <img
+            *ngIf="loading"
+            src="https://cdn.dribbble.com/users/3337757/screenshots/6825268/076_-loading_animated_dribbble_copy.gif"
+            height="200"
+            width="200"
+            style="object-fit: contain"
+          />
 
           <fieldset *ngIf="compArr.length && formStep > compArr.length">
             <div class="alert alert-success" *ngIf="success">
@@ -149,12 +156,12 @@
             <qr-code (click)="print()" [value]="qrValue" size="300"></qr-code>
             <p class="">{{ qrValue }}</p>
             <input
-              *ngIf="!issubmitted"
-              type="button"
-              name="Proceed"
               class="btn btn-primary min-width mt-3"
-              value="Submit"
               (click)="submitPackage()"
+              *ngIf="!issubmitted"
+              value="Submit"
+              name="Proceed"
+              type="button"
             />
           </fieldset>
         </form>

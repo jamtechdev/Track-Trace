@@ -20,7 +20,8 @@ export class UserhomeComponent implements OnInit {
   success: string = '';
   error: string = '';
   issubmitted = false;
-
+  loading: boolean = false;
+  stepCounter: any;
   compArr: any = [];
 
   constructor(private RestService: RestService) {}
@@ -36,14 +37,18 @@ export class UserhomeComponent implements OnInit {
   }
 
   steps() {
+    this.loading = true;
     let url = apiUrls?.scanningApi.steps;
-    this.RestService.get(url).subscribe((res: any) => {
-      // this.compArr.push();
-      this.compArr = res?.data?.components;
-      this.compArr.unshift(res?.data?.product);
-
-      console.log(res, this.compArr, 'products');
-    });
+    this.RestService.get(url).subscribe(
+      (res: any) => {
+        this.compArr = res?.data?.components;
+        this.compArr.unshift(res?.data?.product);
+        this.loading = false;
+      },
+      (err) => {
+        this.loading = false;
+      }
+    );
   }
 
   submitPackage() {
@@ -71,8 +76,8 @@ export class UserhomeComponent implements OnInit {
 
   print() {
     var canvas: any = document.querySelector('canvas');
-    var img = canvas.toDataURL('image/png');
     const a: any = document.createElement('a');
+    var img = canvas.toDataURL('image/png');
     a.href = img;
     a.download = 'test';
     document.body.appendChild(a);
@@ -94,6 +99,7 @@ export class UserhomeComponent implements OnInit {
       this.qrValue = uuid;
     }
   }
+
   formStepperDown() {
     this.formStep = this.formStep - 1;
     this.formStep !== 1 && this.valuearr.pop();
@@ -101,16 +107,11 @@ export class UserhomeComponent implements OnInit {
   }
 
   addItem(e: string) {
-    // this.scannedValue = '';
-    // this.status = '';
-    console.log(e, 'ee');
-
     if (e !== '') {
-      console.log(this.scannedValue, e, 'value', this.formStep);
+      this.stepCounter = this.formStep;
       if (this.scannedValue !== e) {
         this.chechisStatus = 0;
       }
-
       if (this.chechisStatus !== 200 && this.chechisStatus !== 1) {
         let url =
           this.formStep === 1
@@ -130,18 +131,18 @@ export class UserhomeComponent implements OnInit {
               this.status = 'valid';
               this.valuearr.push(e);
               this.scannedValue = e;
-
               if (this.formStep === 1) {
                 this.formStep =
                   res?.data !== null && res?.data != 1 ? res?.data + 1 : 1;
-                // this.status = '';
-                // this.scannedValue = '';
               }
+            }
+            if (this.stepCounter != this.formStep) {
+              this.status = '';
+              this.scannedValue = '';
             }
           },
           (err) => {
             // this.chechisStatus =;
-
             // (this.scannedValue = ''), (this.status = '');
 
             if (err?.error?.code === 404) {
