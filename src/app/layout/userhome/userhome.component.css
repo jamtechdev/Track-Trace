@@ -50,14 +50,13 @@
     border: 1px solid #0070c9;
     outline-width: 0;
 }
-#msform input[type="button"]{
+#msform input[type="button"] {
     background: #ffd63f;
-    border: 1px solid #ffd63f;;
-        color: #262626;
-        font-weight: 600;
-    
+    border: 1px solid #ffd63f;
+    color: #262626;
+    font-weight: 600;
 }
-.btn-prev{
+.btn-prev {
     background: #ffd63f;
     border: 1px solid #ffd63f;
     min-width: 150px;
@@ -137,6 +136,8 @@
     margin-bottom: 30px;
     overflow: hidden;
     color: lightgrey;
+    display: flex;
+    justify-content: center;
 }
 
 #progressbar .active {
@@ -146,10 +147,14 @@
 #progressbar li {
     list-style-type: none;
     font-size: 15px;
-    width: 15%;
+    width: auto;
     float: left;
     position: relative;
     font-weight: 400;
+}
+
+#progressbar span li strong {
+    margin-left: 0.1%;
 }
 
 #progressbar #account:before {
@@ -201,17 +206,23 @@
     background: #4caf50;
 }
 
-
-
 #progressbar li.nextScan:before,
-#progressbar li.nextScan:after
-{
-        background: rgb(247 183 106);
+#progressbar li.nextScan:after {
+    background: rgb(247 183 106);
 }
 .progress {
     height: 20px;
 }
 
+/* .row {
+    justify-content: center;
+    align-items: center;
+} */
+
+/* .home-scanner {
+    width: 70%;
+    margin: auto;
+} */
 .progress-bar {
     background-color: #0070c9;
 }
@@ -246,7 +257,6 @@
     color: #fff;
 }
 
-
 .scanData h3 {
     background: #ffd63f;
     color: #262626;
@@ -272,7 +282,6 @@
 .scanData p:hover {
     box-shadow: 0px 0px 9px 2px #ffd63f;
 }
-
 
 /* /for :picture-in-picture */
 
