@@ -2,6 +2,7 @@ import { RestService } from 'src/app/common-resources/servieces/rest.service';
 import { apiUrls } from 'src/app/common-resources/api';
 import { Component, OnInit } from '@angular/core';
 import { UUID } from 'angular2-uuid';
+import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
 
 @Component({
   selector: 'app-userhome',
@@ -23,15 +24,24 @@ export class UserhomeComponent implements OnInit {
   loading: boolean = false;
   stepCounter: any;
   compArr: any = [];
+  orderid: any;
+  barcodeData = '22555';
 
-  constructor(private RestService: RestService) {}
+  constructor(
+    private RestService: RestService,
+    private LocalStore: LocalstoreService
+  ) {}
 
   getDevice(e: boolean) {
     this.isDevice = e;
   }
 
   ngOnInit(): void {
+    this.orderid = this.LocalStore.getItem('orderId');
+
     this.steps();
+    // console.log(Math.random().toString(16).slice(2));
+
     let uuid = UUID.UUID();
     this.qrValue = uuid;
   }
@@ -44,7 +54,9 @@ export class UserhomeComponent implements OnInit {
         this.compArr = res?.data?.components;
         this.compArr.unshift(res?.data?.product);
         this.loading = false;
+        console.log(this.compArr, 'comp arr');
       },
+
       (err) => {
         this.loading = false;
       }
@@ -87,7 +99,7 @@ export class UserhomeComponent implements OnInit {
   }
 
   formStepper() {
-    this.formStep = this.formStep + 1;
+    // this.formStep = this.formStep + 1;
     this.scannedValue != '' &&
       this.valuearr[0] !== this.scannedValue &&
       this.valuearr.push(this.scannedValue);
@@ -100,11 +112,11 @@ export class UserhomeComponent implements OnInit {
     }
   }
 
-  formStepperDown() {
-    this.formStep = this.formStep - 1;
-    this.formStep !== 1 && this.valuearr.pop();
-    this.chechisStatus = 0;
-  }
+  // formStepperDown() {
+  //   this.formStep = this.formStep - 1;
+  //   this.formStep !== 1 && this.valuearr.pop();
+  //   this.chechisStatus = 0;
+  // }
 
   addItem(e: string) {
     if (e !== '') {
@@ -114,7 +126,7 @@ export class UserhomeComponent implements OnInit {
       }
       if (this.chechisStatus !== 200 && this.chechisStatus !== 1) {
         let url =
-          this.formStep === 1
+          this.orderid === 1
             ? apiUrls?.scanningApi?.chechisScan + '?chassis_number=' + e
             : apiUrls?.scanningApi?.RAW +
               '?chassis_number=' +
@@ -131,6 +143,9 @@ export class UserhomeComponent implements OnInit {
               this.status = 'valid';
               this.valuearr.push(e);
               this.scannedValue = e;
+              if (this.barcodeData == '') {
+                this.barcodeData = e;
+              }
               if (this.formStep === 1) {
                 this.formStep =
                   res?.data !== null && res?.data != 1 ? res?.data + 1 : 1;

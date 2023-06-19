@@ -16,7 +16,6 @@ import { NgModule } from '@angular/core';
     HttpClientModule,
     BrowserModule,
     AuthModule,
-    
   ],
   providers: [],
   bootstrap: [AppComponent],
