@@ -25,7 +25,7 @@ export class UserhomeComponent implements OnInit {
   stepCounter: any;
   compArr: any = [];
   orderid: any;
-  barcodeData = '22555';
+  barcodeData = '';
 
   constructor(
     private RestService: RestService,
@@ -39,8 +39,7 @@ export class UserhomeComponent implements OnInit {
   ngOnInit(): void {
     this.orderid = this.LocalStore.getItem('orderId');
 
-    this.steps();
-    // console.log(Math.random().toString(16).slice(2));
+    this.steps(); // console.log(Math.random().toString(16).slice(2));
 
     let uuid = UUID.UUID();
     this.qrValue = uuid;
@@ -54,7 +53,7 @@ export class UserhomeComponent implements OnInit {
         this.compArr = res?.data?.components;
         this.compArr.unshift(res?.data?.product);
         this.loading = false;
-        console.log(this.compArr, 'comp arr');
+        // console.log(this.compArr, 'comp arr');
       },
 
       (err) => {
@@ -110,6 +109,7 @@ export class UserhomeComponent implements OnInit {
       let uuid = UUID.UUID();
       this.qrValue = uuid;
     }
+    this.steps();
   }
 
   // formStepperDown() {
@@ -119,6 +119,8 @@ export class UserhomeComponent implements OnInit {
   // }
 
   addItem(e: string) {
+    // console.log(this.orderid);
+
     if (e !== '') {
       this.stepCounter = this.formStep;
       if (this.scannedValue !== e) {
@@ -126,7 +128,7 @@ export class UserhomeComponent implements OnInit {
       }
       if (this.chechisStatus !== 200 && this.chechisStatus !== 1) {
         let url =
-          this.orderid === 1
+          this.orderid == 1
             ? apiUrls?.scanningApi?.chechisScan + '?chassis_number=' + e
             : apiUrls?.scanningApi?.RAW +
               '?chassis_number=' +
@@ -134,7 +136,7 @@ export class UserhomeComponent implements OnInit {
               '&raw_material_id=' +
               e +
               '&order_id=' +
-              (this.formStep - 1);
+              this.orderid;
         1;
         this.RestService.get(url).subscribe(
           (res: any) => {
