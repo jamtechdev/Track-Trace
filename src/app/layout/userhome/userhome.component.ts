@@ -86,15 +86,16 @@ export class UserhomeComponent implements OnInit {
   }
 
   print() {
-    var canvas: any = document.querySelector('canvas');
-    const a: any = document.createElement('a');
-    var img = canvas.toDataURL('image/png');
-    a.href = img;
-    a.download = 'test';
-    document.body.appendChild(a);
-    a.style = 'display: none';
-    a.click();
-    a.remove();
+    window.print();
+    // var canvas: any = document.querySelector('canvas');
+    // const a: any = document.createElement('a');
+    // var img = canvas.toDataURL('image/png');
+    // a.href = img;
+    // // a.download = 'test';
+    // document.body.appendChild(a);
+    // a.style = 'display: none';
+    // a.click();
+    // a.remove();
   }
 
   formStepper() {

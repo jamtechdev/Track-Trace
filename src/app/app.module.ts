@@ -6,7 +6,6 @@ import { AuthModule } from './layout/Auth/auth.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
-// import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [AppComponent, ResetPasswordComponent],
