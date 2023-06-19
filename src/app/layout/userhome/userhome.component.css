@@ -286,11 +286,18 @@
 
 /* /for :picture-in-picture */
 
-@media print {
-    body {
+@media only print {
+    main {
         visibility: hidden;
+        /* opacity: 0;
+        position: absolute;
+        z-index: -1; */
     }
 
+    main .print-container {
+        visibility: visible;
+        /* display: block; */
+    }
     #section-to-print {
         visibility: visible;
         position: absolute;

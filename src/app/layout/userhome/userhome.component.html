@@ -1,49 +1,50 @@
-<app-header></app-header>
-<div class="container">
-  <!-- <div class="row">
+<main>
+  <app-header></app-header>
+  <div class="container">
+    <!-- <div class="row">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3 mb-2 p-0">
       <button class="btn-prev">Previos</button>
     </div>
   </div> -->
-  <div class="row justify-content-center">
-    <div
-      class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center p-0 mt-3 mb-2"
-    >
-      <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-        <h2 id="heading">Track and Trace</h2>
-        <form id="msform">
-          <div
-            class="barcode"
-            style="text-align: center"
-            *ngIf="orderid > 1 && barcodeData"
-          >
-            <!-- insert your custom barcode setting your data in the GET parameter "data" -->
-            <img
-              alt="Barcode"
-              src="https://barcode.tec-it.com/barcode.ashx?data={{
-                barcodeData
-              }}&code=Code128&translate-esc=on"
-            />
-          </div>
-          <!-- progressbar -->
+    <div class="row justify-content-center">
+      <div
+        class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center p-0 mt-3 mb-2"
+      >
+        <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+          <h2 id="heading">Track and Trace</h2>
+          <form id="msform">
+            <div
+              class="barcode"
+              style="text-align: center"
+              *ngIf="orderid > 1 && barcodeData"
+            >
+              <!-- insert your custom barcode setting your data in the GET parameter "data" -->
+              <img
+                alt="Barcode"
+                src="https://barcode.tec-it.com/barcode.ashx?data={{
+                  barcodeData
+                }}&code=Code128&translate-esc=on"
+              />
+            </div>
+            <!-- progressbar -->
 
-          <ul id="progressbar">
-            <span *ngFor="let item of compArr; index as i">
-              <li
-                [ngClass]="
-                  item?.completed == true
-                    ? 'active'
-                    : orderid == i + 1
-                    ? 'nextScan'
-                    : ''
-                "
-                id="account"
-              >
-                <span>{{ item?.count }}</span>
+            <ul id="progressbar">
+              <span *ngFor="let item of compArr; index as i">
+                <li
+                  [ngClass]="
+                    item?.completed == true
+                      ? 'active'
+                      : orderid == i + 1
+                      ? 'nextScan'
+                      : ''
+                  "
+                  id="account"
+                >
+                  <span>{{ item?.count }}</span>
 
-                <strong>{{ item["name"] }} Scan</strong>
-              </li>
-              <!-- <li
+                  <strong>{{ item["name"] }} Scan</strong>
+                </li>
+                <!-- <li
                 id="personal"
                 [ngClass]="
                   formStep == 2 ? 'nextScan' : formStep > 2 ? 'active' : ''
@@ -51,10 +52,10 @@
               >
                 <strong>{{ item }} Scan</strong>
               </li> -->
-            </span>
-          </ul>
+              </span>
+            </ul>
 
-          <!-- <ul id="progressbar">
+            <!-- <ul id="progressbar">
             <li class="active" id="account">
               <strong>Chasis Scan</strong>
             </li>
@@ -100,90 +101,91 @@
             </li>
           </ul> -->
 
-          <br />
-          <!-- fieldsets -->
-          <!-- <div class="form-card">
+            <br />
+            <!-- fieldsets -->
+            <!-- <div class="form-card">
             <div class="row"></div>
           </div> -->
-          <fieldset *ngIf="formStep <= compArr.length">
-            <div class="container p-0">
-              <div class="row">
-                <div class="col-md-6 position-relative">
-                  <div class="home-scanner">
-                    <app-scanner
-                      (devicealert)="getDevice($event)"
-                      (newItemEvent)="addItem($event)"
-                    ></app-scanner>
+            <fieldset *ngIf="formStep <= compArr.length">
+              <div class="container p-0">
+                <div class="row">
+                  <div class="col-md-6 position-relative">
+                    <div class="home-scanner">
+                      <app-scanner
+                        (devicealert)="getDevice($event)"
+                        (newItemEvent)="addItem($event)"
+                      ></app-scanner>
+                    </div>
+                    <div
+                      *ngIf="!isDevice"
+                      class="alert alert-danger error-message"
+                    >
+                      No device found !!
+                    </div>
                   </div>
-                  <div
-                    *ngIf="!isDevice"
-                    class="alert alert-danger error-message"
-                  >
-                    No device found !!
+                  <div class="col-md-6">
+                    <div class="scanData text-start">
+                      <h3 class="m-0 text-center">Scan Results</h3>
+                      <p>
+                        Scan Result : <span>{{ scannedValue }}</span>
+                      </p>
+                      <p>
+                        Status :
+                        <span
+                          *ngIf="status == 'valid'"
+                          class="text-success status"
+                        >
+                          <i class="ri-check-fill"></i>
+                        </span>
+                        <span
+                          *ngIf="status == 'invalid'"
+                          class="text-danger status"
+                        >
+                          <i class="ri-close-fill"></i>
+                        </span>
+                      </p>
+                    </div>
+                    <input
+                      [disabled]="status == 'invalid' || status == ''"
+                      type="button"
+                      name="Proceed"
+                      class="btn btn-primary min-width mt-3"
+                      value="Proceed"
+                      (click)="formStepper()"
+                    />
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="scanData text-start">
-                    <h3 class="m-0 text-center">Scan Results</h3>
-                    <p>
-                      Scan Result : <span>{{ scannedValue }}</span>
-                    </p>
-                    <p>
-                      Status :
-                      <span
-                        *ngIf="status == 'valid'"
-                        class="text-success status"
-                      >
-                        <i class="ri-check-fill"></i>
-                      </span>
-                      <span
-                        *ngIf="status == 'invalid'"
-                        class="text-danger status"
-                      >
-                        <i class="ri-close-fill"></i>
-                      </span>
-                    </p>
-                  </div>
-                  <input
-                    [disabled]="status == 'invalid' || status == ''"
-                    type="button"
-                    name="Proceed"
-                    class="btn btn-primary min-width mt-3"
-                    value="Proceed"
-                    (click)="formStepper()"
-                  />
                 </div>
               </div>
-            </div>
-          </fieldset>
-          <img
-            *ngIf="loading"
-            src="https://cdn.dribbble.com/users/3337757/screenshots/6825268/076_-loading_animated_dribbble_copy.gif"
-            height="200"
-            width="200"
-            style="object-fit: contain"
-          />
-
-          <fieldset *ngIf="compArr.length && formStep > compArr.length">
-            <div class="alert alert-success" *ngIf="success">
-              {{ success }}
-            </div>
-            <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
-            <p>Packaging QR code</p>
-            <qr-code (click)="print()" [value]="qrValue" size="300"></qr-code>
-            <p class="">{{ qrValue }}</p>
-            <input
-              class="btn btn-primary min-width mt-3"
-              (click)="submitPackage()"
-              *ngIf="!issubmitted"
-              value="Submit"
-              name="Proceed"
-              type="button"
+            </fieldset>
+            <img
+              *ngIf="loading"
+              src="https://cdn.dribbble.com/users/3337757/screenshots/6825268/076_-loading_animated_dribbble_copy.gif"
+              height="200"
+              width="200"
+              style="object-fit: contain"
             />
-          </fieldset>
-        </form>
+
+            <fieldset *ngIf="compArr.length && formStep > compArr.length">
+              <div class="alert alert-success" *ngIf="success">
+                {{ success }}
+              </div>
+              <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+              <p>Packaging QR code</p>
+              <qr-code (click)="print()" [value]="qrValue" size="300"></qr-code>
+              <p class="">{{ qrValue }}</p>
+              <input
+                class="btn btn-primary min-width mt-3"
+                (click)="submitPackage()"
+                *ngIf="!issubmitted"
+                value="Submit"
+                name="Proceed"
+                type="button"
+              />
+            </fieldset>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<app-footer></app-footer>
+  <app-footer></app-footer>
+</main>
