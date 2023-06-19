@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    localStorage.clear();
     this.loginForm = this.formBuilder.group({
       email: [
         '',
@@ -74,6 +75,7 @@ export class LoginComponent implements OnInit {
           this.localStore.setItem('name', res?.data?.fullName);
           this.localStore.setItem('email', res?.data?.email);
           this.localStore.setItem('uid', res?.data?.uid);
+          this.localStore.setItem('orderId', res?.data?.orderId);
           this.submitted = false;
           if (res?.data?.token) {
             this.submitted = false;

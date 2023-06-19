@@ -186,7 +186,7 @@
     color: #ffffff;
     background: lightgray;
     border-radius: 50%;
-    margin: 0 auto 10px auto;
+    margin: 0 50px 0 50px;
     padding: 2px;
 }
 
@@ -199,6 +199,7 @@
     left: 0;
     top: 25px;
     z-index: -1;
+    margin: auto;
 }
 
 #progressbar li.active:before,
@@ -296,4 +297,12 @@
         left: 0;
         top: 0;
     }
+}
+
+.barcode {
+    margin: 2%;
+}
+
+.barcode img {
+    height: 60px;
 }

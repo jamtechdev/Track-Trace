@@ -12,20 +12,35 @@
       <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
         <h2 id="heading">Track and Trace</h2>
         <form id="msform">
+          <div
+            class="barcode"
+            style="text-align: center"
+            *ngIf="orderid > 1 && barcodeData"
+          >
+            <!-- insert your custom barcode setting your data in the GET parameter "data" -->
+            <img
+              alt="Barcode"
+              src="https://barcode.tec-it.com/barcode.ashx?data={{
+                barcodeData
+              }}&code=Code128&translate-esc=on"
+            />
+          </div>
           <!-- progressbar -->
 
           <ul id="progressbar">
             <span *ngFor="let item of compArr; index as i">
               <li
                 [ngClass]="
-                  formStep > i + 1
+                  item?.completed == true
                     ? 'active'
-                    : formStep == i + 1
+                    : orderid == i + 1
                     ? 'nextScan'
                     : ''
                 "
                 id="account"
               >
+                <span>{{ item?.count }}</span>
+
                 <strong>{{ item["name"] }} Scan</strong>
               </li>
               <!-- <li
