@@ -26,6 +26,8 @@ export class UserhomeComponent implements OnInit {
   compArr: any = [];
   orderid: any;
   barcodeData = '';
+  productUid: any;
+  scan_count: any;
 
   constructor(
     private RestService: RestService,
@@ -38,8 +40,11 @@ export class UserhomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.orderid = this.LocalStore.getItem('orderId');
+    this.productUid = this.LocalStore.getItem('productUid');
 
     this.steps(); // console.log(Math.random().toString(16).slice(2));
+    this.scan_count = this.LocalStore.getItem('scan_count');
+    console.log(this.scan_count);
 
     let uuid = UUID.UUID();
     this.qrValue = uuid;
@@ -51,9 +56,15 @@ export class UserhomeComponent implements OnInit {
     this.RestService.get(url).subscribe(
       (res: any) => {
         this.compArr = res?.data?.components;
-        this.compArr.unshift(res?.data?.product);
+        let index = this.compArr.findIndex(
+          (x: any) => x.orderId == this.orderid
+        );
+        this.LocalStore.setItem(
+          'scan_count',
+          res?.data?.components[index]?.count
+        );
         this.loading = false;
-        // console.log(this.compArr, 'comp arr');
+        console.log(res?.data?.components[index].count);
       },
 
       (err) => {
@@ -128,10 +139,25 @@ export class UserhomeComponent implements OnInit {
         this.chechisStatus = 0;
       }
       if (this.chechisStatus !== 200 && this.chechisStatus !== 1) {
+        console.log(this.scan_count);
+
+        let data = {
+          product_uid: this.productUid,
+          chassis_number: e,
+          count_scanning: this.scan_count,
+          order_id: this.orderid,
+        };
+
         let url =
           this.orderid == 1
-            ? apiUrls?.scanningApi?.chechisScan + '?chassis_number=' + e
-            : apiUrls?.scanningApi?.RAW +
+            ? apiUrls?.scanningApi?.chechisScan
+            : // '?product_uid' +
+              // this.productUid +
+              // '&chassis_number=' +
+              // e +
+              // '&count_scanning' +
+              // this.scan_count
+              apiUrls?.scanningApi?.RAW +
               '?chassis_number=' +
               this.valuearr[0] +
               '&raw_material_id=' +
@@ -139,8 +165,10 @@ export class UserhomeComponent implements OnInit {
               '&order_id=' +
               this.orderid;
         1;
-        this.RestService.get(url).subscribe(
+        this.RestService.post(data, url).subscribe(
           (res: any) => {
+            console.log(res);
+
             this.chechisStatus = res?.code;
             if (this.chechisStatus === 200) {
               this.status = 'valid';
@@ -149,10 +177,10 @@ export class UserhomeComponent implements OnInit {
               if (this.barcodeData == '') {
                 this.barcodeData = e;
               }
-              if (this.formStep === 1) {
-                this.formStep =
-                  res?.data !== null && res?.data != 1 ? res?.data + 1 : 1;
-              }
+              // if (this.formStep === 1) {
+              //   this.formStep =
+              //     res?.data !== null && res?.data != 1 ? res?.data + 1 : 1;
+              // }
             }
             if (this.stepCounter != this.formStep) {
               this.status = '';

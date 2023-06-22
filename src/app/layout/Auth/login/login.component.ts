@@ -76,6 +76,7 @@ export class LoginComponent implements OnInit {
           this.localStore.setItem('email', res?.data?.email);
           this.localStore.setItem('uid', res?.data?.uid);
           this.localStore.setItem('orderId', res?.data?.orderId);
+          this.localStore.setItem('productUid', res?.data?.productUid);
           this.submitted = false;
           if (res?.data?.token) {
             this.submitted = false;
