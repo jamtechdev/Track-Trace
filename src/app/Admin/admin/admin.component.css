@@ -1,0 +1,96 @@
+.login-page-section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-side,
+.right-side {
+    width: 50%;
+    height: 100%;
+}
+
+.right-side {
+    background: #dbdbdb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.left-side {
+    background-image: url(https://cdn.dribbble.com/users/218857/screenshots/3491082/assembly_dribbble2.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: contain;
+    background-color: #0070c9;
+}
+
+.inner-form {
+    max-width: 80%;
+    margin: auto;
+    width: 100%;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.inner-form label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.inner-form input {
+    height: 50px;
+    border-radius: 0;
+    font-size: 16px;
+}
+
+.inner-form input::placeholder {
+    font-size: 16px;
+}
+
+.inner-form .btn.btn-primary {
+    width: 100%;
+    border-radius: 0;
+    margin: 10px 0 0;
+    font-weight: 600;
+    background-color: #ffd63f;
+    border-color: #ffd63f;
+    height: 50px;
+    color: #000;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 13px;
+    top: 32px;
+    bottom: 0;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+
+    .left-side,
+    .right-side {
+        width: 100%;
+        height: 100%;
+    }
+
+    .left-side {
+        display: none !important;
+    }
+}

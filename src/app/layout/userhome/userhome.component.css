@@ -50,7 +50,20 @@
     border: 1px solid #0070c9;
     outline-width: 0;
 }
-
+#msform input[type="button"] {
+    background: #ffd63f;
+    border: 1px solid #ffd63f;
+    color: #262626;
+    font-weight: 600;
+}
+.btn-prev {
+    background: #ffd63f;
+    border: 1px solid #ffd63f;
+    min-width: 150px;
+    height: 50px;
+    color: #262626;
+    font-weight: 600;
+}
 #msform .action-button {
     width: 100px;
     background: #0070c9;
@@ -123,6 +136,8 @@
     margin-bottom: 30px;
     overflow: hidden;
     color: lightgrey;
+    display: flex;
+    justify-content: center;
 }
 
 #progressbar .active {
@@ -132,30 +147,34 @@
 #progressbar li {
     list-style-type: none;
     font-size: 15px;
-    width: 15%;
+    width: auto;
     float: left;
     position: relative;
     font-weight: 400;
 }
 
+#progressbar span li strong {
+    margin-left: 0.1%;
+}
+
 #progressbar #account:before {
-    font-family: FontAwesome;
-    content: "\f00c";
+    content: "\eb57";
+    font-family: remixicon !important;
 }
 
 #progressbar #personal:before {
-    font-family: FontAwesome;
-    content: "\f00c";
+    content: "\eb57";
+    font-family: remixicon !important;
 }
 
 #progressbar #payment:before {
-    font-family: FontAwesome;
-    content: "\f00c";
+    content: "\eb57";
+    font-family: remixicon !important;
 }
 
 #progressbar #confirm:before {
-    font-family: FontAwesome;
-    content: "\f00c";
+    content: "\eb57";
+    font-family: remixicon !important;
 }
 
 #progressbar li:before {
@@ -167,7 +186,7 @@
     color: #ffffff;
     background: lightgray;
     border-radius: 50%;
-    margin: 0 auto 10px auto;
+    margin: 0 50px 0 50px;
     padding: 2px;
 }
 
@@ -180,6 +199,7 @@
     left: 0;
     top: 25px;
     z-index: -1;
+    margin: auto;
 }
 
 #progressbar li.active:before,
@@ -187,10 +207,23 @@
     background: #4caf50;
 }
 
+#progressbar li.nextScan:before,
+#progressbar li.nextScan:after {
+    background: rgb(247 183 106);
+}
 .progress {
     height: 20px;
 }
 
+/* .row {
+    justify-content: center;
+    align-items: center;
+} */
+
+/* .home-scanner {
+    width: 70%;
+    margin: auto;
+} */
 .progress-bar {
     background-color: #0070c9;
 }
@@ -203,4 +236,80 @@
 .scanner {
     height: 25%;
     width: 25%;
+}
+
+.bottom-btn-next {
+    display: flex;
+    justify-content: space-between;
+}
+
+.error-message {
+    position: absolute;
+    top: 32%;
+    width: 96%;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.scanData {
+    height: 83%;
+    background: #262626;
+    color: #fff;
+}
+
+.scanData h3 {
+    background: #ffd63f;
+    color: #262626;
+    padding: 10px;
+}
+
+.scanData p {
+    padding: 12px 20px;
+    border-bottom: 1px solid #fff;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.scanData p span.status {
+    position: relative;
+    top: 2px;
+    font-size: 23px;
+    line-height: 0;
+}
+
+.scanData p:hover {
+    box-shadow: 0px 0px 9px 2px #ffd63f;
+}
+
+/* /for :picture-in-picture */
+
+@media only print {
+    main {
+        visibility: hidden;
+        /* opacity: 0;
+        position: absolute;
+        z-index: -1; */
+    }
+
+    main .print-container {
+        visibility: visible;
+        /* display: block; */
+    }
+    #section-to-print {
+        visibility: visible;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+
+.barcode {
+    margin: 2%;
+}
+
+.barcode img {
+    height: 60px;
 }

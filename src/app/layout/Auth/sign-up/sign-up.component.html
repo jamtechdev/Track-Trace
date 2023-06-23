@@ -1,0 +1,220 @@
+<section class="login-page-section">
+  <div class="login-container">
+    <div class="left-side"></div>
+    <div class="right-side">
+      <div class="inner-form">
+        <h1 class="mb-5">Sign Up</h1>
+        <div *ngIf="success" class="alert alert-success">
+          {{ success }}
+        </div>
+        <div *ngIf="error" class="alert alert-danger">
+          {{ error }}
+        </div>
+        <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="first_name"
+                  autocomplete="off"
+                  aria-describedby="emailHelp"
+                  formControlName="first_name"
+                />
+
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    (submitted && f['first_name'].errors) ||
+                    (f['first_name'].touched && f['first_name'].dirty)
+                  "
+                >
+                  <div
+                    *ngIf="
+                      f['first_name'].errors !== null &&
+                      f['first_name'].errors['required']
+                    "
+                  >
+                    First name is required
+                  </div>
+                  <div
+                    *ngIf="
+                      f['first_name'].errors !== null &&
+                      f['first_name'].errors['pattern']
+                    "
+                  >
+                    Invalid Pttern
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input
+                  type="text"
+                  autocomplete="off"
+                  class="form-control"
+                  id="last_name"
+                  aria-describedby="emailHelp"
+                  formControlName="last_name"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    (submitted && f['last_name'].errors) ||
+                    f['last_name'].touched
+                  "
+                >
+                  <!-- <div *ngIf="submitted && f['last_name'].errors['required']"> Last name is required </div> -->
+                  <div
+                    *ngIf="
+                      f['last_name'].errors !== null &&
+                      f['last_name'].errors['pattern']
+                    "
+                  >
+                    Invalid Pttern
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input
+                  type="email"
+                  autocomplete="off"
+                  class="form-control"
+                  id="email"
+                  aria-describedby="emailHelp"
+                  formControlName="email"
+                />
+
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    (submitted && f['email'].errors) ||
+                    (f['last_name'].touched && f['last_name'].dirty)
+                  "
+                >
+                  <div
+                    *ngIf="
+                      f['email'].errors !== null &&
+                      f['email'].errors['required']
+                    "
+                  >
+                    Email is required
+                  </div>
+                  <div
+                    *ngIf="
+                      f['email'].errors !== null && f['email'].errors['pattern']
+                    "
+                  >
+                    Invalid Pttern <br />
+                    <span>* E-mail not contians Upper Case!</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label"
+                  >Password</label
+                >
+                <input
+                  autocomplete="off"
+                  type="password"
+                  class="form-control"
+                  id="exampleInputPassword1"
+                  formControlName="password"
+                />
+
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    (submitted && f['password'].errors) ||
+                    (f['password'].touched && f['password'].dirty)
+                  "
+                >
+                  <div
+                    *ngIf="
+                      f['password'].errors !== null &&
+                      f['password'].errors['required']
+                    "
+                  >
+                    Password is required
+                  </div>
+                  <div
+                    *ngIf="
+                      f['password'].errors !== null &&
+                      f['password'].errors['pattern']
+                    "
+                  >
+                    Invalid Pttern
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label for="password_confirmation" class="form-label"
+                  >Confirm Password</label
+                >
+                <input
+                  type="password"
+                  autocomplete="off"
+                  class="form-control"
+                  id="password_confirmation"
+                  formControlName="password_confirmation"
+                  (change)="confirmPas($event)"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    (submitted && f['password_confirmation'].errors) ||
+                    (f['password_confirmation'].touched &&
+                      f['password_confirmation'].dirty)
+                  "
+                >
+                  <div
+                    *ngIf="
+                      f['password_confirmation'].errors !== null &&
+                      f['password_confirmation'].errors['required']
+                    "
+                  >
+                    Confirm password is required
+                  </div>
+
+                  <div
+                    *ngIf="
+                      f['password_confirmation'].errors !== null &&
+                      f['password_confirmation'].errors['match']
+                    "
+                  >
+                    Confirm Password must match with password
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            type="submit"
+            [disabled]="submitted || signUpForm.invalid || loading"
+            class="btn btn-primary submit-btn"
+          >
+            Submit
+          </button>
+          <div class="mt-3 form-check p-0 text-center login-btn">
+            Already have an accout?<span (click)="Login()">Log In</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

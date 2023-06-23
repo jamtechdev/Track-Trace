@@ -4,6 +4,9 @@
     <div class="right-side">
       <div class="inner-form">
         <h1 class="mb-5">Login</h1>
+        <div *ngIf="error" class="alert alert-danger">
+          {{ error }}
+        </div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label"
@@ -16,24 +19,50 @@
               aria-describedby="emailHelp"
               formControlName="email"
             />
+            <div class="text-danger" *ngIf="submitted && login['email'].errors">
+              <div *ngIf="submitted && login['email'].errors['required']">
+                Email is required
+              </div>
+              <div *ngIf="submitted && login['email'].errors['pattern']">
+                Invalid Pttern
+              </div>
+            </div>
           </div>
-          <div class="mb-3">
+          <div class="mb-3 position-relative">
             <label for="exampleInputPassword1" class="form-label"
               >Password</label
             >
             <input
-              type="password"
+              type="{{ type }}"
               class="form-control"
               id="exampleInputPassword1"
               formControlName="password"
             />
+            <span class="eye-icon" (click)="showPass()"
+              ><i class="ri-eye-line"></i
+            ></span>
+            <div
+              class="text-danger"
+              *ngIf="submitted && login['password'].errors"
+            >
+              <div *ngIf="submitted && login['password'].errors['required']">
+                Password is required
+              </div>
+              <div *ngIf="submitted && login['password'].errors['pattern']">
+                Invalid Pttern
+              </div>
+            </div>
           </div>
           <div class="mb-3 form-check p-0">
             <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
               >Forget password</a
             >
           </div>
-          <button type="submit" class="btn btn-primary submit-btn">
+          <button
+            [disabled]="submitted"
+            type="submit"
+            class="btn btn-primary submit-btn"
+          >
             Submit
           </button>
         </form>

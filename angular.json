@@ -27,7 +27,7 @@
                 "output": "./assets/wasm/"
               }
             ],
-            "styles": ["src/styles.css"],
+            "styles": [],
             "scripts": []
           },
           "configurations": {
