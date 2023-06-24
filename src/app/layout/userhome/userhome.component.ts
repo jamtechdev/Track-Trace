@@ -183,12 +183,21 @@ export class UserhomeComponent implements OnInit {
       (err) => {
         if (err?.error?.code === 401 || err?.error?.code === 403) {
           // LOGOUT WILL GO HERE
+
+           this.toast.error({
+              detail: 'ERROR',
+              summary: 'Incorrect credentials ..',
+              sticky: false,
+              duration:3000
+            });
+
         } else {
           if (err?.error?.code === 422) {
             this.toast.error({
               detail: 'ERROR',
               summary: 'Component with this QR alreadyexists !! ',
-              sticky: true,
+            sticky: false,
+              duration:3000
             });
           }
         }

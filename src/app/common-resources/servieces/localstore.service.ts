@@ -7,11 +7,11 @@ export class LocalstoreService {
 
   constructor() { }
   public local = window.localStorage
-  setItem(key:string , value : any){
-    this.local.setItem(key , value)
-  }
+  setItem(key:string , value : any){ //
+    this.local.setItem(key , value) //
+  } // 
 
-  getItem(key:string){
+  getItem(key:string){ // 
    return this.local.getItem(key)
   }
 

@@ -61,7 +61,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    
     this.submitted = true;
     setTimeout(() => {
       this.submitted = false;

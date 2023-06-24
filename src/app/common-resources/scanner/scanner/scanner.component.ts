@@ -76,7 +76,7 @@ export class ScannerComponent implements OnInit {
       action[fn]().subscribe((r: any) => console.log(fn, r));
     }
   }
-
+// // // 
   public onSelects(files: any): void {
     this.qrcode
       .loadFiles(files)
