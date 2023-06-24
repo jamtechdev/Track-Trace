@@ -15,6 +15,5 @@ export class logInGaurd implements CanActivate {
  return true}else{
 this.router.navigate(['/home'])
     return false}
-   
   }
 }

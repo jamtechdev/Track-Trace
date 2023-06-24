@@ -2,6 +2,8 @@ import { RestService } from 'src/app/common-resources/servieces/rest.service';
 import { apiUrls } from 'src/app/common-resources/api';
 import { Component, OnInit } from '@angular/core';
 import { UUID } from 'angular2-uuid';
+import { NgToastService } from 'ng-angular-popup';
+
 import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
 
 @Component({
@@ -28,8 +30,11 @@ export class UserhomeComponent implements OnInit {
   barcodeData = '';
   productUid: any;
   scan_count: any;
+  rescan: boolean = true;
+  chassisNumber: string = '';
 
   constructor(
+    private toast: NgToastService,
     private RestService: RestService,
     private LocalStore: LocalstoreService
   ) {}
@@ -39,12 +44,15 @@ export class UserhomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    setInterval(() => {
+      // console.clear();
+    }, 2000);
+
     this.orderid = this.LocalStore.getItem('orderId');
     this.productUid = this.LocalStore.getItem('productUid');
 
-    this.steps(); // console.log(Math.random().toString(16).slice(2));
+    this.steps();
     this.scan_count = this.LocalStore.getItem('scan_count');
-    console.log(this.scan_count);
 
     let uuid = UUID.UUID();
     this.qrValue = uuid;
@@ -63,12 +71,25 @@ export class UserhomeComponent implements OnInit {
           'scan_count',
           res?.data?.components[index]?.count
         );
+
+        this.LocalStore.setItem(
+          'product_name',
+          res?.data?.components[index]?.name
+        );
+
         this.loading = false;
-        console.log(res?.data?.components[index].count);
       },
 
       (err) => {
         this.loading = false;
+        if (err.status == 401) {
+          this.toast.error({
+            detail: 'Error',
+            summary: err?.error?.message,
+            sticky: false,
+            duration: 3000,
+          });
+        }
       }
     );
   }
@@ -111,17 +132,68 @@ export class UserhomeComponent implements OnInit {
 
   formStepper() {
     // this.formStep = this.formStep + 1;
-    this.scannedValue != '' &&
-      this.valuearr[0] !== this.scannedValue &&
-      this.valuearr.push(this.scannedValue);
-    this.status = '';
-    this.scannedValue = '';
-    this.chechisStatus = 1;
-    if (this.formStep > 6) {
-      let uuid = UUID.UUID();
-      this.qrValue = uuid;
-    }
-    this.steps();
+    // this.scannedValue != '' &&
+    //   this.valuearr[0] !== this.scannedValue &&
+    //   this.valuearr.push(this.scannedValue);
+    // this.status = '';
+    // this.scannedValue = '';
+    // this.chechisStatus = 1;
+    // if (this.formStep > 6) {
+    //   let uuid = UUID.UUID();
+    //   this.qrValue = uuid;
+    // }
+
+    this.scannedValue !== ''
+      ? this.SaveData()
+      : this.toast.error({
+          detail: 'Error',
+          summary: 'Please scan QR !! ',
+          sticky: true,
+        });
+
+    // this.steps();
+  }
+
+  SaveData() {
+    const url =
+      this.orderid == 1
+        ? apiUrls?.scanningApi?.chechisScan
+        : apiUrls?.scanningApi?.RAW;
+    let body = {
+      product_uid: this.LocalStore.getItem('productUid'),
+      chassis_number:
+        this.orderid == 1 ? this.scannedValue : this.chassisNumber,
+      name: this.LocalStore.getItem('product_name'),
+      order_id: this.orderid,
+      count_scanning: this.scan_count,
+      raw_material_id: this.orderid != 1 ? this.scannedValue : null,
+    };
+
+    this.RestService?.postToken(url, body).subscribe(
+      (res: any) => {
+        if (res?.code === 200) {
+          this.scannedValue = '';
+          this.toast.success({
+            detail: 'SUCCESS',
+            summary: 'Component added succesfully',
+            duration: 3000,
+          });
+        }
+      },
+      (err) => {
+        if (err?.error?.code === 401 || err?.error?.code === 403) {
+          // LOGOUT WILL GO HERE
+        } else {
+          if (err?.error?.code === 422) {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Component with this QR alreadyexists !! ',
+              sticky: true,
+            });
+          }
+        }
+      }
+    );
   }
 
   // formStepperDown() {
@@ -131,73 +203,34 @@ export class UserhomeComponent implements OnInit {
   // }
 
   addItem(e: string) {
-    // console.log(this.orderid);
+    this.scannedValue = e;
+    if (this.orderid != 1 && this.rescan == true && this.isDevice) {
+      let param =
+        '?product uid=' +
+        this.LocalStore.getItem('productUid') +
+        '&chassis_number=' +
+        this.scannedValue;
+      const url = apiUrls?.scanningApi?.validateChassis + param;
 
-    if (e !== '') {
-      this.stepCounter = this.formStep;
-      if (this.scannedValue !== e) {
-        this.chechisStatus = 0;
-      }
-      if (this.chechisStatus !== 200 && this.chechisStatus !== 1) {
-        console.log(this.scan_count);
-
-        let data = {
-          product_uid: this.productUid,
-          chassis_number: e,
-          count_scanning: this.scan_count,
-          order_id: this.orderid,
-        };
-
-        let url =
-          this.orderid == 1
-            ? apiUrls?.scanningApi?.chechisScan
-            : // '?product_uid' +
-              // this.productUid +
-              // '&chassis_number=' +
-              // e +
-              // '&count_scanning' +
-              // this.scan_count
-              apiUrls?.scanningApi?.RAW +
-              '?chassis_number=' +
-              this.valuearr[0] +
-              '&raw_material_id=' +
-              e +
-              '&order_id=' +
-              this.orderid;
-        1;
-        this.RestService.post(data, url).subscribe(
-          (res: any) => {
-            console.log(res);
-
-            this.chechisStatus = res?.code;
-            if (this.chechisStatus === 200) {
-              this.status = 'valid';
-              this.valuearr.push(e);
-              this.scannedValue = e;
-              if (this.barcodeData == '') {
-                this.barcodeData = e;
-              }
-              // if (this.formStep === 1) {
-              //   this.formStep =
-              //     res?.data !== null && res?.data != 1 ? res?.data + 1 : 1;
-              // }
-            }
-            if (this.stepCounter != this.formStep) {
-              this.status = '';
-              this.scannedValue = '';
-            }
-          },
-          (err) => {
-            // this.chechisStatus =;
-            // (this.scannedValue = ''), (this.status = '');
-
-            if (err?.error?.code === 404) {
-              this.scannedValue = e;
-              this.status = 'invalid';
-            }
-          }
-        );
-      }
+      this.RestService.get(url).subscribe(
+        (res) => {
+          this.rescan = false;
+          this.chassisNumber = this.scannedValue;
+          this.toast.success({
+            detail: 'Success',
+            summary: 'Chassis verified !!',
+            sticky: false,
+            duration: 3000,
+          });
+        },
+        (err) => {
+          // this.toast.warning({
+          //   detail: 'Error',
+          //   summary: 'Chassis not verified !!',
+          //   sticky: true,
+          // });
+        }
+      );
     }
   }
 }

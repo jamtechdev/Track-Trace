@@ -9,5 +9,6 @@ export const apiUrls = {
     RAW: 'scanner/raw-material',
     boxScanner: 'scanner/scan-packing',
     steps: 'scanner/product-component-details',
-  },
+    validateChassis : 'scanner/validate-chassis'
+  },     
 };

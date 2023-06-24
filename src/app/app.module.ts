@@ -4,16 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './layout/Auth/auth.module';
 import { ReactiveFormsModule } from '@angular/forms';
-<<<<<<< HEAD
-// import { ZXingScannerModule } from '@zxing/ngx-scanner';
-// import { NgxScannerQrcodeModule } from 'ngx-qrcode-updated';
-
-@NgModule({
-  declarations: [AppComponent, LoginComponent, ResetPasswordComponent],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
-=======
 import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
+import { NgToastModule } from 'ng-angular-popup' // to be added
 
 @NgModule({
   declarations: [AppComponent, ResetPasswordComponent],
@@ -23,8 +16,9 @@ import { NgModule } from '@angular/core';
     HttpClientModule,
     BrowserModule,
     AuthModule,
+    NgToastModule
+    
   ],
->>>>>>> 1e036f05f9fb9289353803e3e539fc43f166cf20
   providers: [],
   bootstrap: [AppComponent],
 })

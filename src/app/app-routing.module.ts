@@ -26,9 +26,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./Admin/admin/admin.module').then((m) => m.AdminModule),
   },
-
-
-
 ];
 
 @NgModule({

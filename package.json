@@ -10,7 +10,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^16.0.3",
     "@angular/common": "^16.0.3",
     "@angular/compiler": "^16.0.3",
     "@angular/core": "^16.0.3",
@@ -20,9 +19,9 @@
     "@angular/router": "^16.0.3",
     "@ericblade/quagga2": "^1.8.2",
     "angular2-uuid": "^1.1.1",
+    "ng-angular-popup": "^0.4.4",
     "ng-qrcode": "^16.0.0",
     "ngx-scanner-qrcode": "^1.4.2",
-    "ngx-toastr": "^17.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "^0.13.0"
