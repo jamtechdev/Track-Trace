@@ -148,7 +148,8 @@ export class UserhomeComponent implements OnInit {
       : this.toast.error({
           detail: 'Error',
           summary: 'Please scan QR !! ',
-          sticky: true,
+          sticky: false,
+          duration:3000
         });
 
     // this.steps();
@@ -165,7 +166,7 @@ export class UserhomeComponent implements OnInit {
         this.orderid == 1 ? this.scannedValue : this.chassisNumber,
       name: this.LocalStore.getItem('product_name'),
       order_id: this.orderid,
-      count_scanning: this.scan_count,
+      count_scanning: this.LocalStore.getItem('scan_count') ?  this.LocalStore.getItem('scan_count') : 0,
       raw_material_id: this.orderid != 1 ? this.scannedValue : null,
     };
 
@@ -178,7 +179,10 @@ export class UserhomeComponent implements OnInit {
             summary: 'Component added succesfully',
             duration: 3000,
           });
-        }
+        }this.rescan = true;
+        this.scannedValue = ''
+        this.status = ''
+        this.steps()
       },
       (err) => {
         if (err?.error?.code === 401 || err?.error?.code === 403) {
@@ -231,6 +235,7 @@ export class UserhomeComponent implements OnInit {
             sticky: false,
             duration: 3000,
           });
+          this.status = 'valid'
         },
         (err) => {
           // this.toast.warning({

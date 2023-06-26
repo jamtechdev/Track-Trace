@@ -129,7 +129,7 @@
                       <p>
                         Scan Result : <span>{{ scannedValue }}</span>
                       </p>
-                      <p>
+                      <p *ngIf="orderid != 1">
                         Status :
                         <span
                           *ngIf="status == 'valid'"
