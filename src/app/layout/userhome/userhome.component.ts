@@ -1,10 +1,9 @@
+import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
 import { RestService } from 'src/app/common-resources/servieces/rest.service';
 import { apiUrls } from 'src/app/common-resources/api';
 import { Component, OnInit } from '@angular/core';
-import { UUID } from 'angular2-uuid';
 import { NgToastService } from 'ng-angular-popup';
-
-import { LocalstoreService } from 'src/app/common-resources/servieces/localstore.service';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-userhome',
@@ -44,16 +43,10 @@ export class UserhomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setInterval(() => {
-      // console.clear();
-    }, 2000);
-
     this.orderid = this.LocalStore.getItem('orderId');
     this.productUid = this.LocalStore.getItem('productUid');
-
     this.steps();
     this.scan_count = this.LocalStore.getItem('scan_count');
-
     let uuid = UUID.UUID();
     this.qrValue = uuid;
   }
@@ -71,15 +64,12 @@ export class UserhomeComponent implements OnInit {
           'scan_count',
           res?.data?.components[index]?.count
         );
-
         this.LocalStore.setItem(
           'product_name',
           res?.data?.components[index]?.name
         );
-
         this.loading = false;
       },
-
       (err) => {
         this.loading = false;
         if (err.status == 401) {
@@ -131,18 +121,6 @@ export class UserhomeComponent implements OnInit {
   }
 
   formStepper() {
-    // this.formStep = this.formStep + 1;
-    // this.scannedValue != '' &&
-    //   this.valuearr[0] !== this.scannedValue &&
-    //   this.valuearr.push(this.scannedValue);
-    // this.status = '';
-    // this.scannedValue = '';
-    // this.chechisStatus = 1;
-    // if (this.formStep > 6) {
-    //   let uuid = UUID.UUID();
-    //   this.qrValue = uuid;
-    // }
-
     this.scannedValue !== ''
       ? this.SaveData()
       : this.toast.error({
@@ -151,8 +129,6 @@ export class UserhomeComponent implements OnInit {
           sticky: false,
           duration:3000
         });
-
-    // this.steps();
   }
 
   SaveData() {
@@ -187,14 +163,12 @@ export class UserhomeComponent implements OnInit {
       (err) => {
         if (err?.error?.code === 401 || err?.error?.code === 403) {
           // LOGOUT WILL GO HERE
-
            this.toast.error({
               detail: 'ERROR',
               summary: 'Incorrect credentials ..',
               sticky: false,
               duration:3000
             });
-
         } else {
           if (err?.error?.code === 422) {
             this.toast.error({
@@ -209,12 +183,6 @@ export class UserhomeComponent implements OnInit {
     );
   }
 
-  // formStepperDown() {
-  //   this.formStep = this.formStep - 1;
-  //   this.formStep !== 1 && this.valuearr.pop();
-  //   this.chechisStatus = 0;
-  // }
-
   addItem(e: string) {
     this.scannedValue = e;
     if (this.orderid != 1 && this.rescan == true && this.isDevice) {
@@ -224,7 +192,6 @@ export class UserhomeComponent implements OnInit {
         '&chassis_number=' +
         this.scannedValue;
       const url = apiUrls?.scanningApi?.validateChassis + param;
-
       this.RestService.get(url).subscribe(
         (res) => {
           this.rescan = false;
@@ -237,13 +204,7 @@ export class UserhomeComponent implements OnInit {
           });
           this.status = 'valid'
         },
-        (err) => {
-          // this.toast.warning({
-          //   detail: 'Error',
-          //   summary: 'Chassis not verified !!',
-          //   sticky: true,
-          // });
-        }
+        (err) => {}
       );
     }
   }
