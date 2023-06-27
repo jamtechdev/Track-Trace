@@ -31,6 +31,7 @@ export class UserhomeComponent implements OnInit {
   scan_count: any;
   rescan: boolean = true;
   chassisNumber: string = '';
+  showHashedQR: boolean = false;
 
   constructor(
     private toast: NgToastService,
@@ -69,6 +70,7 @@ export class UserhomeComponent implements OnInit {
           res?.data?.components[index]?.name
         );
         this.loading = false;
+        console.log(this.compArr.length, 'comparray');
       },
       (err) => {
         this.loading = false;
@@ -87,8 +89,9 @@ export class UserhomeComponent implements OnInit {
   submitPackage() {
     let url = apiUrls?.scanningApi.boxScanner;
     let data = {
-      chassis_number: this.valuearr[0],
+      chassis_number: this.chassisNumber,
       packing_id: this.qrValue,
+      product_uid : this.LocalStore.getItem('productUid')
     };
     this.RestService.postToken(url, data).subscribe(
       (response) => {
@@ -97,6 +100,13 @@ export class UserhomeComponent implements OnInit {
         setTimeout(() => {
           this.success = '';
         }, 5000);
+          this.toast.success({
+            detail: 'SUCCESS',
+            summary: 'Packaging added succesfully',
+            duration: 1000,
+          });
+              this.showHashedQR = false;
+
       },
       (err) => {
         this.error = 'Something went wrong , please try again !!';
@@ -127,7 +137,7 @@ export class UserhomeComponent implements OnInit {
           detail: 'Error',
           summary: 'Please scan QR !! ',
           sticky: false,
-          duration:3000
+          duration: 3000,
         });
   }
 
@@ -142,7 +152,9 @@ export class UserhomeComponent implements OnInit {
         this.orderid == 1 ? this.scannedValue : this.chassisNumber,
       name: this.LocalStore.getItem('product_name'),
       order_id: this.orderid,
-      count_scanning: this.LocalStore.getItem('scan_count') ?  this.LocalStore.getItem('scan_count') : 0,
+      count_scanning: this.LocalStore.getItem('scan_count')
+        ? this.LocalStore.getItem('scan_count')
+        : 0,
       raw_material_id: this.orderid != 1 ? this.scannedValue : null,
     };
 
@@ -155,27 +167,31 @@ export class UserhomeComponent implements OnInit {
             summary: 'Component added succesfully',
             duration: 3000,
           });
-        }this.rescan = true;
-        this.scannedValue = ''
-        this.status = ''
-        this.steps()
+        }
+        this.rescan = true;
+        this.scannedValue = '';
+        this.status = '';
+        this.steps();
+        if (this.compArr.length == this.LocalStore.getItem('orderId')) {
+          this.showHashedQR = true;
+        }
       },
       (err) => {
         if (err?.error?.code === 401 || err?.error?.code === 403) {
           // LOGOUT WILL GO HERE
-           this.toast.error({
-              detail: 'ERROR',
-              summary: 'Incorrect credentials ..',
-              sticky: false,
-              duration:3000
-            });
+          this.toast.error({
+            detail: 'ERROR',
+            summary: 'Incorrect credentials ..',
+            sticky: false,
+            duration: 3000,
+          });
         } else {
           if (err?.error?.code === 422) {
             this.toast.error({
               detail: 'ERROR',
               summary: 'Component with this QR alreadyexists !! ',
-            sticky: false,
-              duration:3000
+              sticky: false,
+              duration: 3000,
             });
           }
         }
@@ -202,7 +218,8 @@ export class UserhomeComponent implements OnInit {
             sticky: false,
             duration: 3000,
           });
-          this.status = 'valid'
+
+          this.status = 'valid';
         },
         (err) => {}
       );

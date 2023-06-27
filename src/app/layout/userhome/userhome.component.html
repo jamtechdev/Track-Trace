@@ -106,7 +106,7 @@
             <!-- <div class="form-card">
             <div class="row"></div>
           </div> -->
-            <fieldset *ngIf="formStep <= compArr.length">
+            <fieldset *ngIf="!showHashedQR">
               <div class="container p-0">
                 <div class="row">
                   <div class="col-md-6 position-relative">
@@ -163,14 +163,19 @@
               width="200"
               style="object-fit: contain"
             />
-
-            <fieldset *ngIf="compArr.length && formStep > compArr.length">
+            <div *ngIf="showHashedQR">
               <div class="alert alert-success" *ngIf="success">
                 {{ success }}
               </div>
               <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
               <p>Packaging QR code</p>
-              <qr-code (click)="print()" [value]="qrValue" size="300"></qr-code>
+              <div class="print-container">
+                <qr-code
+                  (click)="print()"
+                  [value]="qrValue"
+                  size="300"
+                ></qr-code>
+              </div>
               <p class="">{{ qrValue }}</p>
               <input
                 class="btn btn-primary min-width mt-3"
@@ -180,7 +185,7 @@
                 name="Proceed"
                 type="button"
               />
-            </fieldset>
+            </div>
           </form>
         </div>
       </div>
