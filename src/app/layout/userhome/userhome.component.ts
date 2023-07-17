@@ -91,22 +91,21 @@ export class UserhomeComponent implements OnInit {
     let data = {
       chassis_number: this.chassisNumber,
       packing_id: this.qrValue,
-      product_uid : this.LocalStore.getItem('productUid')
+      product_uid: this.LocalStore.getItem('productUid'),
     };
     this.RestService.postToken(url, data).subscribe(
       (response) => {
         this.success = 'Submitted succesfully';
-        this.issubmitted = true;
+        this.issubmitted = false;
         setTimeout(() => {
           this.success = '';
         }, 5000);
-          this.toast.success({
-            detail: 'SUCCESS',
-            summary: 'Packaging added succesfully',
-            duration: 1000,
-          });
-              this.showHashedQR = false;
-
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Packaging added succesfully',
+          duration: 1000,
+        });
+        this.showHashedQR = false;
       },
       (err) => {
         this.error = 'Something went wrong , please try again !!';

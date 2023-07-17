@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     localStorage.clear();
     this.loginForm = this.formBuilder.group({
       email: [
-         '',
+        '',
         [
           Validators.required,
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
@@ -52,9 +52,9 @@ export class LoginComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern(
-            '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}$'
-          ),
+          // Validators.pattern(
+          //   '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}$'
+          // ),
         ],
       ],
     });
