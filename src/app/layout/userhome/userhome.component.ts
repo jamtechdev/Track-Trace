@@ -4,6 +4,7 @@ import { apiUrls } from 'src/app/common-resources/api';
 import { Component, OnInit } from '@angular/core';
 import { NgToastService } from 'ng-angular-popup';
 import { UUID } from 'angular2-uuid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-userhome',
@@ -36,7 +37,8 @@ export class UserhomeComponent implements OnInit {
   constructor(
     private toast: NgToastService,
     private RestService: RestService,
-    private LocalStore: LocalstoreService
+    private LocalStore: LocalstoreService,
+    private router: Router
   ) {}
 
   getDevice(e: boolean) {
@@ -52,6 +54,10 @@ export class UserhomeComponent implements OnInit {
     this.qrValue = uuid;
   }
 
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/']);
+  }
   steps() {
     this.loading = true;
     let url = apiUrls?.scanningApi.steps;
@@ -79,8 +85,11 @@ export class UserhomeComponent implements OnInit {
             detail: 'Error',
             summary: err?.error?.message,
             sticky: false,
-            duration: 3000,
+            duration: 2000,
           });
+          setTimeout(() => {
+            this.logout();
+          }, 2000);
         }
       }
     );
