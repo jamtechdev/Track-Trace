@@ -6,7 +6,8 @@ import { AuthModule } from './layout/Auth/auth.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
-import { NgToastModule } from 'ng-angular-popup' // to be added
+import { NgToastModule } from 'ng-angular-popup'; // to be added
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent, ResetPasswordComponent],
@@ -16,10 +17,9 @@ import { NgToastModule } from 'ng-angular-popup' // to be added
     HttpClientModule,
     BrowserModule,
     AuthModule,
-    NgToastModule
-    
+    NgToastModule,
   ],
-  providers: [],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
