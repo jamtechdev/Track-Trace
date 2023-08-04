@@ -313,3 +313,30 @@
 .barcode img {
     height: 60px;
 }
+
+
+/*  */
+
+
+
+
+.count-number {
+    display: block;
+    margin: -5px 0 0;
+    font-weight: 600;
+    color: #000;
+    font-size: 14px;
+}
+
+.print-qr {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 10px;
+}
+
+.print-qr input {
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+}

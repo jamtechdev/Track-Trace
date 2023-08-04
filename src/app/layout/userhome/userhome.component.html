@@ -14,18 +14,18 @@
         <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
           <h2 id="heading">Track and Trace</h2>
           <form id="msform">
-            <div
-              class="barcode"
-              style="text-align: center"
-              *ngIf="orderid > 1 && barcodeData"
-            >
+            <div class="barcode" style="text-align: center">
               <!-- insert your custom barcode setting your data in the GET parameter "data" -->
-              <img
+              <!-- <img
                 alt="Barcode"
-                src="https://barcode.tec-it.com/barcode.ashx?data={{
-                  barcodeData
-                }}&code=Code128&translate-esc=on"
-              />
+                src="https://barcode.tec-it.com/barcode.ashx?data=11112&code=Code128&translate-esc=on"
+              /> -->
+              <!-- *ngIf="scannedValue && printQr" -->
+              <!-- <img
+                src="https://qrcode.tec-it.com/API/QRCode?data={{
+                  scannedValue
+                }}"
+              /> -->
             </div>
             <!-- progressbar -->
             <ul id="progressbar">
@@ -40,72 +40,12 @@
                   "
                   id="account"
                 >
-                  <span>{{ item?.count }}</span>
-
                   <strong>{{ item["name"] }} Scan</strong>
+                  <span class="count-number">({{ item?.count }})</span>
                 </li>
-                <!-- <li
-                id="personal"
-                [ngClass]="
-                  formStep == 2 ? 'nextScan' : formStep > 2 ? 'active' : ''
-                "
-              >
-                <strong>{{ item }} Scan</strong>
-              </li> -->
               </span>
             </ul>
-
-            <!-- <ul id="progressbar">
-            <li class="active" id="account">
-              <strong>Chasis Scan</strong>
-            </li>
-            <li
-              id="personal"
-              [ngClass]="
-                formStep == 2 ? 'nextScan' : formStep > 2 ? 'active' : ''
-              "
-            >
-              <strong>Motar Label Scan</strong>
-            </li>
-            <li
-              id="payment"
-              [ngClass]="
-                formStep == 3 ? 'nextScan' : formStep > 3 ? 'active' : ''
-              "
-            >
-              <strong>PCB Scan</strong>
-            </li>
-            <li
-              id="confirm"
-              [ngClass]="
-                formStep == 4 ? 'nextScan' : formStep > 4 ? 'active' : ''
-              "
-            >
-              <strong>Evaprorator Scan</strong>
-            </li>
-            <li
-              id="confirm"
-              [ngClass]="
-                formStep == 5 ? 'nextScan' : formStep > 5 ? 'active' : ''
-              "
-            >
-              <strong>Accessories Print/Scan</strong>
-            </li>
-            <li
-              id="confirm"
-              [ngClass]="
-                formStep == 6 ? 'nextScan' : formStep > 6 ? 'active' : ''
-              "
-            >
-              <strong>Box Packaging</strong>
-            </li>
-          </ul> -->
-
             <br />
-            <!-- fieldsets -->
-            <!-- <div class="form-card">
-            <div class="row"></div>
-          </div> -->
             <fieldset *ngIf="!showHashedQR">
               <div class="container p-0">
                 <div class="row">
@@ -144,18 +84,28 @@
                           <i class="ri-close-fill"></i>
                         </span>
                       </p>
+                      <div class="print-qr">
+                        <input
+                          for="printQr"
+                          type="checkbox"
+                          #qrprint
+                          (change)="checkChange($event)"
+                        />
+                        <label id="printQr">Print QR</label>
+                      </div>
                     </div>
                     <input
                       type="button"
                       name="Proceed"
                       class="btn btn-primary min-width mt-3"
                       value="Next"
-                      (click)="formStepper()"
+                      (click)="formStepper(qrprint.value)"
                     />
                   </div>
                 </div>
               </div>
             </fieldset>
+
             <img
               *ngIf="loading"
               src="https://cdn.dribbble.com/users/3337757/screenshots/6825268/076_-loading_animated_dribbble_copy.gif"

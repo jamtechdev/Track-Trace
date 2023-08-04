@@ -32,6 +32,9 @@ export class UserhomeComponent implements OnInit {
   rescan: boolean = true;
   chassisNumber: string = '';
   showHashedQR: boolean = false;
+  range: any = '';
+  printQr: boolean = false;
+  printQrCode: boolean = false;
 
   constructor(
     private toast: NgToastService,
@@ -46,6 +49,7 @@ export class UserhomeComponent implements OnInit {
   ngOnInit(): void {
     this.orderid = this.LocalStore.getItem('orderId');
     this.productUid = this.LocalStore.getItem('productUid');
+    this.range = this.LocalStore.getItem('modelNumber');
     this.steps();
     this.scan_count = this.LocalStore.getItem('scan_count');
     let uuid = UUID.UUID();
@@ -70,7 +74,6 @@ export class UserhomeComponent implements OnInit {
           res?.data?.components[index]?.name
         );
         this.loading = false;
-        console.log(this.compArr.length, 'comparray');
       },
       (err) => {
         this.loading = false;
@@ -85,28 +88,33 @@ export class UserhomeComponent implements OnInit {
       }
     );
   }
-
+  checkChange(event: any) {
+    this.printQr = event.target.checked;
+  }
   submitPackage() {
     let url = apiUrls?.scanningApi.boxScanner;
     let data = {
-      chassis_number: this.chassisNumber,
+      chassis_number:
+        this.orderid == 1
+          ? localStorage.getItem('scannedVal')
+          : this.chassisNumber,
       packing_id: this.qrValue,
-      product_uid : this.LocalStore.getItem('productUid')
+      product_uid: this.LocalStore.getItem('productUid'),
+      component_name: this.LocalStore.getItem('name'),
     };
     this.RestService.postToken(url, data).subscribe(
       (response) => {
         this.success = 'Submitted succesfully';
-        this.issubmitted = true;
+        this.issubmitted = false;
         setTimeout(() => {
           this.success = '';
         }, 5000);
-          this.toast.success({
-            detail: 'SUCCESS',
-            summary: 'Packaging added succesfully',
-            duration: 1000,
-          });
-              this.showHashedQR = false;
-
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Packaging added succesfully',
+          duration: 1000,
+        });
+        this.showHashedQR = false;
       },
       (err) => {
         this.error = 'Something went wrong , please try again !!';
@@ -130,15 +138,41 @@ export class UserhomeComponent implements OnInit {
     // a.remove();
   }
 
-  formStepper() {
-    this.scannedValue !== ''
-      ? this.SaveData()
-      : this.toast.error({
+  formStepper(event: any) {
+    localStorage.setItem('scannedVal', this.scannedValue);
+    var tName = this.range.split('-')[0];
+    var firstRange: any = tName.match(/\d+/);
+    let x = this.range.split('-')[1];
+    let y = x.match(/\d+/);
+    var lastrange: any = y && y['0'];
+    let num: any = this.scannedValue?.match(/\d+/);
+
+    if (num >= parseInt(firstRange) && num <= parseInt(lastrange)) {
+      this.scannedValue !== ''
+        ? this.SaveData()
+        : this.toast.error({
+            detail: 'Error',
+            summary: 'Please scan QR !! ',
+            sticky: false,
+            duration: 3000,
+          });
+    } else {
+      if (this.scannedValue == '') {
+        this.toast.error({
           detail: 'Error',
           summary: 'Please scan QR !! ',
           sticky: false,
           duration: 3000,
         });
+      } else {
+        this.toast.error({
+          detail: 'Error',
+          summary: 'Model range is not valid',
+          sticky: false,
+          duration: 3000,
+        });
+      }
+    }
   }
 
   SaveData() {
@@ -157,7 +191,6 @@ export class UserhomeComponent implements OnInit {
         : 0,
       raw_material_id: this.orderid != 1 ? this.scannedValue : null,
     };
-
     this.RestService?.postToken(url, body).subscribe(
       (res: any) => {
         if (res?.code === 200) {
@@ -172,8 +205,13 @@ export class UserhomeComponent implements OnInit {
         this.scannedValue = '';
         this.status = '';
         this.steps();
-        if (this.compArr.length == this.LocalStore.getItem('orderId')) {
+        if (
+          this.compArr.length == this.LocalStore.getItem('orderId') ||
+          this.printQr == true
+        ) {
           this.showHashedQR = true;
+        } else {
+          this.showHashedQR = false;
         }
       },
       (err) => {
@@ -194,6 +232,7 @@ export class UserhomeComponent implements OnInit {
               duration: 3000,
             });
           }
+          this.showHashedQR = false;
         }
       }
     );
