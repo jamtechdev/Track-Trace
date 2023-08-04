@@ -176,6 +176,8 @@ export class UserhomeComponent implements OnInit {
   }
 
   SaveData() {
+    let uuid = UUID.UUID();
+    this.qrValue = uuid;
     const url =
       this.orderid == 1
         ? apiUrls?.scanningApi?.chechisScan
