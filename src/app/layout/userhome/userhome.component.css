@@ -51,11 +51,23 @@
     outline-width: 0;
 }
 #msform input[type="button"] {
-    background: #ffd63f;
+background: #ffd63f;
     border: 1px solid #ffd63f;
     color: #262626;
     font-weight: 600;
+    width: fit-content;
+    margin: auto;
+    display: block;
+    padding: 3px 20px !important;
+    height: 35px;
+    border-radius: 5px;
 }
+
+#barcodeInput:focus {
+    outline: none !important;
+    border: 1px solid transparent;
+}
+
 .btn-prev {
     background: #ffd63f;
     border: 1px solid #ffd63f;
@@ -244,12 +256,7 @@
 }
 
 .error-message {
-    position: absolute;
-    top: 32%;
-    width: 96%;
-    left: 0;
-    right: 0;
-    margin: auto;
+    margin: 10px auto;
 }
 
 .scanData {

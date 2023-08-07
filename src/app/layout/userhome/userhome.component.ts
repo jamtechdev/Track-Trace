@@ -35,12 +35,20 @@ export class UserhomeComponent implements OnInit {
   range: any = '';
   printQr: boolean = false;
   printQrCode: boolean = false;
+  autofocus: boolean = false;
 
   constructor(
     private toast: NgToastService,
     private RestService: RestService,
     private LocalStore: LocalstoreService
-  ) {}
+  ) {
+    setInterval(() => {
+      const input = document.getElementById(
+        'barcodeInput'
+      ) as HTMLInputElement | null;
+      input?.focus();
+    }, 600);
+  }
 
   getDevice(e: boolean) {
     this.isDevice = e;
@@ -52,8 +60,6 @@ export class UserhomeComponent implements OnInit {
     this.range = this.LocalStore.getItem('modelNumber');
     this.steps();
     this.scan_count = this.LocalStore.getItem('scan_count');
-    let uuid = UUID.UUID();
-    this.qrValue = uuid;
   }
 
   steps() {
@@ -174,6 +180,16 @@ export class UserhomeComponent implements OnInit {
       }
     }
   }
+  inputVal: string = '';
+  test(e: any) {
+    const scannedData = e.target.value.trim();
+    this.scannedValue = e.target.value;
+    this.inputVal = e.target.value;
+    this.xyz(scannedData);
+    setTimeout(() => {
+      this.inputVal = '';
+    }, 1000);
+  }
 
   SaveData() {
     let uuid = UUID.UUID();
@@ -240,9 +256,10 @@ export class UserhomeComponent implements OnInit {
     );
   }
 
-  addItem(e: string) {
+  xyz(e: string) {
     this.scannedValue = e;
-    if (this.orderid != 1 && this.rescan == true && this.isDevice) {
+    // alert(this.scannedValue);
+    if (this.orderid != 1 && this.rescan == true) {
       let param =
         '?product uid=' +
         this.LocalStore.getItem('productUid') +

@@ -8,6 +8,15 @@
     </div>
   </div> -->
     <div class="row justify-content-center">
+      <input
+        [value]="inputVal"
+        type="text"
+        id="barcodeInput"
+        style="color: #fff; border: 1px solid white"
+        autofocus="{{ autofocus }}"
+        (change)="test($event)"
+      />
+
       <div
         class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center p-0 mt-3 mb-2"
       >
@@ -48,22 +57,22 @@
             <br />
             <fieldset *ngIf="!showHashedQR">
               <div class="container p-0">
-                <div class="row">
-                  <div class="col-md-6 position-relative">
+                <div class="row justify-content-center">
+                  <!-- <div class="col-md-6 position-relative">
                     <div class="home-scanner">
                       <app-scanner
                         (devicealert)="getDevice($event)"
                         (newItemEvent)="addItem($event)"
                       ></app-scanner>
                     </div>
+                  </div> -->
+                  <div class="col-md-6">
                     <div
                       *ngIf="!isDevice"
                       class="alert alert-danger error-message"
                     >
                       No device found !!
                     </div>
-                  </div>
-                  <div class="col-md-6">
                     <div class="scanData text-start">
                       <h3 class="m-0 text-center">Scan Results</h3>
                       <p>
@@ -93,14 +102,14 @@
                         />
                         <label id="printQr">Print QR</label>
                       </div>
+                      <input
+                        type="button"
+                        name="Proceed"
+                        class="btn btn-primary min-width mt-3"
+                        value="Next"
+                        (click)="formStepper(qrprint.value)"
+                      />
                     </div>
-                    <input
-                      type="button"
-                      name="Proceed"
-                      class="btn btn-primary min-width mt-3"
-                      value="Next"
-                      (click)="formStepper(qrprint.value)"
-                    />
                   </div>
                 </div>
               </div>
