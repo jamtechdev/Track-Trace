@@ -4,6 +4,7 @@ import { apiUrls } from 'src/app/common-resources/api';
 import { Component, OnInit } from '@angular/core';
 import { NgToastService } from 'ng-angular-popup';
 import { UUID } from 'angular2-uuid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-userhome',
@@ -38,6 +39,7 @@ export class UserhomeComponent implements OnInit {
   autofocus: boolean = false;
 
   constructor(
+    private router: Router,
     private toast: NgToastService,
     private RestService: RestService,
     private LocalStore: LocalstoreService
@@ -90,6 +92,9 @@ export class UserhomeComponent implements OnInit {
             sticky: false,
             duration: 3000,
           });
+
+          localStorage.clear();
+          this.router.navigate(['/']);
         }
       }
     );
@@ -245,7 +250,7 @@ export class UserhomeComponent implements OnInit {
           if (err?.error?.code === 422) {
             this.toast.error({
               detail: 'ERROR',
-              summary: 'Component with this QR alreadyexists !! ',
+              summary: 'Component with this QR already exists !! ',
               sticky: false,
               duration: 3000,
             });
@@ -279,7 +284,14 @@ export class UserhomeComponent implements OnInit {
 
           this.status = 'valid';
         },
-        (err) => {}
+        (err) => {
+          this.toast.error({
+            detail: 'error',
+            summary: 'Chassis not found !!',
+            sticky: false,
+            duration: 3000,
+          });
+        }
       );
     }
   }
