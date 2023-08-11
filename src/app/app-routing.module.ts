@@ -8,21 +8,19 @@ import { logInGaurd } from './common-resources/servieces/gaurd/login.guard';
 const routes: Routes = [
   {
     path: '',
-     canActivate:[logInGaurd],
+    canActivate: [logInGaurd],
     loadChildren: () =>
       import('./layout/Auth/auth.module').then((m) => m.AuthModule),
-  }
-  ,  {
+  },
+  {
     path: 'home',
-    canActivate:[authGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       import('./layout/layout.module').then((m) => m.LayoutModule),
   },
-
-
- {
+  {
     path: 'admin',
-    canActivate:[authGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       import('./Admin/admin/admin.module').then((m) => m.AdminModule),
   },

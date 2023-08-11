@@ -2,6 +2,8 @@ export const apiUrls = {
   authApi: {
     login: 'auth/signIn',
     signUp: 'auth/signUp',
+    sendOtp: 'auth/send-and-verify-otp',
+    changePassword: 'auth/change-password',
   },
 
   scanningApi: {
@@ -9,6 +11,7 @@ export const apiUrls = {
     RAW: 'scanner/raw-material',
     boxScanner: 'scanner/scan-packing',
     steps: 'scanner/product-component-details',
-    validateChassis : 'scanner/validate-chassis'
-  },     
+    validateChassis: 'scanner/validate-chassis',
+    skipStep: 'scanner/skip-component-details',
+  },
 };

@@ -34,9 +34,14 @@ export class UserhomeComponent implements OnInit {
   chassisNumber: string = '';
   showHashedQR: boolean = false;
   range: any = '';
-  printQr: boolean = false;
+  chassisValue: string = '';
+  printQr: any = false;
   printQrCode: boolean = false;
   autofocus: boolean = false;
+  nextScan: boolean = false;
+  skipable: boolean = false;
+  is_skip_component: any;
+  productList: any;
 
   constructor(
     private router: Router,
@@ -60,6 +65,8 @@ export class UserhomeComponent implements OnInit {
     this.orderid = this.LocalStore.getItem('orderId');
     this.productUid = this.LocalStore.getItem('productUid');
     this.range = this.LocalStore.getItem('modelNumber');
+    this.printQr = localStorage.getItem('isprint');
+
     this.steps();
     this.scan_count = this.LocalStore.getItem('scan_count');
   }
@@ -81,7 +88,15 @@ export class UserhomeComponent implements OnInit {
           'product_name',
           res?.data?.components[index]?.name
         );
+
+        this.productList = res?.data?.components;
+
         this.loading = false;
+        let arr = res?.data?.components?.filter((item: any, index: any) => {
+          return item.orderId == this.orderid;
+        });
+        this.skipable = arr[0].is_skipable;
+        this.is_skip_component = arr[0].is_skip_component;
       },
       (err) => {
         this.loading = false;
@@ -99,9 +114,39 @@ export class UserhomeComponent implements OnInit {
       }
     );
   }
-  checkChange(event: any) {
-    this.printQr = event.target.checked;
+
+  skipStep() {
+    this.scannedValue = '';
+    this.chassisValue = '';
+    let url =
+      apiUrls?.scanningApi?.skipStep +
+      '?' +
+      'skip_component=' +
+      this.is_skip_component;
+    this.RestService.get(url).subscribe(
+      (res: any) => {
+        this.orderid = res?.data?.orderId;
+        this.range = res?.data?.modelNumber;
+        this.printQr = res?.data?.is_print;
+
+        let arr = this.productList?.filter((item: any, index: any) => {
+          return item.orderId == this.orderid;
+        });
+        this.is_skip_component = arr[0].is_skip_component;
+        this.skipable = res?.data?.is_skip_component;
+
+        this.LocalStore.setItem('name', res?.data?.name);
+        this.LocalStore.setItem('product_name', res?.data?.name);
+        this.LocalStore.setItem('orderId', res?.data?.orderId);
+        this.LocalStore.setItem('modelNumber', res?.data?.modelNumber);
+        this.LocalStore.setItem('isprint', res?.data?.is_print);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
+
   submitPackage() {
     let url = apiUrls?.scanningApi.boxScanner;
     let data = {
@@ -123,9 +168,12 @@ export class UserhomeComponent implements OnInit {
         this.toast.success({
           detail: 'SUCCESS',
           summary: 'Packaging added succesfully',
-          duration: 1000,
+          duration: 10000,
         });
         this.showHashedQR = false;
+        this.rescan = true;
+        this.nextScan = false;
+        this.scannedValue = '';
       },
       (err) => {
         this.error = 'Something went wrong , please try again !!';
@@ -138,15 +186,6 @@ export class UserhomeComponent implements OnInit {
 
   print() {
     window.print();
-    // var canvas: any = document.querySelector('canvas');
-    // const a: any = document.createElement('a');
-    // var img = canvas.toDataURL('image/png');
-    // a.href = img;
-    // // a.download = 'test';
-    // document.body.appendChild(a);
-    // a.style = 'display: none';
-    // a.click();
-    // a.remove();
   }
 
   formStepper(event: any) {
@@ -190,7 +229,14 @@ export class UserhomeComponent implements OnInit {
     const scannedData = e.target.value.trim();
     this.scannedValue = e.target.value;
     this.inputVal = e.target.value;
-    this.xyz(scannedData);
+    if (this.orderid != 1) {
+      this.scan(scannedData);
+      if (this.nextScan == true) {
+        this.formStepper(this.scannedValue);
+      }
+    } else {
+      this.formStepper(this.scannedValue);
+    }
     setTimeout(() => {
       this.inputVal = '';
     }, 1000);
@@ -221,16 +267,18 @@ export class UserhomeComponent implements OnInit {
           this.toast.success({
             detail: 'SUCCESS',
             summary: 'Component added succesfully',
-            duration: 3000,
+            duration: 10000,
           });
         }
         this.rescan = true;
         this.scannedValue = '';
         this.status = '';
+        this.chassisValue = '';
         this.steps();
+
         if (
           this.compArr.length == this.LocalStore.getItem('orderId') ||
-          this.printQr == true
+          this.printQr == 'true'
         ) {
           this.showHashedQR = true;
         } else {
@@ -261,7 +309,7 @@ export class UserhomeComponent implements OnInit {
     );
   }
 
-  xyz(e: string) {
+  scan(e: string) {
     this.scannedValue = e;
     // alert(this.scannedValue);
     if (this.orderid != 1 && this.rescan == true) {
@@ -275,11 +323,16 @@ export class UserhomeComponent implements OnInit {
         (res) => {
           this.rescan = false;
           this.chassisNumber = this.scannedValue;
+          this.chassisValue == ''
+            ? (this.chassisValue = this.scannedValue)
+            : '';
+
+          this.nextScan = true;
           this.toast.success({
             detail: 'Success',
             summary: 'Chassis verified !!',
             sticky: false,
-            duration: 3000,
+            duration: 10000,
           });
 
           this.status = 'valid';

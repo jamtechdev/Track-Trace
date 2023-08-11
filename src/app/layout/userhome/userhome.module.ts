@@ -6,7 +6,7 @@ import { UserhomeComponent } from './userhome.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { QrCodeModule } from 'ng-qrcode';
-import { NgToastModule } from 'ng-angular-popup' // to be added
+import { NgToastModule } from 'ng-angular-popup'; // to be added
 
 @NgModule({
   declarations: [UserhomeComponent, HeaderComponent, FooterComponent],
@@ -15,7 +15,7 @@ import { NgToastModule } from 'ng-angular-popup' // to be added
     UserhomeRoutingModule,
     CommonResourcesModule,
     QrCodeModule,
-    NgToastModule
+    NgToastModule,
   ],
 })
 export class UserhomeModule {}

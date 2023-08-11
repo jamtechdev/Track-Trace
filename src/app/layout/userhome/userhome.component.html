@@ -74,7 +74,18 @@
                       No device found !!
                     </div> -->
                     <div class="scanData text-start">
-                      <h3 class="m-0 text-center">Scan Results</h3>
+                      <h3 class="m-0 text-center">
+                        Scan Results
+                        <span *ngIf="skipable">
+                          <button
+                            class="skip-btn"
+                            type="button"
+                            (click)="skipStep()"
+                          >
+                            Skip
+                          </button></span
+                        >
+                      </h3>
                       <p>
                         Scan Result : <span>{{ scannedValue }}</span>
                       </p>
@@ -93,22 +104,21 @@
                           <i class="ri-close-fill"></i>
                         </span>
                       </p>
+
+                      <p *ngIf="chassisValue">
+                        Chassis Number : <span>{{ chassisValue }}</span>
+                      </p>
                       <div class="print-qr">
-                        <input
-                          for="printQr"
-                          type="checkbox"
-                          #qrprint
-                          (change)="checkChange($event)"
-                        />
-                        <label id="printQr">Print QR</label>
+                        <!-- <p>Chassis Number</p>
+                        <label id="printQr"> {{ chassisValue }} </label> -->
                       </div>
-                      <input
+                      <!-- <input
                         type="button"
                         name="Proceed"
                         class="btn btn-primary min-width mt-3"
                         value="Next"
-                        (click)="formStepper(qrprint.value)"
-                      />
+                        (click)="formStepper($event)"
+                      /> -->
                     </div>
                   </div>
                 </div>

@@ -347,3 +347,12 @@ background: #ffd63f;
     height: 20px !important;
     margin: 0 !important;
 }
+
+.skip-btn{
+    border: none;
+    font-size: 14px;
+    background: #000;
+    color: #fff;
+    float: right;
+    margin: 8px 0 0;
+}
