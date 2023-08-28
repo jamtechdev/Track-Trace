@@ -14,4 +14,6 @@ export const apiUrls = {
     validateChassis: 'scanner/validate-chassis',
     skipStep: 'scanner/skip-component-details',
   },
+  productApi: 'product/get-all-product',
+  componentApi: 'product/get-specific-product-component',
 };

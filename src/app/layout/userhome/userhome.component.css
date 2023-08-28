@@ -166,7 +166,8 @@ background: #ffd63f;
 }
 
 #progressbar span li strong {
-    margin-left: 0.1%;
+    color: #0070c9;
+    font-size: 15px;
 }
 
 #progressbar #account:before {
@@ -196,7 +197,7 @@ background: #ffd63f;
     display: block;
     font-size: 20px;
     color: #ffffff;
-    background: lightgray;
+    background: #aaa;
     border-radius: 50%;
     margin: 0 50px 0 50px;
     padding: 2px;
@@ -222,6 +223,12 @@ background: #ffd63f;
 #progressbar li.nextScan:before,
 #progressbar li.nextScan:after {
     background: rgb(247 183 106);
+}
+
+
+#progressbar li.rework:before,
+#progressbar li.rework:after {
+    background: #d09999;
 }
 .progress {
     height: 20px;
@@ -260,7 +267,6 @@ background: #ffd63f;
 }
 
 .scanData {
-    height: 83%;
     background: #262626;
     color: #fff;
 }
@@ -355,4 +361,16 @@ background: #ffd63f;
     color: #fff;
     float: right;
     margin: 8px 0 0;
+}
+
+.user-detail {
+    max-width: 900px;
+    margin: auto;
+}
+
+.slect-box-input{
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #aaa;
 }

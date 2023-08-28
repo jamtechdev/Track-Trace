@@ -1,6 +1,6 @@
-<main>
+<main class="h-100">
   <app-header></app-header>
-  <div class="container">
+  <div class="container h-100">
     <ng-toast></ng-toast>
     <!-- <div class="row">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3 mb-2 p-0">
@@ -9,6 +9,7 @@
   </div> -->
     <div class="row justify-content-center">
       <input
+        *ngIf="productSelected"
         [value]="inputVal"
         type="text"
         id="barcodeInput"
@@ -16,63 +17,83 @@
         autofocus="{{ autofocus }}"
         (change)="test($event)"
       />
-
+      <!-- <h2 id="heading" class="text-center">Track and Trace</h2> -->
+      <div class="user-detail p-0">
+        <div class="back-btn my-3" (click)="changeScreen()">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </div>
+        <h5 class="mb-0">
+          Hello, <b>{{ operatorName }}</b>
+        </h5>
+        <small> {{ operatorMail }} </small>
+      </div>
       <div
-        class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center p-0 mt-3 mb-2"
+        class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center p-0 mb-2"
       >
-        <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-          <h2 id="heading">Track and Trace</h2>
+        <div class="card px-0 pb-0 mb-3">
           <form id="msform">
-            <div class="barcode" style="text-align: center">
-              <!-- insert your custom barcode setting your data in the GET parameter "data" -->
-              <!-- <img
-                alt="Barcode"
-                src="https://barcode.tec-it.com/barcode.ashx?data=11112&code=Code128&translate-esc=on"
-              /> -->
-              <!-- *ngIf="scannedValue && printQr" -->
-              <!-- <img
-                src="https://qrcode.tec-it.com/API/QRCode?data={{
-                  scannedValue
-                }}"
-              /> -->
-            </div>
+            <div class="barcode" style="text-align: center"></div>
             <!-- progressbar -->
-            <ul id="progressbar">
+
+            <div *ngIf="!productSelected">
+              <select class="slect-box-input" (change)="productChange($event)">
+                <option value="">Select product --</option>
+
+                <option
+                  *ngFor="let item of assignedProductList"
+                  [value]="item.uid"
+                  [id]="item.name"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+
+              <select
+                class="slect-box-input mt-5"
+                (change)="modalChange($event)"
+                *ngIf="modelNumberShow"
+              >
+                <option value="">Select Model --</option>
+
+                <option
+                  *ngFor="let item of assignedProductList"
+                  [value]="item.uid"
+                  [id]="item.name"
+                >
+                  {{ item.modelNumber }}
+                </option>
+              </select>
+            </div>
+            <h3 style="color: #453e3e" *ngIf="productSelected">
+              Selected Product : {{ selectedProduct }}
+            </h3>
+
+            <ul id="progressbar" *ngIf="productSelected">
               <span *ngFor="let item of compArr; index as i">
                 <li
                   [ngClass]="
-                    item?.completed == true
-                      ? 'active'
+                    item?.is_rework == true
+                      ? '  rework'
+                      : item?.is_active == true
+                      ? ' nextScan'
                       : orderid == i + 1
-                      ? 'nextScan'
+                      ? ''
                       : ''
                   "
                   id="account"
                 >
                   <strong>{{ item["name"] }} Scan</strong>
-                  <span class="count-number">({{ item?.count }})</span>
+                  <span style="font-size: 20px" class="count-number"
+                    >({{ item?.count_scanning }})</span
+                  >
                 </li>
               </span>
             </ul>
             <br />
-            <fieldset *ngIf="!showHashedQR">
+            <fieldset *ngIf="!showHashedQR && productSelected">
               <div class="container p-0">
                 <div class="row justify-content-center">
-                  <!-- <div class="col-md-6 position-relative">
-                    <div class="home-scanner">
-                      <app-scanner
-                        (devicealert)="getDevice($event)"
-                        (newItemEvent)="addItem($event)"
-                      ></app-scanner>
-                    </div>
-                  </div> -->
                   <div class="col-md-6">
-                    <!-- <div
-                      *ngIf="!isDevice"
-                      class="alert alert-danger error-message"
-                    >
-                      No device found !!
-                    </div> -->
                     <div class="scanData text-start">
                       <h3 class="m-0 text-center">
                         Scan Results
@@ -80,7 +101,7 @@
                           <button
                             class="skip-btn"
                             type="button"
-                            (click)="skipStep()"
+                            (click)="skipStep('click')"
                           >
                             Skip
                           </button></span
@@ -108,17 +129,6 @@
                       <p *ngIf="chassisValue">
                         Chassis Number : <span>{{ chassisValue }}</span>
                       </p>
-                      <div class="print-qr">
-                        <!-- <p>Chassis Number</p>
-                        <label id="printQr"> {{ chassisValue }} </label> -->
-                      </div>
-                      <!-- <input
-                        type="button"
-                        name="Proceed"
-                        class="btn btn-primary min-width mt-3"
-                        value="Next"
-                        (click)="formStepper($event)"
-                      /> -->
                     </div>
                   </div>
                 </div>
@@ -137,7 +147,7 @@
                 {{ success }}
               </div>
               <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
-              <p>Packaging QR code</p>
+              <p>Packaging QR code.</p>
               <div class="print-container">
                 <qr-code
                   (click)="print()"

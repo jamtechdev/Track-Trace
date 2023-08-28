@@ -32,17 +32,25 @@ export class UserhomeComponent implements OnInit {
   scan_count: any;
   rescan: boolean = true;
   chassisNumber: string = '';
-  showHashedQR: boolean = false;
+  showHashedQR: any = false;
   range: any = '';
+  assignedProductList: any = [];
   chassisValue: string = '';
   printQr: any = false;
+  productSelected: boolean = false;
+  modelNumberShow: boolean = false;
   printQrCode: boolean = false;
   autofocus: boolean = false;
   nextScan: boolean = false;
   skipable: boolean = false;
   is_skip_component: any;
   productList: any;
-
+  isRework = 0;
+  selectedProduct: string = '';
+  operatorName = localStorage.getItem('name');
+  operatorMail = localStorage.getItem('email');
+  is_skip_load: boolean = false;
+  compUid: any;
   constructor(
     private router: Router,
     private toast: NgToastService,
@@ -61,85 +69,160 @@ export class UserhomeComponent implements OnInit {
     this.isDevice = e;
   }
 
+  changeScreen() {
+    this.productSelected = false;
+    this.modelNumberShow = false;
+    window.location.reload();
+  }
+
   ngOnInit(): void {
     this.orderid = this.LocalStore.getItem('orderId');
     this.productUid = this.LocalStore.getItem('productUid');
     this.range = this.LocalStore.getItem('modelNumber');
     this.printQr = localStorage.getItem('isprint');
-
-    this.steps();
+    // this.steps();
+    this.gtProductList();
     this.scan_count = this.LocalStore.getItem('scan_count');
+  }
+
+  modalChange(e: any) {
+    if (e.target.value) {
+      this.getComponentLit(e.target.value);
+    }
+
+    this.productSelected = true;
+    console.log(e.target);
+    let x = this.assignedProductList.filter((item: any) => {
+      return item.uid == e.target.value;
+    });
+    this.selectedProduct = x[0].name;
+    this.is_skip_component = x[0].skip_component_id;
+  }
+
+  productChange(e: any) {
+    this.modelNumberShow = true;
+  }
+
+  getComponentLit(e: any) {
+    let url = apiUrls.componentApi;
+    let formData = new FormData();
+
+    formData.append('product_uid', e);
+
+    this.RestService.postToken(url, formData).subscribe((res: any) => {
+      console.log(res.data);
+      this.compArr = res.data;
+      let arr = res?.data.filter((item: any) => {
+        return item.is_active == true;
+      });
+
+      this.orderid = arr[0].order_id;
+      this.LocalStore.setItem('orderId', arr[0].order_id);
+      this.LocalStore.setItem('product_name', arr[0].name);
+      this.productUid = e;
+      this.LocalStore.setItem('productUid', e);
+      this.range = arr[0].modelNumber;
+      this.LocalStore.setItem('modelNumber', arr[0].modelNumber);
+      this.printQr = arr[0].is_print;
+      localStorage.setItem('isprint', arr[0].is_print);
+      this.skipable = arr[0].is_skip;
+      this.is_skip_component = arr[0].skip_component_id;
+      this.LocalStore.setItem('scan_count', arr[0].count_scanning);
+      this.loading = false;
+      arr[0].is_rework ? (this.isRework = 1) : (this.isRework = 0);
+    });
+  }
+
+  gtProductList() {
+    let url = apiUrls.productApi;
+    this.compArr = [];
+    this.RestService.get(url).subscribe((res: any) => {
+      this.assignedProductList = res.data;
+      console.log(res);
+      console.log(this.assignedProductList, 'assigned produeiekhk');
+    });
   }
 
   steps() {
     this.loading = true;
     let url = apiUrls?.scanningApi.steps;
-    this.RestService.get(url).subscribe(
-      (res: any) => {
-        this.compArr = res?.data?.components;
-        let index = this.compArr.findIndex(
-          (x: any) => x.orderId == this.orderid
-        );
-        this.LocalStore.setItem(
-          'scan_count',
-          res?.data?.components[index]?.count
-        );
-        this.LocalStore.setItem(
-          'product_name',
-          res?.data?.components[index]?.name
-        );
-
-        this.productList = res?.data?.components;
-
-        this.loading = false;
-        let arr = res?.data?.components?.filter((item: any, index: any) => {
-          return item.orderId == this.orderid;
-        });
-        this.skipable = arr[0].is_skipable;
-        this.is_skip_component = arr[0].is_skip_component;
-      },
-      (err) => {
-        this.loading = false;
-        if (err.status == 401) {
-          this.toast.error({
-            detail: 'Error',
-            summary: err?.error?.message,
-            sticky: false,
-            duration: 3000,
-          });
-
-          localStorage.clear();
-          this.router.navigate(['/']);
-        }
-      }
-    );
+    if (!this.is_skip_load) {
+      this.getComponentLit(this.LocalStore.getItem('productUid'));
+    } else {
+      this.skipStep('default');
+    }
+    // this.RestService.get(url).subscribe(
+    //   (res: any) => {
+    //     this.compArr = res?.data?.components;
+    //     let index = this.compArr.findIndex(
+    //       (x: any) => x.orderId == this.orderid
+    //     );
+    //     this.LocalStore.setItem(
+    //       'scan_count',
+    //       res?.data?.components[index]?.count
+    //     );
+    //     this.LocalStore.setItem(
+    //       'product_name',
+    //       res?.data?.components[index]?.name
+    //     );
+    //     this.productList = res?.data?.components;
+    //     this.loading = false;
+    //     let arr = res?.data?.components?.filter((item: any, index: any) => {
+    //       return item.orderId == this.orderid;
+    //     });
+    //     this.skipable = arr[0].is_skipable;
+    //     this.is_skip_component = arr[0].is_skip_component;
+    //   },
+    //   (err) => {
+    //     this.loading = false;
+    //     if (err.status == 401) {
+    //       this.toast.error({
+    //         detail: 'Error',
+    //         summary: err?.error?.message,
+    //         sticky: false,
+    //         duration: 7000,
+    //       });
+    //       localStorage.clear();
+    //       this.router.navigate(['/']);
+    //     }
+    //   }
+    // );
   }
 
-  skipStep() {
+  skipStep(e: any) {
     this.scannedValue = '';
     this.chassisValue = '';
+    let id = e == 'click' ? this.is_skip_component : this.compUid;
     let url =
       apiUrls?.scanningApi?.skipStep +
       '?' +
       'skip_component=' +
-      this.is_skip_component;
+      id +
+      '&product_uid=' +
+      this.LocalStore.getItem('productUid');
+
     this.RestService.get(url).subscribe(
       (res: any) => {
-        this.orderid = res?.data?.orderId;
-        this.range = res?.data?.modelNumber;
-        this.printQr = res?.data?.is_print;
+        this.compArr = [];
+        this.compArr = res.data;
 
-        let arr = this.productList?.filter((item: any, index: any) => {
-          return item.orderId == this.orderid;
+        let arr = res?.data.filter((item: any) => {
+          return item.is_active == true;
         });
-        this.is_skip_component = arr[0].is_skip_component;
-        this.skipable = res?.data?.is_skip_component;
-
-        this.LocalStore.setItem('name', res?.data?.name);
-        this.LocalStore.setItem('product_name', res?.data?.name);
-        this.LocalStore.setItem('orderId', res?.data?.orderId);
-        this.LocalStore.setItem('modelNumber', res?.data?.modelNumber);
-        this.LocalStore.setItem('isprint', res?.data?.is_print);
+        this.orderid = arr[0].order_id;
+        this.LocalStore.setItem('orderId', arr[0].order_id);
+        this.LocalStore.setItem('product_name', arr[0].name);
+        this.range = arr[0].modelNumber;
+        this.LocalStore.setItem('modelNumber', arr[0].modelNumber);
+        this.printQr = arr[0].is_print;
+        localStorage.setItem('isprint', arr[0].is_print);
+        this.skipable = arr[0].is_skip;
+        this.is_skip_component = arr[0].skip_component_id;
+        this.compUid = arr[0].uid;
+        this.LocalStore.setItem('scan_count', arr[0].count_scanning);
+        this.is_skip_load = true;
+        this.loading = false;
+        arr[0].is_rework ? (this.isRework = 1) : (this.isRework = 0);
       },
       (err) => {
         console.log(err);
@@ -231,6 +314,7 @@ export class UserhomeComponent implements OnInit {
     this.inputVal = e.target.value;
     if (this.orderid != 1) {
       this.scan(scannedData);
+
       if (this.nextScan == true) {
         this.formStepper(this.scannedValue);
       }
@@ -259,6 +343,7 @@ export class UserhomeComponent implements OnInit {
         ? this.LocalStore.getItem('scan_count')
         : 0,
       raw_material_id: this.orderid != 1 ? this.scannedValue : null,
+      is_rework: this.isRework,
     };
     this.RestService?.postToken(url, body).subscribe(
       (res: any) => {
@@ -270,6 +355,11 @@ export class UserhomeComponent implements OnInit {
             duration: 10000,
           });
         }
+
+        localStorage.getItem('isprint') == 'true'
+          ? (this.showHashedQR = true)
+          : (this.showHashedQR = false);
+        this.nextScan = false;
         this.rescan = true;
         this.scannedValue = '';
         this.status = '';
@@ -278,7 +368,7 @@ export class UserhomeComponent implements OnInit {
 
         if (
           this.compArr.length == this.LocalStore.getItem('orderId') ||
-          this.printQr == 'true'
+          localStorage.getItem('isprint') == 'true'
         ) {
           this.showHashedQR = true;
         } else {
