@@ -11,7 +11,7 @@ import { CommonResourcesModule } from '../common-resources/common-resources.modu
 import { ScannerComponent } from '../common-resources/scanner/scanner/scanner.component';
 
 @NgModule({
-  declarations: [LayoutComponent ],
+  declarations: [LayoutComponent],
   imports: [LayoutRoutingModule],
 })
 export class LayoutModule {}

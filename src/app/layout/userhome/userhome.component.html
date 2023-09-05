@@ -38,7 +38,6 @@
             <div *ngIf="!productSelected">
               <select class="slect-box-input" (change)="productChange($event)">
                 <option value="">Select product --</option>
-
                 <option
                   *ngFor="let item of assignedProductList"
                   [value]="item.uid"
@@ -54,7 +53,6 @@
                 *ngIf="modelNumberShow"
               >
                 <option value="">Select Model --</option>
-
                 <option
                   *ngFor="let item of assignedProductList"
                   [value]="item.uid"
@@ -73,7 +71,7 @@
                 <li
                   [ngClass]="
                     item?.is_rework == true
-                      ? '  rework'
+                      ? 'rework'
                       : item?.is_active == true
                       ? ' nextScan'
                       : orderid == i + 1
@@ -125,7 +123,6 @@
                           <i class="ri-close-fill"></i>
                         </span>
                       </p>
-
                       <p *ngIf="chassisValue">
                         Chassis Number : <span>{{ chassisValue }}</span>
                       </p>

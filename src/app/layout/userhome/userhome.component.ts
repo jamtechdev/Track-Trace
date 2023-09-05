@@ -106,16 +106,12 @@ export class UserhomeComponent implements OnInit {
   getComponentLit(e: any) {
     let url = apiUrls.componentApi;
     let formData = new FormData();
-
     formData.append('product_uid', e);
-
     this.RestService.postToken(url, formData).subscribe((res: any) => {
-      console.log(res.data);
       this.compArr = res.data;
       let arr = res?.data.filter((item: any) => {
         return item.is_active == true;
       });
-
       this.orderid = arr[0].order_id;
       this.LocalStore.setItem('orderId', arr[0].order_id);
       this.LocalStore.setItem('product_name', arr[0].name);
@@ -138,8 +134,6 @@ export class UserhomeComponent implements OnInit {
     this.compArr = [];
     this.RestService.get(url).subscribe((res: any) => {
       this.assignedProductList = res.data;
-      console.log(res);
-      console.log(this.assignedProductList, 'assigned produeiekhk');
     });
   }
 
