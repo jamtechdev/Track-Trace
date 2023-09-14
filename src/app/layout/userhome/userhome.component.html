@@ -131,7 +131,6 @@
                 </div>
               </div>
             </fieldset>
-
             <img
               *ngIf="loading"
               src="https://cdn.dribbble.com/users/3337757/screenshots/6825268/076_-loading_animated_dribbble_copy.gif"
@@ -144,15 +143,28 @@
                 {{ success }}
               </div>
               <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
-              <p>Packaging QR code.</p>
-              <div class="print-container">
-                <qr-code
+
+              <div class="print-container" style="width: 300px">
+                <h3>
+                  <span style="font-weight: 800"> </span>VOLTAS :
+                  {{ selectedProduct }}
+                </h3>
+
+                <ngx-barcode
+                  [bc-width]="0.7"
+                  [bc-height]="50"
+                  [bc-value]="qrValue"
+                  (click)="print()"
+                  [bc-display-value]="true"
+                ></ngx-barcode>
+
+                <!-- <qr-code
                   (click)="print()"
                   [value]="qrValue"
                   size="300"
-                ></qr-code>
+                ></qr-code> -->
               </div>
-              <p class="">{{ qrValue }}</p>
+              <!-- <p class="">{{ qrValue }}</p> -->
               <input
                 class="btn btn-primary min-width mt-3"
                 (click)="submitPackage()"

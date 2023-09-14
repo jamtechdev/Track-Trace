@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { QrCodeModule } from 'ng-qrcode';
 import { NgToastModule } from 'ng-angular-popup'; // to be added
-
+import { NgxBarcodeModule } from '@greatcloak/ngx-barcode';
 @NgModule({
   declarations: [UserhomeComponent, HeaderComponent, FooterComponent],
   imports: [
@@ -16,6 +16,7 @@ import { NgToastModule } from 'ng-angular-popup'; // to be added
     CommonResourcesModule,
     QrCodeModule,
     NgToastModule,
+    NgxBarcodeModule,
   ],
 })
 export class UserhomeModule {}

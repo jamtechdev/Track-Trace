@@ -82,7 +82,10 @@ export class UserhomeComponent implements OnInit {
     this.printQr = localStorage.getItem('isprint');
     // this.steps();
     this.gtProductList();
-    this.scan_count = this.LocalStore.getItem('scan_count');
+  }
+
+  getd() {
+    console.log(new Date().toJSON('yyyy/MM/dd HH:mm'));
   }
 
   modalChange(e: any) {
@@ -322,7 +325,20 @@ export class UserhomeComponent implements OnInit {
 
   SaveData() {
     let uuid = UUID.UUID();
-    this.qrValue = uuid;
+    var characters =
+      '123456789010111213141516171819202123242526263784634ABCDEFGHIJKLMNOPQRSTUVWXTZ';
+
+    //specify the length for the new string
+    var lenString = 25;
+    var randomstring = '';
+
+    //loop to select a new character in each iteration
+    for (var i = 0; i < lenString; i++) {
+      var rnum = Math.floor(Math.random() * characters.length);
+      randomstring += characters.substring(rnum, rnum + 1);
+    }
+
+    this.qrValue = randomstring;
     const url =
       this.orderid == 1
         ? apiUrls?.scanningApi?.chechisScan
@@ -382,7 +398,7 @@ export class UserhomeComponent implements OnInit {
           if (err?.error?.code === 422) {
             this.toast.error({
               detail: 'ERROR',
-              summary: 'Component with this QR already exists !! ',
+              summary: 'Component already added',
               sticky: false,
               duration: 3000,
             });
