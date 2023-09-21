@@ -34,13 +34,12 @@
           <form id="msform">
             <div class="barcode" style="text-align: center"></div>
             <!-- progressbar -->
-
             <div *ngIf="!productSelected">
               <select class="slect-box-input" (change)="productChange($event)">
                 <option value="">Select product --</option>
                 <option
                   *ngFor="let item of assignedProductList"
-                  [value]="item.uid"
+                  [value]="item.name"
                   [id]="item.name"
                 >
                   {{ item.name }}
@@ -54,7 +53,7 @@
               >
                 <option value="">Select Model --</option>
                 <option
-                  *ngFor="let item of assignedProductList"
+                  *ngFor="let item of modelNumbers"
                   [value]="item.uid"
                   [id]="item.name"
                 >
@@ -138,18 +137,16 @@
               width="200"
               style="object-fit: contain"
             />
-            <div *ngIf="showHashedQR">
+            <div *ngIf="!showHashedQR">
               <div class="alert alert-success" *ngIf="success">
                 {{ success }}
               </div>
               <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
-
               <div class="print-container" style="width: 300px">
                 <h3>
                   <span style="font-weight: 800"> </span>VOLTAS :
                   {{ selectedProduct }}
                 </h3>
-
                 <ngx-barcode
                   [bc-width]="0.7"
                   [bc-height]="50"
@@ -157,7 +154,6 @@
                   (click)="print()"
                   [bc-display-value]="true"
                 ></ngx-barcode>
-
                 <!-- <qr-code
                   (click)="print()"
                   [value]="qrValue"

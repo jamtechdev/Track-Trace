@@ -51,6 +51,8 @@ export class UserhomeComponent implements OnInit {
   operatorMail = localStorage.getItem('email');
   is_skip_load: boolean = false;
   compUid: any;
+  productModel: any;
+  modelNumbers: any;
   constructor(
     private router: Router,
     private toast: NgToastService,
@@ -89,20 +91,28 @@ export class UserhomeComponent implements OnInit {
   }
 
   modalChange(e: any) {
+    this.productSelected = true;
     if (e.target.value) {
       this.getComponentLit(e.target.value);
     }
-
-    this.productSelected = true;
-    console.log(e.target);
-    let x = this.assignedProductList.filter((item: any) => {
+    let arr = this.modelNumbers.filter((item: { uid: any }) => {
       return item.uid == e.target.value;
     });
-    this.selectedProduct = x[0].name;
-    this.is_skip_component = x[0].skip_component_id;
+    this.qrValue = arr[0].modelNumber + 'A23HF00001';
+    this.productModel = e.target.value;
   }
 
   productChange(e: any) {
+    let url = apiUrls?.getProductModel + e.target.value;
+    this.RestService.get(url).subscribe(
+      (res: any) => {
+        this.modelNumbers = res.data.product;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+    this.selectedProduct = e.target.value;
     this.modelNumberShow = true;
   }
 
@@ -365,7 +375,6 @@ export class UserhomeComponent implements OnInit {
             duration: 10000,
           });
         }
-
         localStorage.getItem('isprint') == 'true'
           ? (this.showHashedQR = true)
           : (this.showHashedQR = false);
@@ -375,7 +384,6 @@ export class UserhomeComponent implements OnInit {
         this.status = '';
         this.chassisValue = '';
         this.steps();
-
         if (
           this.compArr.length == this.LocalStore.getItem('orderId') ||
           localStorage.getItem('isprint') == 'true'
@@ -426,7 +434,6 @@ export class UserhomeComponent implements OnInit {
           this.chassisValue == ''
             ? (this.chassisValue = this.scannedValue)
             : '';
-
           this.nextScan = true;
           this.toast.success({
             detail: 'Success',

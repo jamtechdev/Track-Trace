@@ -15,5 +15,6 @@ export const apiUrls = {
     skipStep: 'scanner/skip-component-details',
   },
   productApi: 'product/get-all-product',
+  getProductModel: 'product/get-model-number?product_name=',
   componentApi: 'product/get-specific-product-component',
 };
