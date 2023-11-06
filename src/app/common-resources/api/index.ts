@@ -17,4 +17,5 @@ export const apiUrls = {
   productApi: 'product/get-all-product',
   getProductModel: 'product/get-model-number?product_name=',
   componentApi: 'product/get-specific-product-component',
+  isScannedComponent: 'product/is-component-scanned',
 };

@@ -69,7 +69,15 @@
               <span *ngFor="let item of compArr; index as i">
                 <li
                   [ngClass]="
-                    item?.is_rework == true
+                    (item?.is_scanned == false || item?.is_scanned == null) &&
+                    item.order_id != orderid &&
+                    item.order_id < orderid
+                      ? 'notScanned'
+                      : item?.is_scanned == true &&
+                        item.order_id != orderid &&
+                        item.order_id < orderid
+                      ? 'active'
+                      : item?.is_rework == true
                       ? 'rework'
                       : item?.is_active == true
                       ? ' nextScan'
@@ -130,19 +138,25 @@
                 </div>
               </div>
             </fieldset>
-            <img
-              *ngIf="loading"
-              src="https://cdn.dribbble.com/users/3337757/screenshots/6825268/076_-loading_animated_dribbble_copy.gif"
-              height="200"
-              width="200"
-              style="object-fit: contain"
-            />
-            <div *ngIf="!showHashedQR">
-              <div class="alert alert-success" *ngIf="success">
-                {{ success }}
-              </div>
+            <fieldset
+              style="
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+              "
+            >
               <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
-              <div class="print-container" style="width: 300px">
+              <!-- <qr-code
+                  (click)="print()"
+                  [value]="qrValue"
+                  size="300"
+                ></qr-code> -->
+
+              <!-- <p class="">{{ qrValue }}</p> -->
+              <span class="print-container" *ngIf="showHashedQR">
+                <div class="alert alert-success" *ngIf="success">
+                  {{ success }}
+                </div>
                 <h3>
                   <span style="font-weight: 800"> </span>VOLTAS :
                   {{ selectedProduct }}
@@ -154,22 +168,23 @@
                   (click)="print()"
                   [bc-display-value]="true"
                 ></ngx-barcode>
-                <!-- <qr-code
-                  (click)="print()"
-                  [value]="qrValue"
-                  size="300"
-                ></qr-code> -->
-              </div>
-              <!-- <p class="">{{ qrValue }}</p> -->
+              </span>
               <input
                 class="btn btn-primary min-width mt-3"
                 (click)="submitPackage()"
-                *ngIf="!issubmitted"
+                *ngIf="!issubmitted && showHashedQR"
                 value="Submit"
                 name="Proceed"
                 type="button"
               />
-            </div>
+            </fieldset>
+            <img
+              *ngIf="loading"
+              src="https://cdn.dribbble.com/users/3337757/screenshots/6825268/076_-loading_animated_dribbble_copy.gif"
+              height="200"
+              width="200"
+              style="object-fit: contain"
+            />
           </form>
         </div>
       </div>

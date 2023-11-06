@@ -226,6 +226,13 @@ background: #ffd63f;
 }
 
 
+
+
+#progressbar li.notScanned:before,
+#progressbar li.notScanned:after {
+    background: #fb4c4c;
+}
+
 #progressbar li.rework:before,
 #progressbar li.rework:after {
     background: #d09999;

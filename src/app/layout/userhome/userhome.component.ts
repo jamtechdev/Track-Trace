@@ -13,12 +13,13 @@ import { Router } from '@angular/router';
 })
 export class UserhomeComponent implements OnInit {
   valuearr: Array<any> = [];
+  isPrevScanned: Boolean = false;
   scannedValue: string = '';
   isDevice: boolean = false;
   chechisStatus: number = 0;
   formStep: number = 1;
   status: string = '';
-  qrValue: string = '';
+  qrValue: string = 'divyanshu mishra';
   public output!: any;
   success: string = '';
   error: string = '';
@@ -352,7 +353,19 @@ export class UserhomeComponent implements OnInit {
     const url =
       this.orderid == 1
         ? apiUrls?.scanningApi?.chechisScan
-        : apiUrls?.scanningApi?.RAW;
+        : this.isPrevScanned == true
+        ? apiUrls?.scanningApi?.RAW
+        : '';
+    console.log(this.isPrevScanned, 'lllklkl');
+
+    if (this.orderid != 1 && !this.isPrevScanned) {
+      this.toast.error({
+        detail: 'ERROR',
+        summary: 'Previous component not scanned yet',
+        sticky: false,
+        duration: 5000,
+      });
+    }
     let body = {
       product_uid: this.LocalStore.getItem('productUid'),
       chassis_number:
@@ -429,6 +442,22 @@ export class UserhomeComponent implements OnInit {
       const url = apiUrls?.scanningApi?.validateChassis + param;
       this.RestService.get(url).subscribe(
         (res) => {
+          let allComponentUrl = apiUrls?.isScannedComponent;
+          let payload = {
+            product_uid: localStorage.getItem('productUid'),
+            chassis_id: this.scannedValue,
+          };
+          this.RestService.postToken(allComponentUrl, payload).subscribe(
+            (res: any) => {
+              this.compArr = res.data;
+              let arr = res?.data?.filter((elemns: any) => {
+                return elemns.order_id == this.orderid - 1;
+              });
+
+              console.log(arr, 'arrraa');
+              this.isPrevScanned = arr[0].is_scanned;
+            }
+          );
           this.rescan = false;
           this.chassisNumber = this.scannedValue;
           this.chassisValue == ''
