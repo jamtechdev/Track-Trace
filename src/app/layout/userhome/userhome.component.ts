@@ -19,7 +19,7 @@ export class UserhomeComponent implements OnInit {
   chechisStatus: number = 0;
   formStep: number = 1;
   status: string = '';
-  qrValue: string = 'divyanshu mishra';
+  qrValue: string = '';
   public output!: any;
   success: string = '';
   error: string = '';
