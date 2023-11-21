@@ -99,8 +99,27 @@ export class UserhomeComponent implements OnInit {
     let arr = this.modelNumbers.filter((item: { uid: any }) => {
       return item.uid == e.target.value;
     });
-    this.qrValue = arr[0].modelNumber + 'A23HF00001';
-    this.productModel = e.target.value;
+
+    let number = arr[0].modelNumber;
+    let desiredWidth = 5;
+    let formattedNumber = String(number).padStart(desiredWidth, '0');
+    let month = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+    let fullYear = new Date().getFullYear();
+    let lastTwoDigitofYear = String(fullYear).slice(-2);
+
+    let url = apiUrls?.getBarCode + arr[0].uid;
+
+    this.RestService.get(url).subscribe((res: any) => {
+      console.log(res, 'jkhgggh');
+      this.qrValue =
+        arr[0].modelNumber +
+        res?.data.variant +
+        lastTwoDigitofYear +
+        month[new Date().getMonth()] +
+        'F' +
+        formattedNumber;
+      this.productModel = e.target.value;
+    });
   }
 
   productChange(e: any) {
@@ -349,7 +368,6 @@ export class UserhomeComponent implements OnInit {
       randomstring += characters.substring(rnum, rnum + 1);
     }
 
-    this.qrValue = randomstring;
     const url =
       this.orderid == 1
         ? apiUrls?.scanningApi?.chechisScan
