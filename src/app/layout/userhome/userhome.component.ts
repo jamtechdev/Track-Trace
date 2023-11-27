@@ -47,13 +47,16 @@ export class UserhomeComponent implements OnInit {
   is_skip_component: any;
   productList: any;
   isRework = 0;
-  selectedProduct: string = '';
+  selectedProduct: any = '';
   operatorName = localStorage.getItem('name');
   operatorMail = localStorage.getItem('email');
   is_skip_load: boolean = false;
   compUid: any;
   productModel: any;
   modelNumbers: any;
+  isRefresh: boolean= true;
+  isLoading : boolean = false;
+  isModalLoading : boolean  = false;
   constructor(
     private router: Router,
     private toast: NgToastService,
@@ -66,6 +69,15 @@ export class UserhomeComponent implements OnInit {
       ) as HTMLInputElement | null;
       input?.focus();
     }, 600);
+
+    if(localStorage.getItem('refresh') == 'true'){
+this.isRefresh = false;
+this.getComponentLit(this.LocalStore.getItem('productUid'));
+this.selectedProduct =localStorage.getItem('selectedProduct');
+this.productSelected = true;
+    }else{
+      this.isRefresh = true
+    }
   }
 
   getDevice(e: boolean) {
@@ -96,13 +108,15 @@ export class UserhomeComponent implements OnInit {
     if (e.target.value) {
       this.getComponentLit(e.target.value);
     }
+
+    localStorage.setItem('refresh' , 'true')
+
+    this.isRefresh = false;
     let arr = this.modelNumbers.filter((item: { uid: any }) => {
       return item.uid == e.target.value;
     });
 
-    let number = arr[0].modelNumber;
-    let desiredWidth = 5;
-    let formattedNumber = String(number).padStart(desiredWidth, '0');
+
     let month = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
     let fullYear = new Date().getFullYear();
     let lastTwoDigitofYear = String(fullYear).slice(-2);
@@ -110,6 +124,9 @@ export class UserhomeComponent implements OnInit {
     let url = apiUrls?.getBarCode + arr[0].uid;
 
     this.RestService.get(url).subscribe((res: any) => {
+      let number = res?.data?.barcodeSerialNo;
+      let desiredWidth = 5;
+      let formattedNumber = String(number).padStart(desiredWidth, '0');
       console.log(res, 'jkhgggh');
       this.qrValue =
         arr[0].modelNumber +
@@ -123,9 +140,11 @@ export class UserhomeComponent implements OnInit {
   }
 
   productChange(e: any) {
+    this.isModalLoading = true;
     let url = apiUrls?.getProductModel + e.target.value;
     this.RestService.get(url).subscribe(
       (res: any) => {
+        this.isModalLoading = false;
         this.modelNumbers = res.data.product;
       },
       (err) => {
@@ -133,10 +152,12 @@ export class UserhomeComponent implements OnInit {
       }
     );
     this.selectedProduct = e.target.value;
+    localStorage.setItem('selectedProduct', this.selectedProduct)
     this.modelNumberShow = true;
   }
 
   getComponentLit(e: any) {
+    this.isLoading = true;
     let url = apiUrls.componentApi;
     let formData = new FormData();
     formData.append('product_uid', e);
@@ -159,6 +180,7 @@ export class UserhomeComponent implements OnInit {
       this.LocalStore.setItem('scan_count', arr[0].count_scanning);
       this.loading = false;
       arr[0].is_rework ? (this.isRework = 1) : (this.isRework = 0);
+      this.isLoading = false;
     });
   }
 
@@ -310,23 +332,23 @@ export class UserhomeComponent implements OnInit {
     if (num >= parseInt(firstRange) && num <= parseInt(lastrange)) {
       this.scannedValue !== ''
         ? this.SaveData()
-        : this.toast.error({
-            detail: 'Error',
+        : this.toast.warning({
+            detail: 'WARNING',
             summary: 'Please scan QR !! ',
             sticky: false,
             duration: 3000,
           });
     } else {
       if (this.scannedValue == '') {
-        this.toast.error({
-          detail: 'Error',
+        this.toast.warning({
+          detail: 'warning',
           summary: 'Please scan QR !! ',
           sticky: false,
           duration: 3000,
         });
       } else {
-        this.toast.error({
-          detail: 'Error',
+        this.toast.warning({
+          detail: 'warning',
           summary: 'Model range is not valid',
           sticky: false,
           duration: 3000,
@@ -377,8 +399,8 @@ export class UserhomeComponent implements OnInit {
     console.log(this.isPrevScanned, 'lllklkl');
 
     if (this.orderid != 1 && !this.isPrevScanned) {
-      this.toast.error({
-        detail: 'ERROR',
+      this.toast.warning({
+        detail: 'warning',
         summary: 'Previous component not scanned yet',
         sticky: false,
         duration: 5000,
@@ -427,16 +449,16 @@ export class UserhomeComponent implements OnInit {
       (err) => {
         if (err?.error?.code === 401 || err?.error?.code === 403) {
           // LOGOUT WILL GO HERE
-          this.toast.error({
-            detail: 'ERROR',
+          this.toast.warning({
+            detail: 'WARNING',
             summary: 'Incorrect credentials ..',
             sticky: false,
             duration: 3000,
           });
         } else {
           if (err?.error?.code === 422) {
-            this.toast.error({
-              detail: 'ERROR',
+            this.toast.warning({
+              detail: 'WARNING',
               summary: 'Component already added',
               sticky: false,
               duration: 3000,
@@ -492,8 +514,8 @@ export class UserhomeComponent implements OnInit {
           this.status = 'valid';
         },
         (err) => {
-          this.toast.error({
-            detail: 'error',
+          this.toast.warning({
+            detail: 'WARNING',
             summary: 'Chassis not found !!',
             sticky: false,
             duration: 3000,
